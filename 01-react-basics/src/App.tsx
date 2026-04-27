@@ -1,8 +1,25 @@
+import { useState } from "react";
 import "./assets/scss/App.scss";
 
 function App() {
+	const [counter, setCounter] = useState(0);
+
+	const handleBtnClick = () => {
+		console.log("Counter before update:", counter);
+		setCounter(counter + 1);
+		console.log("Counter after update:", counter);
+	}
+
+	console.log("App is being rendered, counter is:", counter);
+
 	return (
-		<h1>01-react-basics</h1>
+		<div className="container">
+			<h1>01-react-basics</h1>
+
+			<p>Counter: {counter}</p>
+
+			<button onClick={handleBtnClick} className="btn btn-primary">Click me!</button>
+		</div>
 	);
 }
 
