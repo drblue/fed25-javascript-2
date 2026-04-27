@@ -55,10 +55,10 @@ function App() {
 			<hr />
 
 			<button
-				className="btn btn-primary"
+				className={showSalary ? "btn btn-success mb-3" : "btn btn-danger mb-3"}
 				onClick={() => setShowSalary(!showSalary)}
 			>
-				Show/hide salary
+				{showSalary ? "Hide salary" : "Show salary"}
 			</button>
 
 			{showSalary && (
