@@ -16,6 +16,7 @@ function App() {
 		{ id: 3, title: "Got State?", likes: 3 },
 	]);
 	const [salary, setSalary] = useState(10);
+	const [showSalary, setShowSalary] = useState(false);
 
 	const handleBtnClick = () => {
 		console.log("Counter before update:", counter);
@@ -53,47 +54,58 @@ function App() {
 
 			<hr />
 
-			<h2>Salary</h2>
+			<button
+				className="btn btn-primary"
+				onClick={() => setShowSalary(!showSalary)}
+			>
+				Show/hide salary
+			</button>
 
-			<p>Salary per hour: {salary} &euro;</p>
+			{showSalary && (
+				<>
+					<h2>Salary</h2>
 
-			{salary < 10 && (
-				<div className="alert alert-warning">
-					You might want to change job?
-				</div>
+					<p>Salary per hour: {salary} &euro;</p>
+
+					{salary < 10 && (
+						<div className="alert alert-warning">
+							You might want to change job?
+						</div>
+					)}
+
+					<div className="buttons">
+						<div className="mb-1">
+							<button
+								className="btn btn-primary btn-lg"
+								onClick={() => handleChangeSalary(1)}
+							>
+								Raise 1 &euro; 🤑
+							</button>
+							<button
+								className="btn btn-warning btn-lg"
+								onClick={() => handleChangeSalary(-1)}
+							>
+								Decrease 1 &euro; 😢
+							</button>
+						</div>
+
+						<div className="mb-1">
+							<button
+								className="btn btn-primary btn-lg"
+								onClick={() => handleChangeSalary(5)}
+							>
+								Raise 5 &euro; 🤑🤑🤑
+							</button>
+							<button
+								className="btn btn-warning btn-lg"
+								onClick={() => handleChangeSalary(-5)}
+							>
+								Decrease 5 &euro; 😢😢😢
+							</button>
+						</div>
+					</div>
+				</>
 			)}
-
-			<div className="buttons">
-				<div className="mb-1">
-					<button
-						className="btn btn-primary btn-lg"
-						onClick={() => handleChangeSalary(1)}
-					>
-						Raise 1 &euro; 🤑
-					</button>
-					<button
-						className="btn btn-warning btn-lg"
-						onClick={() => handleChangeSalary(-1)}
-					>
-						Decrease 1 &euro; 😢
-					</button>
-				</div>
-
-				<div className="mb-1">
-					<button
-						className="btn btn-primary btn-lg"
-						onClick={() => handleChangeSalary(5)}
-					>
-						Raise 5 &euro; 🤑🤑🤑
-					</button>
-					<button
-						className="btn btn-warning btn-lg"
-						onClick={() => handleChangeSalary(-5)}
-					>
-						Decrease 5 &euro; 😢😢😢
-					</button>
-				</div>
-			</div>
 
 			<hr />
 
