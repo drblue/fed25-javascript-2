@@ -19,7 +19,11 @@ function App() {
 
 	const handleBtnClick = () => {
 		console.log("Counter before update:", counter);
-		setCounter(counter + 1);
+		setCounter((prevCounter) => prevCounter + 1);  // prevCounter 0, return 1
+
+		console.log("Counter between updates:", counter);
+
+		setCounter((prevCounter) => prevCounter + 1);  // prevCounter 1, return 2
 		console.log("Counter after update:", counter);
 	}
 
