@@ -11,6 +11,8 @@ const Salary = () => {
 		setSalary(salary + amount);
 	}
 
+	console.log("🤑 Salary is rendering...");
+
 	return (
 		<>
 			<h2>Salary</h2>
