@@ -140,6 +140,8 @@ function App() {
 					)}
 				</ul>
 			)}
+
+			{posts.length === 0 && <p>There are no posts.</p>}
 		</div>
 	);
 }
