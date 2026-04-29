@@ -122,7 +122,7 @@ function App() {
 
 			<h2>Posts</h2>
 
-			{posts.length > 0 && (
+			{posts.length > 0 ? (
 				<ul className="list-group">
 					{posts.map(post =>
 						<li key={post.id} className="list-group-item">
@@ -139,9 +139,9 @@ function App() {
 						</li>
 					)}
 				</ul>
+			) : (
+				<p>There are no posts.</p>
 			)}
-
-			{posts.length === 0 && <p>There are no posts.</p>}
 		</div>
 	);
 }
