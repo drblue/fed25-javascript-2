@@ -36,6 +36,10 @@ function App() {
 		setSalary(salary + amount);
 	}
 
+	const handleDeletePost = (postToDelete: Post) => {
+		setPosts(posts.filter(post => post !== postToDelete));
+	}
+
 	const handleLikePost = (post: Post) => {
 		// console.log("Post before adding like:", post);
 		post.likes++;
@@ -127,6 +131,10 @@ function App() {
 							className="btn btn-success btn-sm"
 							onClick={() => handleLikePost(post)}
 						>❤️</button>
+						<button
+							className="btn btn-danger btn-sm ms-1"
+							onClick={() => handleDeletePost(post)}
+						>🗑️</button>
 					</li>
 				)}
 			</ul>
