@@ -51,6 +51,7 @@ function App() {
 
 			{/* Counter start */}
 			<Counter />
+			<Counter />
 			{/* Counter end */}
 
 			<hr />
