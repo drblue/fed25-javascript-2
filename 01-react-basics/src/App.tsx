@@ -17,6 +17,7 @@ function App() {
 		{ id: 3, title: "Got State?", likes: 3 },
 	]);
 	const [showSalary, setShowSalary] = useState(false);
+	const [inputPostTitle, setInputPostTitle] = useState("");
 
 	const handleDeletePost = (postToDelete: Post) => {
 		setPosts(posts.filter(post => post !== postToDelete));
@@ -27,6 +28,22 @@ function App() {
 		post.likes++;
 		// console.log("Post after adding like:", post);
 		setPosts([...posts]);  // create a new array and spread the contents of the old array in it
+	}
+
+	const handleFormSubmit = (e: React.SubmitEvent) => {
+		// Stop form from being submitted
+		e.preventDefault();
+
+		// Create a new post
+		const post: Post = {
+			id: Math.max(0, ...posts.map(post => post.id)) + 1,
+			title: inputPostTitle,
+			likes: 0,
+		}
+		setPosts([...posts, post]);
+
+		// Clear input field
+		setInputPostTitle("");
 	}
 
 	console.log("App is rendering...");
@@ -60,6 +77,27 @@ function App() {
 			<hr />
 
 			<h2>Posts</h2>
+
+			<form onSubmit={handleFormSubmit} className="mb-3">
+				<div className="input-group">
+					<input
+						aria-label="Post title"
+						className="form-control"
+						onChange={(e) => setInputPostTitle(e.target.value)}
+						placeholder="Fun with forms!"
+						type="text"
+						value={inputPostTitle}
+						required
+					/>
+
+					<button
+						className="btn btn-success"
+						type="submit"
+					>
+						Create
+					</button>
+				</div>
+			</form>
 
 			{posts.length > 0 ? (
 				<ul className="list-group">
