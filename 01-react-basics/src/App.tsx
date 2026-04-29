@@ -36,10 +36,17 @@ function App() {
 		setSalary(salary + amount);
 	}
 
-	console.log("App is being rendered, counter is:", counter);
+	const handleLikePost = (post: Post) => {
+		// console.log("Post before adding like:", post);
+		post.likes++;
+		// console.log("Post after adding like:", post);
+		setPosts([...posts]);  // create a new array and spread the contents of the old array in it
+	}
+
+	console.log("App is rendering...");
 
 	return (
-		<div className="container">
+		<div className="container py-3">
 			<h1>01-react-basics</h1>
 
 			<p>{msg}</p>
@@ -111,10 +118,15 @@ function App() {
 
 			<h2>Posts</h2>
 
-			<ul>
+			<ul className="list-group">
 				{posts.map(post =>
-					<li key={post.id}>
+					<li key={post.id} className="list-group-item">
 						{post.title} ({post.likes} likes)
+						{" "}
+						<button
+							className="btn btn-success btn-sm"
+							onClick={() => handleLikePost(post)}
+						>❤️</button>
 					</li>
 				)}
 			</ul>
