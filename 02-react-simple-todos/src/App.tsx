@@ -40,6 +40,7 @@ function App() {
 
 	return (
 		<div className="container py-3">
+			<title>{`${uncompletedTodos.length} of ${todos.length} todos left`}</title>
 			<h1>React Simple Todos</h1>
 
 			<form onSubmit={handleSubmit} className="mb-3">
