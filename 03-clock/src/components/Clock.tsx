@@ -9,11 +9,18 @@ const Clock = () => {
 	// Start clock when component has been mounted
 	useEffect(() => {
 		console.log("🔫 Starting clock...");
-		setInterval(() => {
+		const intervalId = setInterval(() => {
 			const now = new Date().toLocaleTimeString();
 			setTime(now);
 			console.log("🕰️ Tick...", now);
 		}, 1000);
+
+		return () => {
+			// This clean-up function will be executed when
+			// the component is about to be unmounted
+			console.log("💣💥 Clock is being unmounted 😰 Stopping timer to prevent paradoxes 🤯");
+			clearInterval(intervalId);
+		}
 	}, []);
 
 	// Update page title with current time
