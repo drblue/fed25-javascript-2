@@ -67,6 +67,8 @@ function App() {
 						{uncompletedTodos.map(todo => (
 							<TodoListItem
 								key={todo.id}
+								onDelete={handleDelete}
+								onToggle={handleToggle}
 								todo={todo}
 							/>
 						))}
@@ -77,6 +79,8 @@ function App() {
 						{completedTodos.map(todo => (
 							<TodoListItem
 								key={todo.id}
+								onDelete={handleDelete}
+								onToggle={handleToggle}
 								todo={todo}
 							/>
 						))}
