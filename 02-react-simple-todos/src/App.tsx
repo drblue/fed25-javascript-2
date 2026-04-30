@@ -9,10 +9,42 @@ function App() {
 		{ id: 3, title: "Drink MOAR coffee", completed: false },
 		{ id: 4, title: "Drink ALL ZE coffee", completed: false },
 	]);
+	const [inputTodoTitle, setInputTodoTitle] = useState("");
+
+	const handleSubmit = (e: React.SubmitEvent) => {
+		e.preventDefault();
+
+		// Create new todo and set a new list of todos as the state consisting
+		// of the old todos + the new todo
+		setTodos([...todos, {
+			id: Math.max(0, ...todos.map(todo => todo.id)) + 1,
+			title: inputTodoTitle,
+			completed: false,
+		}]);
+
+		// Clear input field
+		setInputTodoTitle("");
+	}
 
 	return (
 		<div className="container py-3">
 			<h1>React Simple Todos</h1>
+
+			<form onSubmit={handleSubmit} className="mb-3">
+				<div className="input-group mb-3">
+					<input
+						aria-label="New todo title"
+						className="form-control"
+						onChange={(e) => setInputTodoTitle(e.target.value)}
+						placeholder="Learn about GTD"
+						type="text"
+						value={inputTodoTitle}
+						required
+					/>
+
+					<button className="btn btn-success" type="submit">👶🏻</button>
+				</div>
+			</form>
 
 			<ul className="todolist list-group">
 				{todos.map(todo => (
