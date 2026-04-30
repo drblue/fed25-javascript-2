@@ -11,6 +11,7 @@ function App() {
 	]);
 	const [inputTodoTitle, setInputTodoTitle] = useState("");
 
+
 	const handleSubmit = (e: React.SubmitEvent) => {
 		e.preventDefault();
 
@@ -24,6 +25,11 @@ function App() {
 
 		// Clear input field
 		setInputTodoTitle("");
+	}
+
+	const handleToggle = (todo: Todo) => {
+		todo.completed = !todo.completed;
+		setTodos([...todos]);
 	}
 
 	return (
@@ -53,6 +59,15 @@ function App() {
 						className={todo.completed ? "completed list-group-item" : "list-group-item"}
 					>
 						<span className="todo-title">{todo.title}</span>
+
+						<div>
+							<button
+								className="btn btn-secondary btn-sm"
+								onClick={() => handleToggle(todo)}
+							>
+								{todo.completed ? "🥺" : "🎉"}
+							</button>
+						</div>
 					</li>
 				))}
 			</ul>
