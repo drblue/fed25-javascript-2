@@ -55,7 +55,7 @@ function App() {
 				</div>
 			</form>
 
-			<ul className="todolist list-group">
+			<ul className="todolist list-group mb-3">
 				{todos.map(todo => (
 					<li
 						key={todo.id}
@@ -80,6 +80,10 @@ function App() {
 					</li>
 				))}
 			</ul>
+
+			<p className="text-muted">
+				You have {todos.filter(todo => !todo.completed).length} of {todos.length} todos left.
+			</p>
 		</div>
 	);
 }
