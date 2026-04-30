@@ -35,6 +35,9 @@ function App() {
 		setTodos([...todos]);
 	}
 
+	const completedTodos = todos.filter(todo => todo.completed);
+	const uncompletedTodos = todos.filter(todo => !todo.completed);
+
 	return (
 		<div className="container py-3">
 			<h1>React Simple Todos</h1>
@@ -57,8 +60,36 @@ function App() {
 
 			{todos.length > 0 ? (
 				<>
+					<h2 className="h5">💪🏻 Stuff I got to do</h2>
 					<ul className="todolist list-group mb-3">
-						{todos.map(todo => (
+						{uncompletedTodos.map(todo => (
+							<li
+								key={todo.id}
+								className={todo.completed ? "completed list-group-item" : "list-group-item"}
+							>
+								<span className="todo-title">{todo.title}</span>
+
+								<div>
+									<button
+										className="btn btn-outline-warning btn-sm"
+										onClick={() => handleToggle(todo)}
+									>
+										{todo.completed ? "🥺" : "🎉"}
+									</button>
+									<button
+										className="btn btn-outline-danger btn-sm"
+										onClick={() => handleDelete(todo)}
+									>
+										💣
+									</button>
+								</div>
+							</li>
+						))}
+					</ul>
+
+					<h2 className="h5">🥺 Stuff I've done</h2>
+					<ul className="todolist list-group mb-3">
+						{completedTodos.map(todo => (
 							<li
 								key={todo.id}
 								className={todo.completed ? "completed list-group-item" : "list-group-item"}
@@ -84,7 +115,7 @@ function App() {
 					</ul>
 
 					<p className="text-muted">
-						You have {todos.filter(todo => !todo.completed).length} of {todos.length} todos left.
+						You have {uncompletedTodos.length} of {todos.length} todos left.
 					</p>
 				</>
 			) : (
