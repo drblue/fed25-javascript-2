@@ -31,9 +31,12 @@ const Clock = () => {
 		document.title = time;
 	}, [time]);
 
+	const now = new Date();
+
 	return (
 		<div className="display-1 font-monospace text-center">
 			{time}
+			{now.getMonth() === 3 && now.getDate() === 30 && (now.getHours() > 12 || (now.getHours() === 12 && now.getMinutes() >= 5)) && " 🔥"}
 		</div>
 	)
 }
