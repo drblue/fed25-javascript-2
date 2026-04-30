@@ -11,6 +11,9 @@ function App() {
 	]);
 	const [inputTodoTitle, setInputTodoTitle] = useState("");
 
+	const handleDelete = (todo: Todo) => {
+		setTodos(todos.filter(t => t.id !== todo.id));
+	}
 
 	const handleSubmit = (e: React.SubmitEvent) => {
 		e.preventDefault();
@@ -62,10 +65,16 @@ function App() {
 
 						<div>
 							<button
-								className="btn btn-secondary btn-sm"
+								className="btn btn-outline-warning btn-sm"
 								onClick={() => handleToggle(todo)}
 							>
 								{todo.completed ? "🥺" : "🎉"}
+							</button>
+							<button
+								className="btn btn-outline-danger btn-sm"
+								onClick={() => handleDelete(todo)}
+							>
+								💣
 							</button>
 						</div>
 					</li>
