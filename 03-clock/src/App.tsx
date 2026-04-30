@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import "./assets/scss/App.scss";
 
 function App() {
-	const [time, setTime] = useState("00:00:00");
+	const [time, setTime] = useState(() => {
+		console.log("🔋 Initializing flux capacitor...");
+		return new Date().toLocaleTimeString();
+	});
 
 	useEffect(() => {
 		console.log("🔫 Starting clock...");
