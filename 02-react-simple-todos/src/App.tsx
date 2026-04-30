@@ -55,35 +55,44 @@ function App() {
 				</div>
 			</form>
 
-			<ul className="todolist list-group mb-3">
-				{todos.map(todo => (
-					<li
-						key={todo.id}
-						className={todo.completed ? "completed list-group-item" : "list-group-item"}
-					>
-						<span className="todo-title">{todo.title}</span>
-
-						<div>
-							<button
-								className="btn btn-outline-warning btn-sm"
-								onClick={() => handleToggle(todo)}
+			{todos.length > 0 ? (
+				<>
+					<ul className="todolist list-group mb-3">
+						{todos.map(todo => (
+							<li
+								key={todo.id}
+								className={todo.completed ? "completed list-group-item" : "list-group-item"}
 							>
-								{todo.completed ? "🥺" : "🎉"}
-							</button>
-							<button
-								className="btn btn-outline-danger btn-sm"
-								onClick={() => handleDelete(todo)}
-							>
-								💣
-							</button>
-						</div>
-					</li>
-				))}
-			</ul>
+								<span className="todo-title">{todo.title}</span>
 
-			<p className="text-muted">
-				You have {todos.filter(todo => !todo.completed).length} of {todos.length} todos left.
-			</p>
+								<div>
+									<button
+										className="btn btn-outline-warning btn-sm"
+										onClick={() => handleToggle(todo)}
+									>
+										{todo.completed ? "🥺" : "🎉"}
+									</button>
+									<button
+										className="btn btn-outline-danger btn-sm"
+										onClick={() => handleDelete(todo)}
+									>
+										💣
+									</button>
+								</div>
+							</li>
+						))}
+					</ul>
+
+					<p className="text-muted">
+						You have {todos.filter(todo => !todo.completed).length} of {todos.length} todos left.
+					</p>
+				</>
+			) : (
+				<div className="alert alert-warning">
+					You ain't got no todos to do? 🤔
+				</div>
+			)}
+
 		</div>
 	);
 }
