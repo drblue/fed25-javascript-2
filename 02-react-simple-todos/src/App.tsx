@@ -1,4 +1,5 @@
 import { useState } from "react";
+import AddNewTodoForm from "./components/AddNewTodoForm";
 import TodoCounter from "./components/TodoCounter";
 import TodoListItem from "./components/TodoListItem";
 import type { Todo } from "./types/Todo";
@@ -11,25 +12,19 @@ function App() {
 		{ id: 3, title: "Drink MOAR coffee", completed: false },
 		{ id: 4, title: "Drink ALL ZE coffee", completed: false },
 	]);
-	const [inputTodoTitle, setInputTodoTitle] = useState("");
 
-	const handleDelete = (todo: Todo) => {
-		setTodos(todos.filter(t => t.id !== todo.id));
-	}
-
-	const handleSubmit = (e: React.SubmitEvent) => {
-		e.preventDefault();
-
+	const handleAddTodo = (title: string) => {
 		// Create new todo and set a new list of todos as the state consisting
 		// of the old todos + the new todo
 		setTodos([...todos, {
 			id: Math.max(0, ...todos.map(todo => todo.id)) + 1,
-			title: inputTodoTitle,
+			title,
 			completed: false,
 		}]);
+	}
 
-		// Clear input field
-		setInputTodoTitle("");
+	const handleDelete = (todo: Todo) => {
+		setTodos(todos.filter(t => t.id !== todo.id));
 	}
 
 	const handleToggle = (todo: Todo) => {
@@ -45,21 +40,7 @@ function App() {
 			<title>{`${uncompletedTodos.length} of ${todos.length} todos left`}</title>
 			<h1>React Simple Todos</h1>
 
-			<form onSubmit={handleSubmit} className="mb-3">
-				<div className="input-group mb-3">
-					<input
-						aria-label="New todo title"
-						className="form-control"
-						onChange={(e) => setInputTodoTitle(e.target.value)}
-						placeholder="Learn about GTD"
-						type="text"
-						value={inputTodoTitle}
-						required
-					/>
-
-					<button className="btn btn-success" type="submit">👶🏻</button>
-				</div>
-			</form>
+			<AddNewTodoForm onAdd={handleAddTodo} />
 
 			{todos.length > 0 ? (
 				<>
