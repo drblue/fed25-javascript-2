@@ -1,7 +1,7 @@
 import { useState } from "react";
 import AddNewTodoForm from "./components/AddNewTodoForm";
 import TodoCounter from "./components/TodoCounter";
-import TodoListItem from "./components/TodoListItem";
+import TodoList from "./components/TodoList";
 import type { Todo } from "./types/Todo";
 import "./assets/scss/App.scss";
 
@@ -45,28 +45,18 @@ function App() {
 			{todos.length > 0 ? (
 				<>
 					<h2 className="h5">💪🏻 Stuff I got to do</h2>
-					<ul className="todolist list-group mb-3">
-						{uncompletedTodos.map(todo => (
-							<TodoListItem
-								key={todo.id}
-								onDelete={handleDelete}
-								onToggle={handleToggle}
-								todo={todo}
-							/>
-						))}
-					</ul>
+					<TodoList
+						onDelete={handleDelete}
+						onToggle={handleToggle}
+						todos={uncompletedTodos}
+					/>
 
 					<h2 className="h5">🥺 Stuff I've done</h2>
-					<ul className="todolist list-group mb-3">
-						{completedTodos.map(todo => (
-							<TodoListItem
-								key={todo.id}
-								onDelete={handleDelete}
-								onToggle={handleToggle}
-								todo={todo}
-							/>
-						))}
-					</ul>
+					<TodoList
+						onDelete={handleDelete}
+						onToggle={handleToggle}
+						todos={completedTodos}
+					/>
 
 					<TodoCounter
 						total={todos.length}
