@@ -11,7 +11,7 @@ const AddNewTodoForm: React.FC<AddNewTodoFormProps> = ({ onAdd }) => {
 		e.preventDefault();
 
 		// Tell parent to create a new todo with `inputTodoTitle` as the title
-		onAdd(inputTodoTitle);
+		onAdd(inputTodoTitle.trim());
 
 		// Clear input field
 		setInputTodoTitle("");
@@ -30,7 +30,11 @@ const AddNewTodoForm: React.FC<AddNewTodoFormProps> = ({ onAdd }) => {
 					required
 				/>
 
-				<button className="btn btn-success" type="submit">👶🏻</button>
+				<button
+					className="btn btn-success"
+					disabled={inputTodoTitle.trim().length < 3}
+					type="submit"
+				>👶🏻</button>
 			</div>
 		</form>
 	)
