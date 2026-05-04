@@ -7,9 +7,14 @@ function App() {
 	const [data, setData] = useState<Resource[]>([]);
 
 	useEffect(() => {
-		fetch("https://jsonplaceholder.typicode.com/" + resource)
-			.then(res => res.json())
-			.then(data => setData(data));
+		console.log("Side-effect triggered due to resource changing value to:", resource);
+
+		const fetchData = async () => {
+			const res = await fetch("https://jsonplaceholder.typicode.com/" + resource);
+			const data = await res.json();
+			setData(data);
+		}
+		fetchData();
 	}, [resource]);
 
 	console.log("App is rendering... Resource is:", resource);
