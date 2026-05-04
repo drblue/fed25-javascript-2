@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getResource } from "./services/JSONPlaceholderAPI";
 import type { Resource } from "./types/Resource";
 import "./assets/scss/App.scss";
+import ResourceList from "./components/ResourceList";
 
 function App() {
 	const [resource, setResource] = useState("");
@@ -53,22 +54,12 @@ function App() {
 
 			<hr />
 
-			{error && <div className="alert alert-warning">{error}</div>}
-
-			{isLoading && <p>Loading...</p>}
-
-			{data && (
-				<>
-					<h2>{resource}</h2>
-					<p>There are {data.length} {resource}.</p>
-
-					<ol>
-						{data.map(item => (
-							<li key={item.id}>{item.title}</li>
-						))}
-					</ol>
-				</>
-			)}
+			<ResourceList
+				data={data}
+				error={error}
+				isLoading={isLoading}
+				resource={resource}
+			/>
 		</div>
 	);
 }
