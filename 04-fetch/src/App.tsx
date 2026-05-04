@@ -6,27 +6,37 @@ function App() {
 	const [resource, setResource] = useState("");
 	const [data, setData] = useState<Resource[] | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
+	const [error, setError] = useState<string | false>(false);
 
 	useEffect(() => {
 		console.log("Side-effect triggered due to resource changing value to:", resource);
 
-		// Bail if resource is empty
-		if (!resource) {
-			return;
-		}
-
 		const fetchData = async () => {
+			// Bail if resource is empty
+			if (!resource) {
+				return;
+			}
+
 			// reset state
 			setData(null);
+			setError(false);
 			setIsLoading(true);
 
-			console.log(`Fetching ${resource}...`);
-			const res = await fetch("https://jsonplaceholder.typicode.com/" + resource);
-			const body = await res.json();
-			await new Promise(r => setTimeout(r, 2500));
+			try {
+				// make the actual request
+				const res = await fetch("https://jsonplaceholder.typicode.com/" + resource);
+				if (!res.ok) {
+					throw new Error("Response was not OK 🥴");
+				}
+				const body = await res.json();
+				await new Promise(r => setTimeout(r, 2500));
 
-			setData(body);
-			setIsLoading(false);
+				setData(body);
+			} catch (err) {
+				setError(err instanceof Error ? err.message : "This should really never ever happen...")
+			} finally {
+				setIsLoading(false);
+			}
 		}
 		fetchData();
 	}, [resource]);
@@ -46,6 +56,8 @@ function App() {
 			</div>
 
 			<hr />
+
+			{error && <div className="alert alert-warning">{error}</div>}
 
 			{isLoading && <p>Loading...</p>}
 
