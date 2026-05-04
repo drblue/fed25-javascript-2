@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { getResource } from "./services/JSONPlaceholderAPI";
 import type { Resource } from "./types/Resource";
 import "./assets/scss/App.scss";
 
@@ -24,12 +25,7 @@ function App() {
 
 			try {
 				// make the actual request
-				const res = await fetch("https://jsonplaceholder.typicode.com/" + resource);
-				if (!res.ok) {
-					throw new Error("Response was not OK 🥴");
-				}
-				const body = await res.json();
-				await new Promise(r => setTimeout(r, 2500));
+				const body = await getResource(resource);
 
 				setData(body);
 			} catch (err) {
