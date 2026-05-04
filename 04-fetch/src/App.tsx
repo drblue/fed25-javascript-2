@@ -3,13 +3,19 @@ import type { Resource } from "./types/Resource";
 import "./assets/scss/App.scss";
 
 function App() {
-	const [resource, setResource] = useState("posts");
+	const [resource, setResource] = useState("");
 	const [data, setData] = useState<Resource[]>([]);
 
 	useEffect(() => {
 		console.log("Side-effect triggered due to resource changing value to:", resource);
 
+		// Bail if resource is empty
+		if (!resource) {
+			return;
+		}
+
 		const fetchData = async () => {
+			console.log(`Fetching ${resource}...`);
 			const res = await fetch("https://jsonplaceholder.typicode.com/" + resource);
 			const data = await res.json();
 			setData(data);
