@@ -1,24 +1,23 @@
 # React Simple Todos
 
-## Re-create
+## Install
 
 ```sh
-npm create vite@latest 02-react-simple-todos -- --template react-ts
-npm install -D -E sass@1.77.6
-npm install -D bootstrap
-rm public/favicon.svg public/icons.svg src/App.css src/index.css
-rm -r src/assets
-touch public/.gitkeep
+npm install
 ```
 
-Import Bootstrap in `src/assets/scss/App.scss`:
+## Run
 
-```scss
-@import "bootstrap/scss/bootstrap";
+Run the frontend and the backend in two separate terminals.
+
+### Frontend
+
+```sh
+npm run dev
 ```
 
-And finally import the SCSS-file in `App.tsx`:
+### Backend
 
-```ts
-import "./assets/scss/App.scss";
+```sh
+npm run server
 ```

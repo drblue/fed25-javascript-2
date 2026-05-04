@@ -1,39 +1,40 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddNewTodoForm from "./components/AddNewTodoForm";
 import TodoCounter from "./components/TodoCounter";
 import TodoList from "./components/TodoList";
+import * as TodoAPI from "./services/TodoAPI";
 import type { Todo } from "./types/Todo";
 import "./assets/scss/App.scss";
 
 function App() {
-	const [todos, setTodos] = useState<Todo[]>([
-		{ id: 1, title: "Make coffee", completed: true },
-		{ id: 2, title: "Drink coffee", completed: false },
-		{ id: 3, title: "Drink MOAR coffee", completed: false },
-		{ id: 4, title: "Drink ALL ZE coffee", completed: false },
-	]);
+	const [todos, setTodos] = useState<Todo[]>([]);
 
 	const handleAddTodo = (title: string) => {
-		// Create new todo and set a new list of todos as the state consisting
-		// of the old todos + the new todo
-		setTodos([...todos, {
-			id: Math.max(0, ...todos.map(todo => todo.id)) + 1,
-			title,
-			completed: false,
-		}]);
+		// TODO: Fix me!
 	}
 
 	const handleDelete = (todo: Todo) => {
-		setTodos(todos.filter(t => t.id !== todo.id));
+		// TODO: Fix me!
 	}
 
 	const handleToggle = (todo: Todo) => {
-		todo.completed = !todo.completed;
-		setTodos([...todos]);
+		// TODO: Fix me!
 	}
 
 	const completedTodos = todos.filter(todo => todo.completed);
 	const uncompletedTodos = todos.filter(todo => !todo.completed);
+
+	useEffect(() => {
+		const getTodos = async () => {
+			// reset state
+			setTodos([]);
+
+			// make request to api
+			const data = await TodoAPI.getTodos();
+			setTodos(data);
+		}
+		getTodos();
+	}, [])
 
 	return (
 		<div className="container py-3">
