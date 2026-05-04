@@ -19,7 +19,7 @@ const AddNewTodoForm: React.FC<AddNewTodoFormProps> = ({ onAdd }) => {
 
 	return (
 		<form onSubmit={handleSubmit} className="mb-3">
-			<div className="input-group mb-3">
+			<div className="input-group">
 				<input
 					aria-label="New todo title"
 					className="form-control"
@@ -36,6 +36,10 @@ const AddNewTodoForm: React.FC<AddNewTodoFormProps> = ({ onAdd }) => {
 					type="submit"
 				>👶🏻</button>
 			</div>
+
+			{inputTodoTitle.trim().length > 0 && inputTodoTitle.trim().length < 3 && (
+				<div className="form-text text-danger text-small">Please enter 3 characters or more.</div>
+			)}
 		</form>
 	)
 }
