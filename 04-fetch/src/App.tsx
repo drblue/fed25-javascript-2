@@ -4,7 +4,7 @@ import "./assets/scss/App.scss";
 
 function App() {
 	const [resource, setResource] = useState("");
-	const [data, setData] = useState<Resource[]>([]);
+	const [data, setData] = useState<Resource[] | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
@@ -17,7 +17,7 @@ function App() {
 
 		const fetchData = async () => {
 			// reset state
-			setData([]);
+			setData(null);
 			setIsLoading(true);
 
 			console.log(`Fetching ${resource}...`);
@@ -49,7 +49,7 @@ function App() {
 
 			{isLoading && <p>Loading...</p>}
 
-			{!isLoading && resource && (
+			{data && (
 				<>
 					<h2>{resource}</h2>
 					<p>There are {data.length} {resource}.</p>
