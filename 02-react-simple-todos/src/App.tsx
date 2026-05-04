@@ -1,4 +1,5 @@
 import { useState } from "react";
+import TodoCounter from "./components/TodoCounter";
 import TodoListItem from "./components/TodoListItem";
 import type { Todo } from "./types/Todo";
 import "./assets/scss/App.scss";
@@ -86,9 +87,10 @@ function App() {
 						))}
 					</ul>
 
-					<p className="text-muted">
-						You have {uncompletedTodos.length} of {todos.length} todos left.
-					</p>
+					<TodoCounter
+						total={todos.length}
+						uncompleted={uncompletedTodos.length}
+					/>
 				</>
 			) : (
 				<div className="alert alert-warning">
