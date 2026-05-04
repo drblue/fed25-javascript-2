@@ -6,6 +6,14 @@ function App() {
 	const [resource, setResource] = useState("posts");
 	const [data, setData] = useState<Resource[]>([]);
 
+	useEffect(() => {
+		fetch("https://jsonplaceholder.typicode.com/" + resource)
+			.then(res => res.json())
+			.then(data => setData(data));
+	}, [resource]);
+
+	console.log("App is rendering... Resource is:", resource);
+
 	return (
 		<div className="container py-2">
 			<h1>Fetch</h1>
@@ -26,7 +34,7 @@ function App() {
 
 					<ol>
 						{data.map(item => (
-							<li>{item.title}</li>
+							<li key={item.id}>{item.title}</li>
 						))}
 					</ol>
 				</>
