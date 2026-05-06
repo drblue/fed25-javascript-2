@@ -43,8 +43,11 @@ function App() {
 		await getTodos();
 	}
 
-	const handleToggle = (todo: Todo) => {
-		// TODO: Fix me!
+	const handleToggle = async (todo: Todo) => {
+		await TodoAPI.updateTodo(todo.id, {
+			completed: !todo.completed,
+		});
+		await getTodos();
 	}
 
 	const completedTodos = todos.filter(todo => todo.completed);

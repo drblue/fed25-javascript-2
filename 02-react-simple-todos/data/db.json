@@ -24,6 +24,11 @@
       "title": "Drink EVEN MOAR coffeeeeee 🤪",
       "completed": false,
       "id": 5
+    },
+    {
+      "title": "Learn about data-fetching in React",
+      "completed": true,
+      "id": 6
     }
   ]
 }

@@ -2,7 +2,7 @@
  * Service for communicating with the json-server backend
  */
 import axios from "axios";
-import type { CreateTodoPayload, Todo } from "../types/Todo";
+import type { CreateTodoPayload, Todo, UpdateTodoPayload } from "../types/Todo";
 
 const BASE_URL = "http://localhost:3000";
 
@@ -30,6 +30,10 @@ export const createTodo = async (payload: CreateTodoPayload) => {
  * @param todoId Todo to update
  * @param payload Data to update todo with
  */
+export const updateTodo = async (todoId: number, payload: UpdateTodoPayload) => {
+	const res = await axios.patch<Todo>(BASE_URL + "/todos/" + todoId, payload);
+	return res.data;
+}
 
 /**
  * Delete a todo
