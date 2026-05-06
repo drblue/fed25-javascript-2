@@ -38,8 +38,9 @@ function App() {
 		await getTodos();
 	}
 
-	const handleDelete = (todo: Todo) => {
-		// TODO: Fix me!
+	const handleDelete = async (todo: Todo) => {
+		await TodoAPI.deleteTodo(todo.id);
+		await getTodos();
 	}
 
 	const handleToggle = (todo: Todo) => {

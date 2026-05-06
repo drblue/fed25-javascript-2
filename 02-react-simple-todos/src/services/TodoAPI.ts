@@ -36,3 +36,7 @@ export const createTodo = async (payload: CreateTodoPayload) => {
  *
  * @param todoId Todo to delete
  */
+export const deleteTodo = async (todoId: number) => {
+	await axios.delete(BASE_URL + "/todos/" + todoId);
+	return true;
+}
