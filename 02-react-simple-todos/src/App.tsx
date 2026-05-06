@@ -3,7 +3,7 @@ import AddNewTodoForm from "./components/AddNewTodoForm";
 import TodoCounter from "./components/TodoCounter";
 import TodoList from "./components/TodoList";
 import * as TodoAPI from "./services/TodoAPI";
-import type { Todo } from "./types/Todo";
+import type { CreateTodoPayload, Todo } from "./types/Todo";
 import "./assets/scss/App.scss";
 
 function App() {
@@ -11,8 +11,31 @@ function App() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [todos, setTodos] = useState<Todo[]>([]);
 
-	const handleAddTodo = (title: string) => {
-		// TODO: Fix me!
+	const getTodos = async () => {
+		// reset state
+		setError(false);
+		setIsLoading(true);
+		setTodos([]);
+
+		// make request to api
+		try {
+			const data = await TodoAPI.getTodos();
+			setTodos(data);
+		} catch (err) {
+			console.error("Error thrown when fetching todos:", err);
+			setError(err instanceof Error ? err.message : "It's not me, it's you");
+		} finally {
+			setIsLoading(false);
+		}
+	}
+
+	const handleAddTodo = async (title: string) => {
+		const payload: CreateTodoPayload = {
+			title,
+			completed: false,
+		}
+		await TodoAPI.createTodo(payload);
+		await getTodos();
 	}
 
 	const handleDelete = (todo: Todo) => {
@@ -27,25 +50,9 @@ function App() {
 	const uncompletedTodos = todos.filter(todo => !todo.completed);
 
 	useEffect(() => {
-		const getTodos = async () => {
-			// reset state
-			setError(false);
-			setIsLoading(true);
-			setTodos([]);
-
-			// make request to api
-			try {
-				const data = await TodoAPI.getTodos();
-				setTodos(data);
-			} catch (err) {
-				console.error("Error thrown when fetching todos:", err);
-				setError(err instanceof Error ? err.message : "It's not me, it's you");
-			} finally {
-				setIsLoading(false);
-			}
-		}
+		// eslint-disable-next-line react-hooks/set-state-in-effect
 		getTodos();
-	}, [])
+	}, []);
 
 	return (
 		<div className="container py-3">
