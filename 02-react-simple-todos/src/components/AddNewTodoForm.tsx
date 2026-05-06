@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface AddNewTodoFormProps {
 	onAdd: (title: string) => void;
@@ -6,6 +6,7 @@ interface AddNewTodoFormProps {
 
 const AddNewTodoForm: React.FC<AddNewTodoFormProps> = ({ onAdd }) => {
 	const [inputTodoTitle, setInputTodoTitle] = useState("");
+	const inputTodoTitleRef = useRef<HTMLInputElement>(null);
 
 	const handleSubmit = (e: React.SubmitEvent) => {
 		e.preventDefault();
@@ -17,6 +18,14 @@ const AddNewTodoForm: React.FC<AddNewTodoFormProps> = ({ onAdd }) => {
 		setInputTodoTitle("");
 	}
 
+	useEffect(() => {
+		if (!inputTodoTitleRef.current) {
+			return;
+		}
+
+		inputTodoTitleRef.current.focus();
+	}, []);
+
 	return (
 		<form onSubmit={handleSubmit} className="mb-3">
 			<div className="input-group">
@@ -25,8 +34,10 @@ const AddNewTodoForm: React.FC<AddNewTodoFormProps> = ({ onAdd }) => {
 					className="form-control"
 					onChange={(e) => setInputTodoTitle(e.target.value)}
 					placeholder="Learn about GTD"
+					ref={inputTodoTitleRef}
 					type="text"
 					value={inputTodoTitle}
+					// autoFocus
 					required
 				/>
 

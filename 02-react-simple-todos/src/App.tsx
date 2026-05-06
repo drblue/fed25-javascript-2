@@ -11,6 +11,14 @@ function App() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [todos, setTodos] = useState<Todo[]>([]);
 
+	// One of two use-cases for useRef - rememeber a value between renders
+	// **WITHOUT** triggering a re-render when the value is updated
+	/*
+	const renderCountRef = useRef(0);
+	renderCountRef.current++;
+	console.log("I have rendered this many times:", renderCountRef.current);
+	*/
+
 	const getTodos = async () => {
 		// reset state
 		setError(false);
