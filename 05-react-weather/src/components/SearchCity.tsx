@@ -6,16 +6,19 @@ interface SearchCityProps {
 
 const SearchCity: React.FC<SearchCityProps> = ({ onSearch }) => {
 	const [city, setCity] = useState("");
+	const trimmedCity = city.trim();
 
 	const handleSubmit = (e: React.SubmitEvent) => {
 		e.preventDefault();
 
 		// Pass `city` to parent component (App)
-		onSearch(city.trim());
+		onSearch(trimmedCity);
 
 		// Clear `city` state
 		setCity("");
 	}
+
+	const tooFewCharacters = trimmedCity.length > 0 && trimmedCity.length < 3;
 
 	return (
 		<div id="search-wrapper">
@@ -41,6 +44,12 @@ const SearchCity: React.FC<SearchCityProps> = ({ onSearch }) => {
 						🔍
 					</button>
 				</div>
+
+				{tooFewCharacters &&
+					<div className="form-text text-danger">
+						Please enter at least 3 characters
+					</div>
+				}
 			</form>
 		</div>
 	);
