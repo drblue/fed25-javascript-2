@@ -7,6 +7,8 @@ interface CurrentWeatherProps {
 }
 
 const CurrentWeather: React.FC<CurrentWeatherProps> = ({ data }) => {
+	const freshness = new Date(data.dt * 1000);
+
 	return (
 		<div id="current-weather">
 			<div className="card">
@@ -36,13 +38,13 @@ const CurrentWeather: React.FC<CurrentWeatherProps> = ({ data }) => {
 						)}
 					</ul>
 
-					{/*
 					<p className="text-muted small">
-						<span>
-							1970-01-01 13:37:00
+						<span title={freshness.toString()}>
+							{freshness.toLocaleDateString()}
+							{" "}
+							{freshness.toLocaleTimeString()}
 						</span>
 					</p>
-					*/}
 				</div>
 			</div>
 		</div>
