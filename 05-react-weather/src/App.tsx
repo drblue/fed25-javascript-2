@@ -8,24 +8,35 @@ import "./assets/scss/App.scss";
 
 function App() {
 	const [currentWeather, setCurrentWeather] = useState<CurrentWeatherData | null>(null);
+	const [error, setError] = useState<string | false>(false);
 	const [isLoading, setIsLoading] = useState(false);
 
 	const handleSearch = async (location: string) => {
 		// set loading state
 		setCurrentWeather(null);
+		setError(false);
 		setIsLoading(true);
 
-		// Call API and ask for weather at `location`
-		const data = await getCurrentWeather(location);
+		try {
+			// Call API and ask for weather at `location`
+			const data = await getCurrentWeather(location);
 
-		// Update current weather state with the weather at `location`
-		setCurrentWeather(data);
-		setIsLoading(false);
+			// Update current weather state with the weather at `location`
+			setCurrentWeather(data);
+		} catch (err) {
+			setError(err instanceof Error ? err.message : "Something unexpected happened.");
+		} finally {
+			setIsLoading(false);
+		}
 	}
 
 	return (
 		<div id="app" className="container py-2">
 			<SearchCity onSearch={handleSearch} />
+
+			{error && (
+				<div className="alert alert-warning">{error}</div>
+			)}
 
 			{isLoading && <img src={imgLoading} className="img-fluid py-5 w-75" />}
 
