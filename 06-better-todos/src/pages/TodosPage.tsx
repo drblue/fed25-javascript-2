@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import Alert from "react-bootstrap/Alert";
+import ListGroup from "react-bootstrap/ListGroup";
 import Spinner from "react-bootstrap/Spinner";
+import { Link } from "react-router";
 import AddNewTodoForm from "../components/AddNewTodoForm";
-import TodoList from "../components/TodoList";
 import TodoCounter from "../components/TodoCounter";
 import * as TodoAPI from "../services/TodoAPI";
 import type { CreateTodoPayload, Todo } from "../types/Todo";
@@ -11,14 +12,6 @@ const TodosPage = () => {
 	const [error, setError] = useState<string | false>(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [todos, setTodos] = useState<Todo[]>([]);
-
-	// One of two use-cases for useRef - rememeber a value between renders
-	// **WITHOUT** triggering a re-render when the value is updated
-	/*
-	const renderCountRef = useRef(0);
-	renderCountRef.current++;
-	console.log("I have rendered this many times:", renderCountRef.current);
-	*/
 
 	const getTodos = async () => {
 		// reset state
@@ -47,6 +40,7 @@ const TodosPage = () => {
 		await getTodos();
 	}
 
+	/*
 	const handleDelete = async (todo: Todo) => {
 		await TodoAPI.deleteTodo(todo.id);
 		await getTodos();
@@ -58,8 +52,8 @@ const TodosPage = () => {
 		});
 		await getTodos();
 	}
+	*/
 
-	const completedTodos = todos.filter(todo => todo.completed);
 	const uncompletedTodos = todos.filter(todo => !todo.completed);
 
 	useEffect(() => {
@@ -70,7 +64,7 @@ const TodosPage = () => {
 	return (
 		<>
 			<title>{`${uncompletedTodos.length} of ${todos.length} todos left`}</title>
-			<h1>Better Todos</h1>
+			<h1>Todos</h1>
 
 			{error && (
 				<Alert variant="danger">
@@ -89,19 +83,19 @@ const TodosPage = () => {
 
 				{todos.length > 0 ? (
 					<>
-						<h2 className="h5">💪🏻 Stuff I got to do</h2>
-						<TodoList
-							onDelete={handleDelete}
-							onToggle={handleToggle}
-							todos={uncompletedTodos}
-						/>
-
-						<h2 className="h5">🥺 Stuff I've done</h2>
-						<TodoList
-							onDelete={handleDelete}
-							onToggle={handleToggle}
-							todos={completedTodos}
-						/>
+						<ListGroup className="todolist mb-3">
+							{todos.map(todo => (
+								<ListGroup.Item
+									action
+									as={Link}
+									className={todo.completed ? "completed" : ""}
+									key={todo.id}
+									to={"/todos/" + todo.id}
+								>
+									<span className="todo-title">{todo.title}</span>
+								</ListGroup.Item>
+							))}
+						</ListGroup>
 
 						<TodoCounter
 							total={todos.length}
