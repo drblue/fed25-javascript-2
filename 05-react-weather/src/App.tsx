@@ -9,7 +9,7 @@ import "./assets/scss/App.scss";
 function App() {
 	const [currentWeather, setCurrentWeather] = useState<CurrentWeatherData | null>(null);
 	const [error, setError] = useState<string | false>(false);
-	const [isLoading, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const handleSearch = async (location: string) => {
 		// set loading state
