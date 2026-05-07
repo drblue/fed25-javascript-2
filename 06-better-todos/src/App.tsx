@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+import Alert from "react-bootstrap/Alert";
+import Container from "react-bootstrap/Container";
+import Spinner from "react-bootstrap/Spinner";
 import AddNewTodoForm from "./components/AddNewTodoForm";
 import TodoCounter from "./components/TodoCounter";
 import TodoList from "./components/TodoList";
@@ -67,20 +70,20 @@ function App() {
 	}, []);
 
 	return (
-		<div className="container py-3">
+		<Container className="py-3">
 			<title>{`${uncompletedTodos.length} of ${todos.length} todos left`}</title>
 			<h1>Better Todos</h1>
 
 			{error && (
-				<div className="alert alert-danger">
+				<Alert variant="danger">
 					{error}
-				</div>
+				</Alert>
 			)}
 
 			{isLoading && (
-				<div className="spinner-border" role="status">
+				<Spinner animation="border" role="status">
 					<span className="visually-hidden">Loading...</span>
-				</div>
+				</Spinner>
 			)}
 
 			{!error && !isLoading && (<>
@@ -108,12 +111,12 @@ function App() {
 						/>
 					</>
 				) : (
-					<div className="alert alert-warning">
+					<Alert variant="success">
 						You ain't got no todos to do? 🤔
-					</div>
+					</Alert>
 				)}
 			</>)}
-		</div>
+		</Container>
 	);
 }
 

@@ -1,3 +1,5 @@
+import Button from "react-bootstrap/Button";
+import ListGroup from "react-bootstrap/ListGroup";
 import type { Todo } from "../types/Todo";
 
 interface TodoListItemProps {
@@ -8,27 +10,29 @@ interface TodoListItemProps {
 
 const TodoListItem: React.FC<TodoListItemProps> = ({ onDelete, onToggle, todo }) => {
 	return (
-		<li
+		<ListGroup.Item
 			key={todo.id}
-			className={todo.completed ? "completed list-group-item" : "list-group-item"}
+			className={todo.completed ? "completed" : ""}
 		>
 			<span className="todo-title">{todo.title}</span>
 
 			<div>
-				<button
-					className="btn btn-outline-warning btn-sm"
+				<Button
 					onClick={() => onToggle(todo)}
+					size="sm"
+					variant="outline-warning"
 				>
 					{todo.completed ? "🥺" : "🎉"}
-				</button>
-				<button
-					className="btn btn-outline-danger btn-sm"
+				</Button>
+				<Button
 					onClick={() => onDelete(todo)}
+					size="sm"
+					variant="outline-danger"
 				>
 					💣
-				</button>
+				</Button>
 			</div>
-		</li>
+		</ListGroup.Item>
 	)
 }
 

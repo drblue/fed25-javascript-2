@@ -1,3 +1,4 @@
+import ListGroup from "react-bootstrap/ListGroup";
 import type { Todo } from "../types/Todo";
 import TodoListItem from "./TodoListItem";
 
@@ -9,7 +10,7 @@ interface TodoListProps {
 
 const TodoList: React.FC<TodoListProps> = ({ onDelete, onToggle, todos }) => {
 	return (
-		<ul className="todolist list-group mb-3">
+		<ListGroup className="todolist mb-3">
 			{todos.map(todo => (
 				<TodoListItem
 					key={todo.id}
@@ -18,7 +19,7 @@ const TodoList: React.FC<TodoListProps> = ({ onDelete, onToggle, todos }) => {
 					todo={todo}
 				/>
 			))}
-		</ul>
+		</ListGroup>
 	)
 }
 
