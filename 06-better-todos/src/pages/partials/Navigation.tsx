@@ -1,18 +1,19 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import { Link, NavLink } from "react-router";
 
 const Navigation = () => {
 	return (
 		<Navbar bg="dark" variant="dark" expand="sm">
 			<Container>
-				<Navbar.Brand href="/">📝 Better Todos</Navbar.Brand>
+				<Navbar.Brand as={Link} to="/">📝 Better Todos</Navbar.Brand>
 
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse id="basic-navbar-nav">
 					<Nav className="ms-auto">
-						<Nav.Link href="/">Home</Nav.Link>
-						<Nav.Link href="/todos">Todos</Nav.Link>
+						<Nav.Link as={NavLink} to="/">Home</Nav.Link>
+						<Nav.Link as={NavLink} to="/todos">Todos</Nav.Link>
 					</Nav>
 				</Navbar.Collapse>
 			</Container>
