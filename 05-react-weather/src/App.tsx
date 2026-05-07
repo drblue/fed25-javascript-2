@@ -9,7 +9,7 @@ import "./assets/scss/App.scss";
 function App() {
 	const [currentWeather, setCurrentWeather] = useState<CurrentWeatherData | null>(null);
 	const [error, setError] = useState<string | false>(false);
-	const [isLoading, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 
 	const handleSearch = async (location: string) => {
 		// set loading state
@@ -35,10 +35,15 @@ function App() {
 			<SearchCity onSearch={handleSearch} />
 
 			{error && (
-				<div className="alert alert-warning">{error}</div>
+				<div className="alert alert-warning" role="alert">{error}</div>
 			)}
 
-			{isLoading && <img src={imgLoading} className="img-fluid py-5 w-75" />}
+			{isLoading &&
+				<div role="status" className="py-5 w-75">
+					<img src={imgLoading} className="img-fluid" alt="Weather reporter in severe storm being hit by a flying fish" />
+					<span className="visually-hidden">Loading...</span>
+				</div>
+			}
 
 			{currentWeather && <CurrentWeather data={currentWeather} />}
 		</div>
