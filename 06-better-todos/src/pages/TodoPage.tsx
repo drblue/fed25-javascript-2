@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
-import { Link, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import * as TodoAPI from "../services/TodoAPI";
 import type { Todo } from "../types/Todo";
 
@@ -12,6 +12,7 @@ const TodoPage = () => {
 	const [todo, setTodo] = useState<Todo | null>(null);
 	const { id } = useParams();
 	const todoId = Number(id);
+	const navigate = useNavigate();
 
 	const getTodo = async (id: number) => {
 		// reset state
@@ -30,6 +31,14 @@ const TodoPage = () => {
 			setIsLoading(false);
 		}
 	}
+
+	const handleDelete = async (todo: Todo) => {
+		await TodoAPI.deleteTodo(todo.id);
+
+		// Redirect to "/todos"
+		navigate("/todos");
+	}
+
 
 	const handleToggle = async (todo: Todo) => {
 		const updatedTodo = await TodoAPI.updateTodo(todo.id, {
@@ -70,6 +79,10 @@ const TodoPage = () => {
 				>Toggle</Button>
 
 				{/* Delete */}
+				<Button
+					onClick={() => handleDelete(todo)}
+					variant="danger"
+				>Delete</Button>
 			</div>
 
 			{/* Here be button-link back to all todos */}
