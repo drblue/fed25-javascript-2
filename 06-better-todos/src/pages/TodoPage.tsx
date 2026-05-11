@@ -33,6 +33,10 @@ const TodoPage = () => {
 	}
 
 	const handleDelete = async (todo: Todo) => {
+		if (!window.confirm("U SURE BRO?!")) {
+			return;
+		}
+
 		await TodoAPI.deleteTodo(todo.id);
 
 		// Redirect to "/todos" (and replace the current history entry with the new URL)
