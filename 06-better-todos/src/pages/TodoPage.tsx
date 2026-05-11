@@ -32,10 +32,12 @@ const TodoPage = () => {
 	}
 
 	const handleToggle = async (todo: Todo) => {
-		await TodoAPI.updateTodo(todo.id, {
+		const updatedTodo = await TodoAPI.updateTodo(todo.id, {
 			completed: !todo.completed,
 		});
-		await getTodo(todo.id);
+
+		// Update todo state with the updated todo
+		setTodo(updatedTodo);
 	}
 
 	useEffect(() => {
