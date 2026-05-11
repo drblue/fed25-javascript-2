@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import Badge from "react-bootstrap/Badge";
+import Button from "react-bootstrap/Button";
 import { Link, useParams } from "react-router";
 import * as TodoAPI from "../services/TodoAPI";
 import type { Todo } from "../types/Todo";
@@ -30,6 +31,13 @@ const TodoPage = () => {
 		}
 	}
 
+	const handleToggle = async (todo: Todo) => {
+		await TodoAPI.updateTodo(todo.id, {
+			completed: !todo.completed,
+		});
+		await getTodo(todo.id);
+	}
+
 	useEffect(() => {
 		// eslint-disable-next-line react-hooks/set-state-in-effect
 		getTodo(todoId);
@@ -54,6 +62,10 @@ const TodoPage = () => {
 
 			<div className="buttons mb-4">
 				{/* Toggle */}
+				<Button
+					onClick={() => handleToggle(todo)}
+					variant="success"
+				>Toggle</Button>
 
 				{/* Delete */}
 			</div>

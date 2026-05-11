@@ -45,13 +45,6 @@ const TodosPage = () => {
 		await TodoAPI.deleteTodo(todo.id);
 		await getTodos();
 	}
-
-	const handleToggle = async (todo: Todo) => {
-		await TodoAPI.updateTodo(todo.id, {
-			completed: !todo.completed,
-		});
-		await getTodos();
-	}
 	*/
 
 	const uncompletedTodos = todos.filter(todo => !todo.completed);
