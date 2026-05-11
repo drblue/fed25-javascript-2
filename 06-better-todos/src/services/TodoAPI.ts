@@ -15,6 +15,14 @@ export const getTodos = async () => {
 }
 
 /**
+ * Get todo
+ */
+export const getTodo = async (id: number) => {
+	const res = await axios.get<Todo>(BASE_URL + "/todos/" + id);
+	return res.data;
+}
+
+/**
  * Create a new todo
  *
  * @param payload Object with properties and values for the new todo
