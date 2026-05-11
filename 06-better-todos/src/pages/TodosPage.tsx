@@ -21,7 +21,13 @@ const TodosPage = () => {
 		// make request to api
 		try {
 			const data = await TodoAPI.getTodos();
-			setTodos(data);
+
+			// sort data
+			const sortedTodos = data
+				.sort((a: Todo, b: Todo) => a.title.localeCompare(b.title))
+				.sort((a: Todo, b: Todo) => Number(a.completed) - Number(b.completed));
+
+			setTodos(sortedTodos);
 		} catch (err) {
 			console.error("Error thrown when fetching todos:", err);
 			setError(err instanceof Error ? err.message : "It's not me, it's you");
