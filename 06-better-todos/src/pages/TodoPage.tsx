@@ -35,10 +35,11 @@ const TodoPage = () => {
 	const handleDelete = async (todo: Todo) => {
 		await TodoAPI.deleteTodo(todo.id);
 
-		// Redirect to "/todos"
-		navigate("/todos");
+		// Redirect to "/todos" (and replace the current history entry with the new URL)
+		navigate("/todos", {
+			replace: true,
+		});
 	}
-
 
 	const handleToggle = async (todo: Todo) => {
 		const updatedTodo = await TodoAPI.updateTodo(todo.id, {
