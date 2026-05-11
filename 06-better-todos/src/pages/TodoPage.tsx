@@ -3,6 +3,7 @@ import Alert from "react-bootstrap/Alert";
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
 import { Link, useNavigate, useParams } from "react-router";
+import ConfirmDeleteButton from "../components/ConfirmDeleteButton";
 import * as TodoAPI from "../services/TodoAPI";
 import type { Todo } from "../types/Todo";
 
@@ -33,10 +34,6 @@ const TodoPage = () => {
 	}
 
 	const handleDelete = async (todo: Todo) => {
-		if (!window.confirm("U SURE BRO?!")) {
-			return;
-		}
-
 		await TodoAPI.deleteTodo(todo.id);
 
 		// Redirect to "/todos" (and replace the current history entry with the new URL)
@@ -84,10 +81,9 @@ const TodoPage = () => {
 				>Toggle</Button>
 
 				{/* Delete */}
-				<Button
-					onClick={() => handleDelete(todo)}
-					variant="danger"
-				>Delete</Button>
+				<ConfirmDeleteButton
+					onConfirm={() => handleDelete(todo)}
+				/>
 			</div>
 
 			{/* Here be button-link back to all todos */}
