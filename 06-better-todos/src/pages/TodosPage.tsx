@@ -3,10 +3,9 @@ import Alert from "react-bootstrap/Alert";
 import ListGroup from "react-bootstrap/ListGroup";
 import Spinner from "react-bootstrap/Spinner";
 import { Link } from "react-router";
-import AddNewTodoForm from "../components/AddNewTodoForm";
 import TodoCounter from "../components/TodoCounter";
 import * as TodoAPI from "../services/TodoAPI";
-import type { CreateTodoPayload, Todo } from "../types/Todo";
+import type { Todo } from "../types/Todo";
 
 const TodosPage = () => {
 	const [error, setError] = useState<string | false>(false);
@@ -29,15 +28,6 @@ const TodosPage = () => {
 		} finally {
 			setIsLoading(false);
 		}
-	}
-
-	const handleAddTodo = async (title: string) => {
-		const payload: CreateTodoPayload = {
-			title,
-			completed: false,
-		}
-		await TodoAPI.createTodo(payload);
-		await getTodos();
 	}
 
 	/*
@@ -72,8 +62,6 @@ const TodosPage = () => {
 			)}
 
 			{!error && !isLoading && (<>
-				<AddNewTodoForm onAdd={handleAddTodo} />
-
 				{todos.length > 0 ? (
 					<>
 						<ListGroup className="todolist mb-3">

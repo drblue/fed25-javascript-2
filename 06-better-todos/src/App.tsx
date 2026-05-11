@@ -1,6 +1,7 @@
 import Container from "react-bootstrap/Container";
 import { Route, Routes } from "react-router";
 import Navigation from "./pages/partials/Navigation";
+import CreateTodoPage from "./pages/CreateTodoPage";
 import HomePage from "./pages/HomePage";
 import NotFoundPage from "./pages/NotFoundPage";
 import TodoPage from "./pages/TodoPage";
@@ -15,6 +16,7 @@ function App() {
 			<Container className="py-3">
 				<Routes>
 					<Route path="/todos" element={<TodosPage />} />
+					<Route path="/todos/create" element={<CreateTodoPage />} />
 					<Route path="/todos/:id" element={<TodoPage />} />
 					<Route path="/" element={<HomePage />} />
 
