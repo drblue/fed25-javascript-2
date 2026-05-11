@@ -10,13 +10,13 @@ import type { Todo } from "../types/Todo";
 const TodosPage = () => {
 	const [error, setError] = useState<string | false>(false);
 	const [isLoading, setIsLoading] = useState(false);
-	const [todos, setTodos] = useState<Todo[]>([]);
+	const [todos, setTodos] = useState<Todo[] | null>(null);
 
 	const getTodos = async () => {
 		// reset state
 		setError(false);
 		setIsLoading(true);
-		setTodos([]);
+		setTodos(null);
 
 		// make request to api
 		try {
@@ -37,8 +37,6 @@ const TodosPage = () => {
 	}
 	*/
 
-	const uncompletedTodos = todos.filter(todo => !todo.completed);
-
 	useEffect(() => {
 		// eslint-disable-next-line react-hooks/set-state-in-effect
 		getTodos();
@@ -46,7 +44,7 @@ const TodosPage = () => {
 
 	return (
 		<>
-			<title>{`${uncompletedTodos.length} of ${todos.length} todos left`}</title>
+			<title>Todos</title>
 			<h1>Todos</h1>
 
 			{error && (
@@ -61,7 +59,7 @@ const TodosPage = () => {
 				</Spinner>
 			)}
 
-			{!error && !isLoading && (<>
+			{todos && (<>
 				{todos.length > 0 ? (
 					<>
 						<ListGroup className="todolist mb-3">
@@ -80,7 +78,7 @@ const TodosPage = () => {
 
 						<TodoCounter
 							total={todos.length}
-							uncompleted={uncompletedTodos.length}
+							uncompleted={todos.filter(todo => !todo.completed).length}
 						/>
 					</>
 				) : (
