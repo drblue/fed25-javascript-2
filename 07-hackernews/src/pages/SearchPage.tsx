@@ -4,12 +4,36 @@ import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import ListGroup from "react-bootstrap/ListGroup";
+import type { HN_SearchResponse } from "../services/HackerNewsAPI.types";
+import { searchByDate } from "../services/HackerNewsAPI";
 
 const SearchPage = () => {
 	const [error, setError] = useState<string | false>(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [inputSearch, setInputSearch] = useState("");
-	const [searchResult, setSearchResult] = useState(null);  // fix me
+	const [searchResult, setSearchResult] = useState<HN_SearchResponse | null>(null);
+
+	const searchHackerNews = async (searchQuery: string) => {
+		// reset state + set loading to true
+		setError(false);
+		setIsLoading(true);
+		setSearchResult(null);
+
+		try {
+			const data = await searchByDate(searchQuery);
+			setSearchResult(data);
+
+		} catch (err) {
+			console.error(`Error thrown when searching for "${searchQuery}":`, err);
+			setError(err instanceof Error
+				? err.message
+				: "Aouch, stop throwing things that are not Errors at me"
+			);
+
+		} finally {
+			setIsLoading(false);
+		}
+	}
 
 	const handleSubmit = (e: React.SubmitEvent) => {
 		e.preventDefault();
@@ -21,7 +45,7 @@ const SearchPage = () => {
 		}
 
 		// Search Haxx0r News 🕵🏻‍♂️📰
-		console.log(`Would search for "${inputSearch}" in HN API`);
+		searchHackerNews(inputSearch.trim());
 	}
 
 	return (
@@ -56,15 +80,15 @@ const SearchPage = () => {
 
 			{isLoading && <p>🤔 Loading...</p>}
 
-			{true && (
+			{searchResult && (
 				<div id="search-result">
-					<p>Showing HITS search results for QUERY...</p>
+					<p>Showing {searchResult.nbHits} search results for {inputSearch}...</p>
 
 					<ListGroup className="mb-3">
-						{[{}].map((hit) => (
-							<ListGroup.Item action href={"/"} key={""}>
-								<h2 className="h3">TITLE</h2>
-								<p className="text-muted small mb-0">POINTS points by AUTHOR at CREATED_AT</p>
+						{searchResult.hits.map((hit) => (
+							<ListGroup.Item action href={hit.url} key={hit.objectID}>
+								<h2 className="h3">{hit.title}</h2>
+								<p className="text-muted small mb-0">{hit.points} points by {hit.author} at {hit.created_at}</p>
 							</ListGroup.Item>
 						))}
 					</ListGroup>

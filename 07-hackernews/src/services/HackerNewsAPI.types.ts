@@ -2,7 +2,7 @@ export interface HN_SearchHit {
 	author: string;
 	created_at: string;
 	created_at_i: number;
-	objectId: string;
+	objectID: string;
 	points: number;
 	story_text?: string;
 	title: string;
