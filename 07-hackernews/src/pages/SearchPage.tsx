@@ -3,6 +3,7 @@ import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import ListGroup from "react-bootstrap/ListGroup";
+import { useSearchParams } from "react-router";
 import Pagination from "../components/Pagination";
 import type { HN_SearchResponse } from "../services/HackerNewsAPI.types";
 import { searchByDate } from "../services/HackerNewsAPI";
@@ -13,8 +14,12 @@ const SearchPage = () => {
 	const [inputSearch, setInputSearch] = useState("");
 	const [page, setPage] = useState(0);
 	const [searchResult, setSearchResult] = useState<HN_SearchResponse | null>(null);
-	const [query, setQuery] = useState("");
 	const inputSearchRef = useRef<HTMLInputElement>(null);
+	const [searchParams, setSearchParams] = useSearchParams();
+
+	// get `query=` from URL
+	const searchParamsQuery = searchParams.get("query");  // search?query=tesla
+	console.log("searchParamsQuery:", searchParamsQuery);
 
 	// 💇🏼‍♀️
 	const trimmedInputSearch = inputSearch.trim();
@@ -52,19 +57,19 @@ const SearchPage = () => {
 		}
 
 		// Search Haxx0r News 🕵🏻‍♂️📰
-		searchHackerNews(trimmedInputSearch, 0);
-		setQuery(trimmedInputSearch);
+		setSearchParams({ query: trimmedInputSearch });
+		setPage(0);
 	}
 
-	// Trigger a new search when the page-state changes
+	// Trigger a new search when the searchParamsQuery or page-state changes
 	useEffect(() => {
-		if (!query) {
+		if (!searchParamsQuery) {
 			return;
 		}
 
 		// eslint-disable-next-line react-hooks/set-state-in-effect
-		searchHackerNews(query, page);
-	}, [query, page]);
+		searchHackerNews(searchParamsQuery, page);
+	}, [searchParamsQuery, page]);
 
 	useEffect(() => {
 		if (!inputSearchRef.current) {
@@ -110,7 +115,7 @@ const SearchPage = () => {
 
 			{searchResult && (
 				<div id="search-result">
-					<p>Showing {searchResult.nbHits} search results for <em>"{query}"</em>...</p>
+					<p>Showing {searchResult.nbHits} search results for <em>"{searchParamsQuery}"</em>...</p>
 
 					<ListGroup className="mb-3">
 						{searchResult.hits.map((hit) => (
@@ -127,7 +132,7 @@ const SearchPage = () => {
 						onNextPage={() => setPage(prevValue => prevValue + 1)}
 						onPreviousPage={() => setPage(prevValue => prevValue - 1)}
 						page={searchResult.page + 1}
-						// totalPages={searchResult.nbPages}
+						totalPages={searchResult.nbPages}
 					/>
 				</div>
 			)}
