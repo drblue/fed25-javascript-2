@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -12,6 +12,7 @@ const SearchPage = () => {
 	const [inputSearch, setInputSearch] = useState("");
 	const [searchResult, setSearchResult] = useState<HN_SearchResponse | null>(null);
 	const [query, setQuery] = useState("");
+	const inputSearchRef = useRef<HTMLInputElement>(null);
 
 	// 💇🏼‍♀️
 	const trimmedInputSearch = inputSearch.trim();
@@ -52,6 +53,15 @@ const SearchPage = () => {
 		setQuery(trimmedInputSearch);
 	}
 
+	useEffect(() => {
+		if (!inputSearchRef.current) {
+			return;
+		}
+
+		// 👀
+		inputSearchRef.current.focus();
+	}, []);
+
 	return (
 		<>
 			<title>Search Hacker News</title>
@@ -63,6 +73,7 @@ const SearchPage = () => {
 					<Form.Control
 						onChange={(e) => setInputSearch(e.target.value)}
 						placeholder="Enter your search query"
+						ref={inputSearchRef}
 						type="text"
 						value={inputSearch}
 						required
