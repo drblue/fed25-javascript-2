@@ -69,6 +69,7 @@ const SearchPage = () => {
 			return;
 		}
 
+		setInputSearch(searchParamsQuery);
 		searchHackerNews(searchParamsQuery, page);
 	}, [searchParamsQuery, page]);
 
