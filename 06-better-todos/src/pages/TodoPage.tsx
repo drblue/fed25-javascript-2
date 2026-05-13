@@ -9,7 +9,7 @@ import type { Todo } from "../types/Todo";
 
 const TodoPage = () => {
 	const [error, setError] = useState<string | false>(false);
-	const [isLoading, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 	const [todo, setTodo] = useState<Todo | null>(null);
 	const { id } = useParams();
 	const todoId = Number(id);
@@ -79,6 +79,13 @@ const TodoPage = () => {
 					onClick={() => handleToggle(todo)}
 					variant="success"
 				>Toggle</Button>
+
+				{/* Edit */}
+				<Link
+					className="btn btn-warning"
+					role="button"
+					to={`/todos/${todo.id}/edit`}
+				>Edit</Link>
 
 				{/* Delete */}
 				<ConfirmDeleteButton
