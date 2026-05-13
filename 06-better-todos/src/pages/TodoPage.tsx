@@ -3,13 +3,14 @@ import Alert from "react-bootstrap/Alert";
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
 import { Link, useNavigate, useParams } from "react-router";
-import ConfirmDeleteButton from "../components/ConfirmDeleteButton";
+import ConfirmationModal from "../components/ConfirmationModal";
 import * as TodoAPI from "../services/TodoAPI";
 import type { Todo } from "../types/Todo";
 
 const TodoPage = () => {
 	const [error, setError] = useState<string | false>(false);
 	const [isLoading, setIsLoading] = useState(true);
+	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const [todo, setTodo] = useState<Todo | null>(null);
 	const { id } = useParams();
 	const todoId = Number(id);
@@ -88,9 +89,21 @@ const TodoPage = () => {
 				>Edit</Link>
 
 				{/* Delete */}
-				<ConfirmDeleteButton
+				<Button
+					onClick={() => setShowDeleteModal(true)}
+					variant="danger"
+				>Delete</Button>
+
+				<ConfirmationModal
+					confirmButtonText="Delete 4 realz"
+					onCancel={() => setShowDeleteModal(false)}
 					onConfirm={() => handleDelete(todo)}
-				/>
+					show={showDeleteModal}
+					title="Confirm delete"
+					variant="danger"
+				>
+					Delete todo "{todo.title}"?
+				</ConfirmationModal>
 			</div>
 
 			{/* Here be button-link back to all todos */}
