@@ -17,14 +17,14 @@ const SearchPage = () => {
 	// 💇🏼‍♀️
 	const trimmedInputSearch = inputSearch.trim();
 
-	const searchHackerNews = async (searchQuery: string) => {
+	const searchHackerNews = async (searchQuery: string, searchPage: number) => {
 		// reset state + set loading to true
 		setError(false);
 		setIsLoading(true);
 		setSearchResult(null);
 
 		try {
-			const data = await searchByDate(searchQuery);
+			const data = await searchByDate(searchQuery, searchPage);
 			setSearchResult(data);
 
 		} catch (err) {
@@ -49,7 +49,7 @@ const SearchPage = () => {
 		}
 
 		// Search Haxx0r News 🕵🏻‍♂️📰
-		searchHackerNews(trimmedInputSearch);
+		searchHackerNews(trimmedInputSearch, 0);
 		setQuery(trimmedInputSearch);
 	}
 
@@ -110,13 +110,21 @@ const SearchPage = () => {
 
 					<div className="d-flex justify-content-between align-items-center">
 						<div className="prev">
-							<Button variant="primary">Previous Page</Button>
+							<Button
+								disabled={searchResult.page === 0}
+								onClick={() => searchHackerNews(query, searchResult.page - 1)}
+								variant="primary"
+							>Previous Page</Button>
 						</div>
 
-						<div className="page">PAGE</div>
+						<div className="page">Page {searchResult.page + 1} / {searchResult.nbPages}</div>
 
 						<div className="next">
-							<Button variant="primary">Next Page</Button>
+							<Button
+								disabled={searchResult.page + 1 === searchResult.nbPages}
+								onClick={() => searchHackerNews(query, searchResult.page + 1)}
+								variant="primary"
+							>Next Page</Button>
 						</div>
 					</div>
 				</div>
