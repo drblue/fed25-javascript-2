@@ -10,6 +10,7 @@ const SearchPage = () => {
 	const [error, setError] = useState<string | false>(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [inputSearch, setInputSearch] = useState("");
+	const [page, setPage] = useState(0);
 	const [searchResult, setSearchResult] = useState<HN_SearchResponse | null>(null);
 	const [query, setQuery] = useState("");
 	const inputSearchRef = useRef<HTMLInputElement>(null);
@@ -24,6 +25,7 @@ const SearchPage = () => {
 		setSearchResult(null);
 
 		try {
+			console.log(`Searching for "${searchQuery}" and page ${searchPage}`);
 			const data = await searchByDate(searchQuery, searchPage);
 			setSearchResult(data);
 
@@ -52,6 +54,16 @@ const SearchPage = () => {
 		searchHackerNews(trimmedInputSearch, 0);
 		setQuery(trimmedInputSearch);
 	}
+
+	// Trigger a new search when the page-state changes
+	useEffect(() => {
+		if (!query) {
+			return;
+		}
+
+		// eslint-disable-next-line react-hooks/set-state-in-effect
+		searchHackerNews(query, page);
+	}, [query, page]);
 
 	useEffect(() => {
 		if (!inputSearchRef.current) {
@@ -112,7 +124,7 @@ const SearchPage = () => {
 						<div className="prev">
 							<Button
 								disabled={searchResult.page === 0}
-								onClick={() => searchHackerNews(query, searchResult.page - 1)}
+								onClick={() => setPage(prevValue => prevValue - 1)}
 								variant="primary"
 							>Previous Page</Button>
 						</div>
@@ -122,7 +134,7 @@ const SearchPage = () => {
 						<div className="next">
 							<Button
 								disabled={searchResult.page + 1 === searchResult.nbPages}
-								onClick={() => searchHackerNews(query, searchResult.page + 1)}
+								onClick={() => setPage(prevValue => prevValue + 1)}
 								variant="primary"
 							>Next Page</Button>
 						</div>
