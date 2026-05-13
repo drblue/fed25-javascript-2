@@ -76,9 +76,16 @@ const EditTodoPage = () => {
 						type="text"
 						value={inputTitle}
 					/>
+
+					{inputTitle.trim().length > 0 && inputTitle.trim().length < 3 && (
+						<Form.Text className="text-danger text-small">
+							Please enter 3 characters or more.
+						</Form.Text>
+					)}
 				</Form.Group>
 
 				<Button
+					disabled={inputTitle.trim().length < 3}
 					type="submit"
 					variant="success"
 				>Save</Button>
