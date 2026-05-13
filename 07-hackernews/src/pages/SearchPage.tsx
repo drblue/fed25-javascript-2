@@ -64,10 +64,11 @@ const SearchPage = () => {
 	// Trigger a new search when the searchParamsQuery or page-state changes
 	useEffect(() => {
 		if (!searchParamsQuery) {
+			// eslint-disable-next-line react-hooks/set-state-in-effect
+			setSearchResult(null);
 			return;
 		}
 
-		// eslint-disable-next-line react-hooks/set-state-in-effect
 		searchHackerNews(searchParamsQuery, page);
 	}, [searchParamsQuery, page]);
 
