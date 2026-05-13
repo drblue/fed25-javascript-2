@@ -18,14 +18,23 @@ const http = axios.create({
 });
 
 /**
+ * Execute a HTTP GET request to an endpoint
+ *
+ * @param endpoint Endpoint to GET
+ */
+const get = async <T>(endpoint: string) => {
+	const res = await http.get<T>(endpoint);
+	return res.data;
+}
+
+/**
  * Search Hacker News Stories
  *
  * @param query Query to search for
  * @param page Page of search results to get
  */
 export const search = async (query: string, page = 0) => {
-	const res = await http.get<HN_SearchResponse>(`/search?query=${query}&tags=story&page=${page}`);
-	return res.data;
+	return await get<HN_SearchResponse>(`/search?query=${query}&tags=story&page=${page}`);
 }
 
 /**
@@ -35,6 +44,5 @@ export const search = async (query: string, page = 0) => {
  * @param page Page of search results to get
  */
 export const searchByDate = async (query: string, page = 0) => {
-	const res = await http.get<HN_SearchResponse>(`/search_by_date?query=${query}&tags=story&page=${page}`);
-	return res.data;
+	return await get<HN_SearchResponse>(`/search_by_date?query=${query}&tags=story&page=${page}`);
 }
