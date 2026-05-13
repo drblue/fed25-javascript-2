@@ -1,4 +1,3 @@
-/* eslint-disable no-constant-binary-expression */
 import { useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
@@ -12,6 +11,10 @@ const SearchPage = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [inputSearch, setInputSearch] = useState("");
 	const [searchResult, setSearchResult] = useState<HN_SearchResponse | null>(null);
+	const [query, setQuery] = useState("");
+
+	// 💇🏼‍♀️
+	const trimmedInputSearch = inputSearch.trim();
 
 	const searchHackerNews = async (searchQuery: string) => {
 		// reset state + set loading to true
@@ -39,13 +42,14 @@ const SearchPage = () => {
 		e.preventDefault();
 
 		// Prevent smol searches
-		if (inputSearch.trim().length < 2) {
+		if (trimmedInputSearch.length < 2) {
 			alert("Too short search query! Enter at least 3 characters to search for");
 			return;
 		}
 
 		// Search Haxx0r News 🕵🏻‍♂️📰
-		searchHackerNews(inputSearch.trim());
+		searchHackerNews(trimmedInputSearch);
+		setQuery(trimmedInputSearch);
 	}
 
 	return (
@@ -82,7 +86,7 @@ const SearchPage = () => {
 
 			{searchResult && (
 				<div id="search-result">
-					<p>Showing {searchResult.nbHits} search results for {inputSearch}...</p>
+					<p>Showing {searchResult.nbHits} search results for <em>"{query}"</em>...</p>
 
 					<ListGroup className="mb-3">
 						{searchResult.hits.map((hit) => (
