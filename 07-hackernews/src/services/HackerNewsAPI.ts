@@ -7,7 +7,15 @@
 import axios from "axios";
 import type { HN_SearchResponse } from "./HackerNewsAPI.types";
 
-const BASE_URL = "https://hn.algolia.com/api/v1";
+// Create an axios instance
+const http = axios.create({
+	baseURL: "https://hn.algolia.com/api/v1",
+	timeout: 10000,
+	headers: {
+		"Accept": "application/json",
+		"Content-Type": "application/json",
+	},
+});
 
 /**
  * Search Hacker News Stories
@@ -16,7 +24,7 @@ const BASE_URL = "https://hn.algolia.com/api/v1";
  * @param page Page of search results to get
  */
 export const search = async (query: string, page = 0) => {
-	const res = await axios.get<HN_SearchResponse>(BASE_URL + `/search?query=${query}&tags=story&page=${page}`);
+	const res = await http.get<HN_SearchResponse>(`/search?query=${query}&tags=story&page=${page}`);
 	return res.data;
 }
 
@@ -27,6 +35,6 @@ export const search = async (query: string, page = 0) => {
  * @param page Page of search results to get
  */
 export const searchByDate = async (query: string, page = 0) => {
-	const res = await axios.get<HN_SearchResponse>(BASE_URL + `/search_by_date?query=${query}&tags=story&page=${page}`);
+	const res = await http.get<HN_SearchResponse>(`/search_by_date?query=${query}&tags=story&page=${page}`);
 	return res.data;
 }
