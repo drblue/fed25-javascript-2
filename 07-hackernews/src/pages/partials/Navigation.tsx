@@ -18,11 +18,11 @@ const Navigation = () => {
 					<Nav className="ms-auto">
 						<Nav.Link as={NavLink} end to="/search">Search</Nav.Link>
 					</Nav>
-				</Navbar.Collapse>
 
-				<Button onClick={toggleTheme} variant="outline-secondary">
-					{isDarkMode ? "☀️" : "🌙"}
-				</Button>
+					<Button onClick={toggleTheme} variant="outline-secondary">
+						{isDarkMode ? "☀️" : "🌙"}
+					</Button>
+				</Navbar.Collapse>
 			</Container>
 		</Navbar>
 	)
