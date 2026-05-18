@@ -1,6 +1,7 @@
 import { createContext } from "react";
 
 interface ThemeContextType {
+	isLightMode: boolean;
 	isDarkMode: boolean;
 	toggleTheme: () => void;
 }

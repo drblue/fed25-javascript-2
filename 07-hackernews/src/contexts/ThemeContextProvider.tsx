@@ -7,13 +7,14 @@ interface ThemeContextProviderProps {
 
 const ThemeContextProvider = ({ children }: ThemeContextProviderProps) => {
 	const [isDarkMode, setIsDarkMode] = useState(true);
+	const isLightMode = !isDarkMode;
 
 	const toggleTheme = () => {
 		setIsDarkMode(!isDarkMode);
 	}
 
 	return (
-		<ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
+		<ThemeContext.Provider value={{ isDarkMode, isLightMode, toggleTheme }}>
 			{/* ALL MY CHILDREN I WILL PROVIDE THEME CONTEXT TO */}
 			{children}
 		</ThemeContext.Provider>

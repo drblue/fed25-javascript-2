@@ -9,11 +9,11 @@ import SearchPage from "./pages/SearchPage";
 import "./assets/scss/App.scss";
 
 function App() {
-	const { isDarkMode } = useTheme();
+	const { isLightMode } = useTheme();
 
 	const appCssClasses = clsx({
-		"bg-white": !isDarkMode,
-		"text-dark": !isDarkMode,
+		"bg-white": isLightMode,
+		"text-dark": isLightMode,
 	});
 
 	return (
