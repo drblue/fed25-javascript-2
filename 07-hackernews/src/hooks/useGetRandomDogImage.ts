@@ -2,20 +2,21 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import type { RandomDogImage } from "../types/DogAPI.types";
 
-const useGetRandomDogImage = () => {
+const useGetRandomDogImage = (defaultUrl: string | null = null) => {
 	const [data, setData] = useState<RandomDogImage | null>(null);
 	const [error, setError] = useState<string | false>(false);
 	const [isLoading, setIsLoading] = useState(true);
+	const [requestUrl, setRequestUrl] = useState<string | null>(defaultUrl);
 
 	// 🦴
-	const getData = async () => {
+	const getData = async (resource: string) => {
 		// reset state
 		setData(null);
 		setIsLoading(true);
 
 		try {
 			// get data from api
-			const res = await axios.get<RandomDogImage>("https://dog.ceo/api/breeds/image/random");
+			const res = await axios.get<RandomDogImage>(resource);
 			await new Promise(r => setTimeout(r, 1500));
 
 			// update state with data
@@ -27,15 +28,24 @@ const useGetRandomDogImage = () => {
 		}
 	}
 
+	const setUrl = (url: string | null) => {
+		setRequestUrl(url);
+	}
+
 	useEffect(() => {
+		if (!requestUrl) {
+			return;
+		}
+
 		// eslint-disable-next-line react-hooks/set-state-in-effect
-		getData();
-	}, []);
+		getData(requestUrl);
+	}, [requestUrl]);
 
 	return {
 		data,
 		error,
 		isLoading,
+		setUrl,
 	}
 }
 

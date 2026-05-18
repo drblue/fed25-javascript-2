@@ -1,13 +1,24 @@
 import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
 import Image from "react-bootstrap/Image";
 import useGetRandomDogImage from "../hooks/useGetRandomDogImage";
 
 const RandomDogPage = () => {
-	const { data, error, isLoading } = useGetRandomDogImage();
+	const { data, error, isLoading, setUrl } = useGetRandomDogImage("https://dog.ceo/api/breeds/image/random");
 
 	return (
 		<>
 			<h1>A random doggo 🐶</h1>
+
+			<div className="buttons mb-3">
+				<Button
+					onClick={() => setUrl("https://dog.ceo/api/breeds/image/random")}
+				>Random doggo</Button>
+
+				<Button
+					onClick={() => setUrl("https://dog.ceo/api/breed/shiba/images/random")}
+				>Random Shiba fluffer</Button>
+			</div>
 
 			{error && <Alert variant="warning">{error}</Alert>}
 
