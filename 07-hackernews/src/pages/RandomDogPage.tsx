@@ -18,6 +18,11 @@ const RandomDogPage = () => {
 				<Button
 					onClick={() => setUrl("https://dog.ceo/api/breed/shiba/images/random")}
 				>Random Shiba fluffer</Button>
+
+				<Button
+					onClick={() => {}}
+					variant="success"
+				>MOAR doggos 🐶❤️!!</Button>
 			</div>
 
 			{error && <Alert variant="warning">{error}</Alert>}

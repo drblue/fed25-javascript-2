@@ -12,6 +12,7 @@ const useGetRandomDogImage = (defaultUrl: string | null = null) => {
 	const getData = async (resource: string) => {
 		// reset state
 		setData(null);
+		setError(false);
 		setIsLoading(true);
 
 		try {
