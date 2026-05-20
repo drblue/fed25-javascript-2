@@ -9,7 +9,11 @@ const useGetRandomDogImage = (defaultUrl: string | null = null) => {
 	const [requestUrl, setRequestUrl] = useState<string | null>(defaultUrl);
 
 	// 🦴
-	const getData = async (resource: string) => {
+	const getData = useCallback(async () => {
+		if (!requestUrl) {
+			return;
+		}
+
 		// reset state
 		setData(null);
 		setError(false);
@@ -17,7 +21,7 @@ const useGetRandomDogImage = (defaultUrl: string | null = null) => {
 
 		try {
 			// get data from api
-			const res = await axios.get<RandomDogImage>(resource);
+			const res = await axios.get<RandomDogImage>(requestUrl);
 			await new Promise(r => setTimeout(r, 1500));
 
 			// update state with data
@@ -27,14 +31,6 @@ const useGetRandomDogImage = (defaultUrl: string | null = null) => {
 		} finally {
 			setIsLoading(false);
 		}
-	}
-
-	const refetch = useCallback(() => {
-		if (!requestUrl) {
-			return;
-		}
-
-		getData(requestUrl);
 	}, [requestUrl]);
 
 	const setUrl = (url: string | null) => {
@@ -43,14 +39,14 @@ const useGetRandomDogImage = (defaultUrl: string | null = null) => {
 
 	useEffect(() => {
 		// eslint-disable-next-line react-hooks/set-state-in-effect
-		refetch();
-	}, [refetch]);
+		getData();
+	}, [getData]);
 
 	return {
 		data,
 		error,
 		isLoading,
-		refetch,
+		refetch: getData,
 		setUrl,
 	}
 }
