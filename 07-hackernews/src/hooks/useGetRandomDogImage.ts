@@ -7,10 +7,18 @@ import useGetData from "./useGetData"
  * Random breed: https://dog.ceo/api/breeds/image/random
  * Specific breed: https://dog.ceo/api/breed/{BREED}/images/random
  */
+const getImageUrl = (breed: string | null) => {
+	if (breed === null) {
+		return null;
+	}
+
+	return breed === "random"
+		? "https://dog.ceo/api/breeds/image/random"
+		: `https://dog.ceo/api/breed/${breed}/images/random`;
+}
+
 const useGetRandomDogImage = (breed: string | null = null) => {
-	const url = breed
-		? `https://dog.ceo/api/breed/${breed}/images/random`
-		: "https://dog.ceo/api/breeds/image/random";
+	const url = getImageUrl(breed);
 
 	return useGetData<RandomDogImage>(url);
 }

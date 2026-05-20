@@ -14,7 +14,7 @@ const RandomDogPage = () => {
 
 			<div className="buttons mb-3">
 				<Button
-					onClick={() => setBreed(null)}
+					onClick={() => setBreed("random")}
 				>Random doggo</Button>
 
 				<Button
