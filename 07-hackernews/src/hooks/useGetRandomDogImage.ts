@@ -18,7 +18,7 @@ const getImageUrl = (breed: string | null) => {
 }
 
 const useGetRandomDogImage = (breed: string | null = null) => {
-	const url = getImageUrl(breed);
+	let url = getImageUrl(breed);
 
 	return useGetData<RandomDogImage>(url);
 }
