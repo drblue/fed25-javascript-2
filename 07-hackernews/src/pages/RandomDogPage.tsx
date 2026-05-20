@@ -5,8 +5,8 @@ import Image from "react-bootstrap/Image";
 import useGetRandomDogImage from "../hooks/useGetRandomDogImage";
 
 const RandomDogPage = () => {
-	const [url, setUrl] = useState("https://dog.ceo/api/breeds/image/random");
-	const { data, error, isError, isLoading, refetch } = useGetRandomDogImage(url);
+	const [breed, setBreed] = useState<string | null>(null);
+	const { data, error, isError, isLoading, refetch } = useGetRandomDogImage(breed);
 
 	return (
 		<>
@@ -14,11 +14,15 @@ const RandomDogPage = () => {
 
 			<div className="buttons mb-3">
 				<Button
-					onClick={() => setUrl("https://dog.ceo/api/breeds/image/random")}
+					onClick={() => setBreed(null)}
 				>Random doggo</Button>
 
 				<Button
-					onClick={() => setUrl("https://dog.ceo/api/breed/shiba/images/random")}
+					onClick={() => setBreed("boxer")}
+				>Random Boxer fluffer</Button>
+
+				<Button
+					onClick={() => setBreed("shiba")}
 				>Random Shiba fluffer</Button>
 
 				<Button
@@ -27,12 +31,12 @@ const RandomDogPage = () => {
 				>MOAR doggos 🐶❤️!!</Button>
 
 				<Button
-					onClick={() => setUrl("https://dog.ceo/api/breed/lolcat/images/random")}
+					onClick={() => setBreed("lolcat")}
 					variant="danger"
 				>Make things go 💣</Button>
 
 				<Button
-					onClick={() => setUrl("https://oidmr8pvyiodrtmviutmc.com")}
+					onClick={() => setBreed("https://oidmr8pvyiodrtmviutmc.com")}
 					variant="danger"
 				>Break more stuff 🧨</Button>
 			</div>
