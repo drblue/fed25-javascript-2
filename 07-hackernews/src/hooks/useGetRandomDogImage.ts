@@ -5,7 +5,7 @@ import type { RandomDogImage } from "../types/DogAPI.types";
 const useGetRandomDogImage = (defaultUrl: string | null = null) => {
 	const [data, setData] = useState<RandomDogImage | null>(null);
 	const [error, setError] = useState<Error | null>(null);
-	const [isLoading, setIsLoading] = useState(true);
+	const [status, setStatus] = useState<"error" | "loading" | "pending" | "success">("pending");
 	const [requestUrl, setRequestUrl] = useState<string | null>(defaultUrl);
 
 	// 🦴
@@ -17,7 +17,7 @@ const useGetRandomDogImage = (defaultUrl: string | null = null) => {
 		// reset state
 		setData(null);
 		setError(null);
-		setIsLoading(true);
+		setStatus("loading");
 
 		try {
 			// get data from api
@@ -31,8 +31,9 @@ const useGetRandomDogImage = (defaultUrl: string | null = null) => {
 				? err
 				: new Error("Unknown error when fetching doggos, who let the dogs out?")
 			);
+			setStatus("error");
 		} finally {
-			setIsLoading(false);
+			setStatus("success");
 		}
 	}, [requestUrl]);
 
@@ -48,8 +49,10 @@ const useGetRandomDogImage = (defaultUrl: string | null = null) => {
 	return {
 		data,
 		error,
-		isError: error !== null,
-		isLoading,
+		isError: status === "error",
+		isLoading: status === "loading",
+		isPending: status === "pending",
+		isSuccess: status === "success",
 		refetch: getData,
 		setUrl,
 	}
