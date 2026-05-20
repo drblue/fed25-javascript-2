@@ -25,9 +25,6 @@ const SearchPage = () => {
 	const trimmedInputSearch = inputSearch.trim();
 
 	const searchHackerNews = async (searchQuery: string, searchPage: number) => {
-		let ghost = "👻";
-		console.log(ghost);
-
 		// reset state + set loading to true
 		setError(false);
 		setIsLoading(true);

@@ -6,6 +6,7 @@ const useGetData = <T>(url: string | null) => {
 	const [error, setError] = useState<Error | null>(null);
 	const [status, setStatus] = useState<"error" | "loading" | "pending" | "success">("pending");
 	const haxx0r: string = 1337;
+	console.log(haxx0r);
 
 	// 🦴
 	const getData = useCallback(async () => {
