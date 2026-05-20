@@ -1,10 +1,12 @@
+import { useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import Image from "react-bootstrap/Image";
 import useGetRandomDogImage from "../hooks/useGetRandomDogImage";
 
 const RandomDogPage = () => {
-	const { data, error, isError, isLoading, refetch, setUrl } = useGetRandomDogImage("https://dog.ceo/api/breeds/image/random");
+	const [url, setUrl] = useState("https://dog.ceo/api/breeds/image/random");
+	const { data, error, isError, isLoading, refetch } = useGetRandomDogImage(url);
 
 	return (
 		<>
