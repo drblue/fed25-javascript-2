@@ -29,6 +29,14 @@ const useGetRandomDogImage = (defaultUrl: string | null = null) => {
 		}
 	}
 
+	const refetch = () => {
+		if (!requestUrl) {
+			return;
+		}
+
+		getData(requestUrl);
+	}
+
 	const setUrl = (url: string | null) => {
 		setRequestUrl(url);
 	}
@@ -46,6 +54,7 @@ const useGetRandomDogImage = (defaultUrl: string | null = null) => {
 		data,
 		error,
 		isLoading,
+		refetch,
 		setUrl,
 	}
 }
