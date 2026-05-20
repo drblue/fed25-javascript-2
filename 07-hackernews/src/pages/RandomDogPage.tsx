@@ -4,7 +4,7 @@ import Image from "react-bootstrap/Image";
 import useGetRandomDogImage from "../hooks/useGetRandomDogImage";
 
 const RandomDogPage = () => {
-	const { data, error, isLoading, refetch, setUrl } = useGetRandomDogImage("https://dog.ceo/api/breeds/image/random");
+	const { data, error, isError, isLoading, refetch, setUrl } = useGetRandomDogImage("https://dog.ceo/api/breeds/image/random");
 
 	return (
 		<>
@@ -35,7 +35,7 @@ const RandomDogPage = () => {
 				>Break more stuff 🧨</Button>
 			</div>
 
-			{error && <Alert variant="warning">{error.message}</Alert>}
+			{isError && <Alert variant="warning">{error!.message}</Alert>}
 
 			{isLoading && <p>Fetching doggo 🐶...</p>}
 
