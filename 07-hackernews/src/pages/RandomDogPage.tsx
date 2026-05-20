@@ -23,6 +23,16 @@ const RandomDogPage = () => {
 					onClick={() => refetch()}
 					variant="success"
 				>MOAR doggos 🐶❤️!!</Button>
+
+				<Button
+					onClick={() => setUrl("https://dog.ceo/api/breed/lolcat/images/random")}
+					variant="danger"
+				>Make things go 💣</Button>
+
+				<Button
+					onClick={() => setUrl("https://oidmr8pvyiodrtmviutmc.com")}
+					variant="danger"
+				>Break more stuff 🧨</Button>
 			</div>
 
 			{error && <Alert variant="warning">{error}</Alert>}
