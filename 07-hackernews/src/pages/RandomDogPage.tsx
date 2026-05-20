@@ -35,7 +35,7 @@ const RandomDogPage = () => {
 				>Break more stuff 🧨</Button>
 			</div>
 
-			{error && <Alert variant="warning">{error}</Alert>}
+			{error && <Alert variant="warning">{error.message}</Alert>}
 
 			{isLoading && <p>Fetching doggo 🐶...</p>}
 
