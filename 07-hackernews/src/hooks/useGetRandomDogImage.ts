@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { RandomDogImage } from "../types/DogAPI.types";
 
 const useGetRandomDogImage = (defaultUrl: string | null = null) => {
@@ -29,26 +29,22 @@ const useGetRandomDogImage = (defaultUrl: string | null = null) => {
 		}
 	}
 
-	const refetch = () => {
+	const refetch = useCallback(() => {
 		if (!requestUrl) {
 			return;
 		}
 
 		getData(requestUrl);
-	}
+	}, [requestUrl]);
 
 	const setUrl = (url: string | null) => {
 		setRequestUrl(url);
 	}
 
 	useEffect(() => {
-		if (!requestUrl) {
-			return;
-		}
-
 		// eslint-disable-next-line react-hooks/set-state-in-effect
-		getData(requestUrl);
-	}, [requestUrl]);
+		refetch();
+	}, [refetch]);
 
 	return {
 		data,
