@@ -35,7 +35,7 @@ const SearchPage = () => {
 			const data = await searchByDate(searchQuery, searchPage);
 			setSearchResult(data);
 
-		} catch (err) {
+		} catch (err: unknown) {
 			console.error(`Error thrown when searching for "${searchQuery}":`, err);
 			setError(err instanceof Error
 				? err.message

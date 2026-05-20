@@ -25,7 +25,7 @@ const useGetData = <T>(url: string | null) => {
 			// update state with data
 			setData(res.data);
 			setStatus("success");
-		} catch (err) {
+		} catch (err: unknown) {
 			setError(err instanceof Error
 				? err
 				: new Error("Unknown error when fetching doggos, who let the dogs out?")

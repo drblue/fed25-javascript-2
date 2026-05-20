@@ -23,8 +23,8 @@ const http = axios.create({
  * @param endpoint Endpoint to GET
  */
 const get = async <T>(endpoint: string) => {
-	const res = await http.get(endpoint);
-	return res.data as T;
+	const res = await http.get<T>(endpoint);
+	return res.data;
 }
 
 /**
