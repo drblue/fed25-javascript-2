@@ -26,14 +26,13 @@ const useGetRandomDogImage = (defaultUrl: string | null = null) => {
 
 			// update state with data
 			setData(res.data);
+			setStatus("success");
 		} catch (err) {
 			setError(err instanceof Error
 				? err
 				: new Error("Unknown error when fetching doggos, who let the dogs out?")
 			);
 			setStatus("error");
-		} finally {
-			setStatus("success");
 		}
 	}, [requestUrl]);
 
