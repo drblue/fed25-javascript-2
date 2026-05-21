@@ -1,8 +1,13 @@
+import type { ComponentProps } from "react";
 import Spinner from "react-bootstrap/Spinner";
 
-const BorderSpinner = () => {
+interface BorderSpinnerProps extends ComponentProps<"div"> {
+	text?: string;
+}
+
+const BorderSpinner: React.FC<BorderSpinnerProps> = ({ text, ...props }) => {
 	return (
-		<>
+		<div {...props}>
 			<Spinner
 				animation="border"
 				as="span"
@@ -11,8 +16,10 @@ const BorderSpinner = () => {
 			>
 			</Spinner>
 			{" "}
-			<span className="loading-text">Loading...</span>
-		</>
+			<span className="loading-text">
+				{text ?? "Loading..."}
+			</span>
+		</div>
 	)
 }
 

@@ -16,7 +16,7 @@ const ChuckNorrisPage = () => {
 					onClick={refetch}
 				>
 					{isLoading
-						? <BorderSpinner />
+						? <BorderSpinner text="Summoning the almighy..." />
 						: <>😎 Summon Chuck Norris</>
 					}
 				</Button>
