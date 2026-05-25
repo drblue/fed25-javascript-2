@@ -5,14 +5,12 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { Link } from "react-router";
 import { getProducts } from "../services/BortakvallAPI";
-import LoadingSpinner from "../components/spinners/LoadingSpinner";
 
 const ProductsPage = () => {
 	const {
 		data: products,
 		error,
 		isError,
-		isFetching,
 		isLoading,
 		isSuccess,
 	} = useQuery({
@@ -41,8 +39,6 @@ const ProductsPage = () => {
 			<p>Cotton candy wafer fruitcake bonbon bonbon. Lollipop cupcake cotton candy pastry sesame snaps. Fruitcake danish fruitcake topping gummies ice cream cheesecake cheesecake lemon drops.</p>
 
 			{isError && <Alert variant="danger">{error.message}</Alert>}
-
-			{isFetching && <LoadingSpinner />}
 
 			{isLoading && <p>Loading candy 🍬🍭🍫...</p>}
 

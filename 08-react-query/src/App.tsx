@@ -1,6 +1,7 @@
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Container from "react-bootstrap/Container";
 import { Route, Routes } from "react-router";
+import GlobalLoadingSpinner from "./components/spinners/GlobalLoadingSpinner";
 import Navigation from "./pages/partials/Navigation";
 import HomePage from "./pages/HomePage";
 import NotFoundPage from "./pages/NotFoundPage";
@@ -14,6 +15,7 @@ function App() {
 			<Navigation />
 
 			<Container className="py-3">
+				<GlobalLoadingSpinner />
 				<Routes>
 					<Route path="/" element={<HomePage />} />
 					<Route path="/products" element={<ProductsPage />} />
