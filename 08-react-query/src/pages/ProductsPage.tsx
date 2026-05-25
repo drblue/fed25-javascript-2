@@ -7,7 +7,18 @@ import Row from "react-bootstrap/Row";
 import { getProducts } from "../services/BortakvallAPI";
 
 const ProductsPage = () => {
-	const { data: products, error, isError, isLoading, isSuccess } = useQuery({
+	const {
+		data: products,
+		error,
+		isError,
+		isFetching,
+		isLoading,
+		isPending,
+		isRefetching,
+		isStale,
+		isSuccess,
+		status,
+	} = useQuery({
 		queryKey: ["products"],
 		queryFn: getProducts,
 	});
@@ -16,6 +27,17 @@ const ProductsPage = () => {
 		<>
 			<title>Products</title>
 			<h1>Products</h1>
+
+			<pre className="bg-light py-2 px-3">
+				isError: {String(isError)}<br />
+				isFetching: {String(isFetching)}<br />
+				isLoading: {String(isLoading)}<br />
+				isPending: {String(isPending)}<br />
+				isRefetching: {String(isRefetching)}<br />
+				isStale: {String(isStale)}<br />
+				isSuccess: {String(isSuccess)}<br />
+				status: {String(status)}
+			</pre>
 
 			<p>Cotton candy wafer fruitcake bonbon bonbon. Lollipop cupcake cotton candy pastry sesame snaps. Fruitcake danish fruitcake topping gummies ice cream cheesecake cheesecake lemon drops.</p>
 

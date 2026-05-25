@@ -21,7 +21,7 @@ const get = async <T>(endpoint: string) => {
 	const res = await http.get<T>(endpoint);
 
 	// Fake slow api 🐢
-	await new Promise(r => setTimeout(r, 1000));
+	await new Promise(r => setTimeout(r, 5000));
 
 	return res.data;
 }
