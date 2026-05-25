@@ -3,6 +3,7 @@ import Alert from "react-bootstrap/Alert";
 import Image from "react-bootstrap/Image";
 import { useParams } from "react-router";
 import { getProduct } from "../services/BortakvallAPI";
+import { striptags } from "../utils/strings";
 
 const ProductPage = () => {
 	const { id } = useParams();
@@ -27,7 +28,7 @@ const ProductPage = () => {
 
 			<Image src={"https://www.bortakvall.se" + product.images.large} className="w-50" fluid />
 
-			<p>{product.description}</p>
+			<p>{striptags(product.description)}</p>
 			<p><strong>Pris:</strong> {product.price} kr</p>
 		</>
 	)
