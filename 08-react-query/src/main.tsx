@@ -5,7 +5,14 @@ import { BrowserRouter } from "react-router";
 import App from "./App.tsx";
 
 // Create a query client
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			refetchOnWindowFocus: false,
+			staleTime: 1000 * 15,  // 15 seconds
+		},
+	},
+});
 
 createRoot(document.getElementById("root")!).render(
 	<StrictMode>
