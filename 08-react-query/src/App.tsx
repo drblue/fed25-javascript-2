@@ -1,3 +1,4 @@
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Container from "react-bootstrap/Container";
 import { Route, Routes } from "react-router";
 import Navigation from "./pages/partials/Navigation";
@@ -18,6 +19,8 @@ function App() {
 					<Route path="*" element={<NotFoundPage />} />
 				</Routes>
 			</Container>
+
+			<ReactQueryDevtools />
 		</div>
 	);
 }
