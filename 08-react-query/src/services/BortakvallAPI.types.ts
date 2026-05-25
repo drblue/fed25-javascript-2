@@ -1,7 +1,10 @@
-export interface ProductsResponse {
+export interface ApiResponse<T> {
 	status: "fail" | "error" | "success";
-	data: Product[];
+	data: T;
 }
+
+export type ProductsResponse = ApiResponse<Product[]>;
+export type ProductResponse = ApiResponse<ProductDetail>;
 
 export interface Product {
 	id: number;
@@ -12,6 +15,10 @@ export interface Product {
 	stock_status: "instock" | "outofstock";
 	stock_quantity: number | null;
 	tags: ProductTag[];
+}
+
+export interface ProductDetail extends Product {
+	description: string;
 }
 
 interface ProductImages {

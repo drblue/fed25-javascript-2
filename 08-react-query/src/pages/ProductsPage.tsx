@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import Alert from "react-bootstrap/Alert";
-import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import { Link } from "react-router";
 import { getProducts } from "../services/BortakvallAPI";
 import LoadingSpinner from "../components/spinners/LoadingSpinner";
 
@@ -50,13 +50,18 @@ const ProductsPage = () => {
 				{products.map(product => (
 					<Col key={product.id}>
 						<Card>
-							<Card.Img variant="top" src={"https://www.bortakvall.se" + product.images.thumbnail} />
+							<Link to={"/products/" + product.id}>
+								<Card.Img variant="top" src={"https://www.bortakvall.se" + product.images.thumbnail} />
+							</Link>
 							<Card.Body>
 								<Card.Title>{product.name}</Card.Title>
 								<Card.Text>
 									{product.price} kr
 								</Card.Text>
-								<Button variant="primary">Go to product</Button>
+								<Link
+									className="btn btn-primary"
+									to={"/products/" + product.id}
+								>Go to product</Link>
 							</Card.Body>
 						</Card>
 					</Col>
