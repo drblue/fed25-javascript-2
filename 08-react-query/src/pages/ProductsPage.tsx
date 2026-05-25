@@ -5,6 +5,7 @@ import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { getProducts } from "../services/BortakvallAPI";
+import LoadingSpinner from "../components/spinners/LoadingSpinner";
 
 const ProductsPage = () => {
 	const {
@@ -13,11 +14,7 @@ const ProductsPage = () => {
 		isError,
 		isFetching,
 		isLoading,
-		isPending,
-		isRefetching,
-		isStale,
 		isSuccess,
-		status,
 	} = useQuery({
 		queryKey: ["products"],
 		queryFn: getProducts,
@@ -28,6 +25,7 @@ const ProductsPage = () => {
 			<title>Products</title>
 			<h1>Products</h1>
 
+			{/*
 			<pre className="bg-light py-2 px-3">
 				isError: {String(isError)}<br />
 				isFetching: {String(isFetching)}<br />
@@ -38,10 +36,13 @@ const ProductsPage = () => {
 				isSuccess: {String(isSuccess)}<br />
 				status: {String(status)}
 			</pre>
+			*/}
 
 			<p>Cotton candy wafer fruitcake bonbon bonbon. Lollipop cupcake cotton candy pastry sesame snaps. Fruitcake danish fruitcake topping gummies ice cream cheesecake cheesecake lemon drops.</p>
 
 			{isError && <Alert variant="danger">{error.message}</Alert>}
+
+			{isFetching && <LoadingSpinner />}
 
 			{isLoading && <p>Loading candy 🍬🍭🍫...</p>}
 
