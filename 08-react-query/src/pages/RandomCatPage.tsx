@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import Image from "react-bootstrap/Image";
+import CatSpinner from "../components/spinners/CatSpinner";
 import { getRandomCatImage } from "../services/TheCatAPI";
 
 const RandomCatPage = () => {
@@ -17,6 +18,8 @@ const RandomCatPage = () => {
 			<p>A cat's behaviour is random, so here's a random cat for you! Such random, very catlike, much hairball.</p>
 
 			{isError && <Alert variant="warning">{error.message}</Alert>}
+
+			{isFetching && <CatSpinner />}
 
 			<div className="d-flex justify-content-center mb-3">
 				<Button
