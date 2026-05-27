@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Image from "react-bootstrap/Image";
 import CatSpinner from "../components/spinners/CatSpinner";
-import { getRandomCatImage } from "../services/TheCatAPI";
+import { CAT_BREEDS, getRandomCatImage } from "../services/TheCatAPI";
 
 const RandomCatPage = () => {
 	const [breed, setBreed] = useState("");  // ragd, sibe, beng, pers, norw, sphy
@@ -25,12 +25,13 @@ const RandomCatPage = () => {
 			{isFetching && <CatSpinner />}
 
 			<ButtonGroup className="d-flex justify-content-center mb-3">
-				<Button variant={breed === "" ? "success" : "secondary"} onClick={() => setBreed("")}>Any</Button>
-				<Button variant={breed === "ragd" ? "success" : "secondary"} onClick={() => setBreed("ragd")}>Ragdoll</Button>
-				<Button variant={breed === "sibe" ? "success" : "secondary"} onClick={() => setBreed("sibe")}>Siberian</Button>
-				<Button variant={breed === "beng" ? "success" : "secondary"} onClick={() => setBreed("beng")}>Bengal</Button>
-				<Button variant={breed === "pers" ? "success" : "secondary"} onClick={() => setBreed("pers")}>Persian</Button>
-				<Button variant={breed === "norw" ? "success" : "secondary"} onClick={() => setBreed("norw")}>Norwegian</Button>
+				{CAT_BREEDS.map(cat_breed => (
+					<Button
+						key={cat_breed.id}
+						onClick={() => setBreed(cat_breed.id)}
+						variant={breed === cat_breed.id ? "success" : "secondary"}
+					>{cat_breed.name}</Button>
+				))}
 			</ButtonGroup>
 
 			<div className="d-flex justify-content-center mb-3">

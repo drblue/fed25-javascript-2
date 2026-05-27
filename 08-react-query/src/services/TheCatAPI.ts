@@ -10,6 +10,14 @@ import type { CatImage } from "./TheCatAPI.types";
 const API_KEY = import.meta.env.VITE_CATAPI_KEY;
 const FAKE_DELAY = 2500;
 
+export const CAT_BREEDS = [
+	{ id: "", name: "Any" },
+	{ id: "ragd", name: "Ragdoll" },
+	{ id: "sibe", name: "Siberian" },
+	{ id: "beng", name: "Bengal" },
+	{ id: "pers", name: "Persian" },
+];
+
 if (!API_KEY) {
 	throw new Error("VITE_CATAPI_KEY missing in environment variables");
 }
