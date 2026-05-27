@@ -15,6 +15,7 @@ const HackerNewsSearchPage = () => {
 	const { data: searchResult, error, isError, isFetching, isLoading } = useQuery({
 		queryKey: ["search-hn", { page, query }],
 		queryFn: () => searchByDate(query, page),
+		enabled: !!query,  // Boolean(query)  converts query (string) to a boolean value
 	});
 
 	// 💇🏼‍♀️
