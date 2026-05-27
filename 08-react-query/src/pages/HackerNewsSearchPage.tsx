@@ -25,7 +25,7 @@ const HackerNewsSearchPage = () => {
 		e.preventDefault();
 
 		// Prevent smol searches
-		if (trimmedInputSearch.length < 2) {
+		if (trimmedInputSearch.length < 3) {
 			alert("Too short search query! Enter at least 3 characters to search for");
 			return;
 		}
