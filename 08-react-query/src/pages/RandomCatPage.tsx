@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Form from "react-bootstrap/Form";
 import Image from "react-bootstrap/Image";
 import CatSpinner from "../components/spinners/CatSpinner";
 import { CAT_BREEDS, getRandomCatImage } from "../services/TheCatAPI";
@@ -24,15 +24,17 @@ const RandomCatPage = () => {
 
 			{isFetching && <CatSpinner />}
 
-			<ButtonGroup className="d-flex justify-content-center mb-3">
+			<Form.Select
+				aria-label="Select cat breed"
+				className="mb-3"
+				onChange={e => setBreed(e.target.value)}
+				value={breed}
+			>
+				<option value="">Any</option>
 				{CAT_BREEDS.map(cat_breed => (
-					<Button
-						key={cat_breed.id}
-						onClick={() => setBreed(cat_breed.id)}
-						variant={breed === cat_breed.id ? "success" : "secondary"}
-					>{cat_breed.name}</Button>
+					<option key={cat_breed.id} value={cat_breed.id}>{cat_breed.name}</option>
 				))}
-			</ButtonGroup>
+			</Form.Select>
 
 			<div className="d-flex justify-content-center mb-3">
 				<Button
