@@ -28,6 +28,7 @@ const Navigation = () => {
 							</Badge>
 						</Nav.Link>
 						<Nav.Link as={NavLink} end to="/random-cat">🐱 Random Cat</Nav.Link>
+						<Nav.Link as={NavLink} end to="/search-hn">🕵🏻‍♂️ Search HN</Nav.Link>
 					</Nav>
 				</Navbar.Collapse>
 			</Container>

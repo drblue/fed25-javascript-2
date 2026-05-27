@@ -3,6 +3,7 @@ import Container from "react-bootstrap/Container";
 import { Route, Routes } from "react-router";
 import GlobalLoadingSpinner from "./components/spinners/GlobalLoadingSpinner";
 import Navigation from "./pages/partials/Navigation";
+import HackerNewsSearchPage from "./pages/HackerNewsSearchPage";
 import HomePage from "./pages/HomePage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ProductsPage from "./pages/ProductsPage";
@@ -22,6 +23,7 @@ function App() {
 					<Route path="/products" element={<ProductsPage />} />
 					<Route path="/products/:id" element={<ProductPage />} />
 					<Route path="/random-cat" element={<RandomCatPage />} />
+					<Route path="/search-hn" element={<HackerNewsSearchPage />} />
 					<Route path="*" element={<NotFoundPage />} />
 				</Routes>
 			</Container>
