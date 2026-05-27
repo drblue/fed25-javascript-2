@@ -27,6 +27,7 @@ const Navigation = () => {
 								{isSuccess ? products.length : "-"}
 							</Badge>
 						</Nav.Link>
+						<Nav.Link as={NavLink} end to="/random-cat">🐱 Random Cat</Nav.Link>
 					</Nav>
 				</Navbar.Collapse>
 			</Container>
