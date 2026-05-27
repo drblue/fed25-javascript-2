@@ -46,5 +46,11 @@ const get = async <T>(endpoint: string) => {
  */
 export const getRandomCatImage = async () => {
 	const data = await get<CatImage[]>("/images/search");
+	/*
+	const fail = Math.random() > 0.2;
+	if (fail) {
+		throw new Error("The Cat has you!");
+	}
+	*/
 	return data[0];
 }

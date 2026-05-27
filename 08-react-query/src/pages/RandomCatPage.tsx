@@ -5,7 +5,7 @@ import Image from "react-bootstrap/Image";
 import { getRandomCatImage } from "../services/TheCatAPI";
 
 const RandomCatPage = () => {
-	const { data, error, isError, isSuccess, refetch } = useQuery({
+	const { data, error, isError, isFetching, isSuccess, refetch } = useQuery({
 		queryKey: ["random-cat"],
 		queryFn: getRandomCatImage,
 	});
@@ -20,7 +20,8 @@ const RandomCatPage = () => {
 
 			<div className="d-flex justify-content-center mb-3">
 				<Button
-					onClick={() => refetch()}
+					disabled={isFetching}
+					onClick={() => refetch({ throwOnError: true })}
 				>MJAU CATS!!</Button>
 			</div>
 
