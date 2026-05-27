@@ -25,12 +25,12 @@ const RandomCatPage = () => {
 			{isFetching && <CatSpinner />}
 
 			<ButtonGroup className="d-flex justify-content-center mb-3">
-				<Button variant="secondary" onClick={() => setBreed("")}>Any</Button>
-				<Button variant="secondary" onClick={() => setBreed("ragd")}>Ragdoll</Button>
-				<Button variant="secondary" onClick={() => setBreed("sibe")}>Siberian</Button>
-				<Button variant="secondary" onClick={() => setBreed("beng")}>Bengal</Button>
-				<Button variant="secondary" onClick={() => setBreed("pers")}>Persian</Button>
-				<Button variant="secondary" onClick={() => setBreed("norw")}>Norwegian</Button>
+				<Button variant={breed === "" ? "success" : "secondary"} onClick={() => setBreed("")}>Any</Button>
+				<Button variant={breed === "ragd" ? "success" : "secondary"} onClick={() => setBreed("ragd")}>Ragdoll</Button>
+				<Button variant={breed === "sibe" ? "success" : "secondary"} onClick={() => setBreed("sibe")}>Siberian</Button>
+				<Button variant={breed === "beng" ? "success" : "secondary"} onClick={() => setBreed("beng")}>Bengal</Button>
+				<Button variant={breed === "pers" ? "success" : "secondary"} onClick={() => setBreed("pers")}>Persian</Button>
+				<Button variant={breed === "norw" ? "success" : "secondary"} onClick={() => setBreed("norw")}>Norwegian</Button>
 			</ButtonGroup>
 
 			<div className="d-flex justify-content-center mb-3">
