@@ -1,16 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import ListGroup from "react-bootstrap/ListGroup";
+import { useSearchParams } from "react-router";
 import Pagination from "../components/Pagination";
 import { searchByDate } from "../services/HackerNewsAPI";
 
 const HackerNewsSearchPage = () => {
 	const [inputSearch, setInputSearch] = useState("");
 	const [page, setPage] = useState(0);
-	const [query, setQuery] = useState<string>("");
+	const [searchParams, setSearchParams] = useSearchParams();
+
+	// get `query` from search params
+	const query = searchParams.get("query") ?? "";
 
 	const { data: searchResult, error, isError, isFetching, isLoading } = useQuery({
 		queryKey: ["search-hn", { page, query }],
@@ -32,14 +36,21 @@ const HackerNewsSearchPage = () => {
 
 		// Search Haxx0r News 🕵🏻‍♂️📰
 		setPage(0);
-		setQuery(inputSearch);
+		setSearchParams({ query: trimmedInputSearch });  // search-hn?query=tesla
 	}
 
 	const handleReset = () => {
 		setPage(0);
 		setInputSearch("");
-		setQuery("");
+		setSearchParams();  // remove all search-params from url
 	}
+
+	// update search field with current query from URLSearchParams
+	useEffect(() => {
+		(() => {
+			setInputSearch(query);
+		})();
+	}, [query]);
 
 	return (
 		<>
