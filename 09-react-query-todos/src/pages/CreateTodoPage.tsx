@@ -19,7 +19,7 @@ const CreateTodoPage = () => {
 		}
 
 		// Call mutation 🐢☢️
-		createTodoMutation.mutate(payload);
+		await createTodoMutation.mutateAsync(payload);
 	}
 
 	return (
@@ -28,7 +28,7 @@ const CreateTodoPage = () => {
 
 			{createTodoMutation.isError && <Alert variant="warning">{createTodoMutation.error.message}</Alert>}
 
-			<AddNewTodoForm onAdd={handleCreateTodo} />
+			<AddNewTodoForm isCreating={createTodoMutation.isPending} onAdd={handleCreateTodo} />
 
 			{createTodoMutation.isSuccess && (
 				<Alert variant="success">

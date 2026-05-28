@@ -1,18 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 
 interface AddNewTodoFormProps {
-	onAdd: (title: string) => void;
+	isCreating: boolean;
+	onAdd: (title: string) => Promise<void>;
 }
 
-const AddNewTodoForm: React.FC<AddNewTodoFormProps> = ({ onAdd }) => {
+const AddNewTodoForm: React.FC<AddNewTodoFormProps> = ({ isCreating, onAdd }) => {
 	const [inputTodoTitle, setInputTodoTitle] = useState("");
 	const inputTodoTitleRef = useRef<HTMLInputElement>(null);
 
-	const handleSubmit = (e: React.SubmitEvent) => {
+	const handleSubmit = async (e: React.SubmitEvent) => {
 		e.preventDefault();
 
 		// Tell parent to create a new todo with `inputTodoTitle` as the title
-		onAdd(inputTodoTitle.trim());
+		await onAdd(inputTodoTitle.trim());
 
 		// Clear input field
 		setInputTodoTitle("");
@@ -43,7 +44,7 @@ const AddNewTodoForm: React.FC<AddNewTodoFormProps> = ({ onAdd }) => {
 
 				<button
 					className="btn btn-success"
-					disabled={inputTodoTitle.trim().length < 3}
+					disabled={inputTodoTitle.trim().length < 3 || isCreating}
 					type="submit"
 				>👶🏻</button>
 			</div>
