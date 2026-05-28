@@ -1,54 +1,25 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import Alert from "react-bootstrap/Alert";
 import ListGroup from "react-bootstrap/ListGroup";
 import Spinner from "react-bootstrap/Spinner";
 import { Link } from "react-router";
 import TodoCounter from "../components/TodoCounter";
 import * as TodoAPI from "../services/TodoAPI";
-import type { Todo } from "../services/TodoAPI.types";
 
 const TodosPage = () => {
-	const [error, setError] = useState<string | false>(false);
-	const [isLoading, setIsLoading] = useState(false);
-	const [todos, setTodos] = useState<Todo[] | null>(null);
-
-	const getTodos = async () => {
-		// reset state
-		setError(false);
-		setIsLoading(true);
-		setTodos(null);
-
-		// make request to api
-		try {
-			const data = await TodoAPI.getTodos();
-
-			// sort data
-			const sortedTodos = data
-				.sort((a: Todo, b: Todo) => a.title.localeCompare(b.title))
-				.sort((a: Todo, b: Todo) => Number(a.completed) - Number(b.completed));
-
-			setTodos(sortedTodos);
-		} catch (err) {
-			console.error("Error thrown when fetching todos:", err);
-			setError(err instanceof Error ? err.message : "It's not me, it's you");
-		} finally {
-			setIsLoading(false);
-		}
-	}
-
-	useEffect(() => {
-		// eslint-disable-next-line react-hooks/set-state-in-effect
-		getTodos();
-	}, []);
+	const { data: todos, error, isError, isLoading } = useQuery({
+		queryKey: ["todos"],
+		queryFn: TodoAPI.getTodos,
+	});
 
 	return (
 		<>
 			<title>Todos</title>
 			<h1>Todos</h1>
 
-			{error && (
+			{isError && (
 				<Alert variant="danger">
-					{error}
+					{error.message}
 				</Alert>
 			)}
 
