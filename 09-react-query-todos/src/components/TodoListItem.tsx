@@ -1,6 +1,6 @@
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
-import type { Todo } from "../types/Todo";
+import type { Todo } from "../services/TodoAPI.types";
 
 interface TodoListItemProps {
 	onDelete: (todo: Todo) => void;

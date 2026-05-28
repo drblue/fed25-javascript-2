@@ -5,7 +5,7 @@ import Spinner from "react-bootstrap/Spinner";
 import { Link } from "react-router";
 import TodoCounter from "../components/TodoCounter";
 import * as TodoAPI from "../services/TodoAPI";
-import type { Todo } from "../types/Todo";
+import type { Todo } from "../services/TodoAPI.types";
 
 const TodosPage = () => {
 	const [error, setError] = useState<string | false>(false);

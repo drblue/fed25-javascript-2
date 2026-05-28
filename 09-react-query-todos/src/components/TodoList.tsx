@@ -1,5 +1,5 @@
 import ListGroup from "react-bootstrap/ListGroup";
-import type { Todo } from "../types/Todo";
+import type { Todo } from "../services/TodoAPI.types";
 import TodoListItem from "./TodoListItem";
 
 interface TodoListProps {

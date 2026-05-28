@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import { Link, useNavigate, useParams } from "react-router";
 import ConfirmationModal from "../components/ConfirmationModal";
 import * as TodoAPI from "../services/TodoAPI";
-import type { Todo } from "../types/Todo";
+import type { Todo } from "../services/TodoAPI.types";
 
 const TodoPage = () => {
 	const [error, setError] = useState<string | false>(false);

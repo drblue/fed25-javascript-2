@@ -2,7 +2,7 @@
  * Service for communicating with the json-server backend
  */
 import axios from "axios";
-import type { CreateTodoPayload, Todo, UpdateTodoPayload } from "../types/Todo";
+import type { CreateTodoPayload, Todo, UpdateTodoPayload } from "./TodoAPI.types";
 
 const BASE_URL = "http://localhost:3000";
 const FAKE_DELAY = 1500;
