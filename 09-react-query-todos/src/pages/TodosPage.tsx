@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import Alert from "react-bootstrap/Alert";
 import ListGroup from "react-bootstrap/ListGroup";
-import Spinner from "react-bootstrap/Spinner";
 import { Link } from "react-router";
 import TodoCounter from "../components/TodoCounter";
 import * as TodoAPI from "../services/TodoAPI";
@@ -24,9 +23,7 @@ const TodosPage = () => {
 			)}
 
 			{isLoading && (
-				<Spinner animation="border" role="status">
-					<span className="visually-hidden">Loading...</span>
-				</Spinner>
+				<p>Loading todos...</p>
 			)}
 
 			{todos && (<>

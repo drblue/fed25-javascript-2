@@ -41,7 +41,7 @@ const TodoPage = () => {
 	}
 
 	if (isLoading) {
-		return <p>Loading...</p>;
+		return <p>Loading todo...</p>;
 	}
 
 	return todo && (
