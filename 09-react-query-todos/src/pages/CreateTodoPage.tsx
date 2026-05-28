@@ -1,58 +1,42 @@
-import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 import Alert from "react-bootstrap/Alert";
 import { Link, useNavigate } from "react-router";
 import AddNewTodoForm from "../components/AddNewTodoForm";
 import * as TodoAPI from "../services/TodoAPI";
-import type { CreateTodoPayload, Todo } from "../services/TodoAPI.types";
+import type { CreateTodoPayload } from "../services/TodoAPI.types";
 
 const CreateTodoPage = () => {
-	const [createdTodo, setCreatedTodo] = useState<Todo | null>(null);
-	const [error, setError] = useState<string | false>(false);
-	const [isMutating, setIsMutating] = useState(false);  // 👶🏻☢️🥷🏻🐢
 	const navigate = useNavigate();
 
-	const handleCreateTodo = async (title: string) => {
-		setCreatedTodo(null);
-		setError(false);
-		setIsMutating(true);
+	const createTodoMutation = useMutation({
+		mutationFn: (data: CreateTodoPayload) => TodoAPI.createTodo(data),
+	});
 
+	const handleCreateTodo = async (title: string) => {
 		const payload: CreateTodoPayload = {
 			title,
 			completed: false,
 		}
 
-		try {
-			const todo = await TodoAPI.createTodo(payload);
-			setCreatedTodo(todo);
-
-			setTimeout(() => {
-				navigate("/todos/" + todo.id);
-			}, 2000);
-
-		} catch (err) {
-			console.error("Error thrown when creating todo:", payload, err);
-			setError(err instanceof Error ? err.message : "It's not me, it's you");
-
-		} finally {
-			setIsMutating(false);
-		}
+		// Call mutation 🐢☢️
+		createTodoMutation.mutate(payload);
 	}
 
 	return (
 		<>
 			<h1>Create todo</h1>
 
-			{error && <Alert variant="warning">{error}</Alert>}
+			{createTodoMutation.isError && <Alert variant="warning">{createTodoMutation.error.message}</Alert>}
 
-			{isMutating && <p role="status">Mutating 👶🏻☢️🥷🏻🐢...</p>}
+			{createTodoMutation.isPending && <p role="status">Mutating 👶🏻☢️🥷🏻🐢...</p>}
 
 			<AddNewTodoForm onAdd={handleCreateTodo} />
 
-			{createdTodo && (
+			{createTodoMutation.isSuccess && (
 				<Alert variant="success">
 					<Alert.Heading>Created todo successfully</Alert.Heading>
 
-					<Link to={"/todos/" + createdTodo.id} className="btn btn-success" role="button">
+					<Link to={"/todos/" + createTodoMutation.data.id} className="btn btn-success" role="button">
 						Go to todo &raquo;
 					</Link>
 				</Alert>
