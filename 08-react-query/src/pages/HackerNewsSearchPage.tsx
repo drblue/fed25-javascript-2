@@ -7,6 +7,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import { useSearchParams } from "react-router";
 import Pagination from "../components/Pagination";
 import { searchByDate } from "../services/HackerNewsAPI";
+import { numberFormat } from "../utils/numberFormatter";
 
 const HackerNewsSearchPage = () => {
 	const [inputSearch, setInputSearch] = useState("");
@@ -98,7 +99,7 @@ const HackerNewsSearchPage = () => {
 
 			{searchResult && (
 				<div id="search-result">
-					<p>Showing {searchResult.nbHits} search results for <em>"{query}"</em>...</p>
+					<p>Showing {numberFormat(searchResult.nbHits)} search results for <em>"{query}"</em>...</p>
 
 					<ListGroup className="mb-3">
 						{searchResult.hits.map((hit) => (
