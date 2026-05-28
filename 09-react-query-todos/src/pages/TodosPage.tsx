@@ -1,0 +1,93 @@
+import { useEffect, useState } from "react";
+import Alert from "react-bootstrap/Alert";
+import ListGroup from "react-bootstrap/ListGroup";
+import Spinner from "react-bootstrap/Spinner";
+import { Link } from "react-router";
+import TodoCounter from "../components/TodoCounter";
+import * as TodoAPI from "../services/TodoAPI";
+import type { Todo } from "../types/Todo";
+
+const TodosPage = () => {
+	const [error, setError] = useState<string | false>(false);
+	const [isLoading, setIsLoading] = useState(false);
+	const [todos, setTodos] = useState<Todo[] | null>(null);
+
+	const getTodos = async () => {
+		// reset state
+		setError(false);
+		setIsLoading(true);
+		setTodos(null);
+
+		// make request to api
+		try {
+			const data = await TodoAPI.getTodos();
+
+			// sort data
+			const sortedTodos = data
+				.sort((a: Todo, b: Todo) => a.title.localeCompare(b.title))
+				.sort((a: Todo, b: Todo) => Number(a.completed) - Number(b.completed));
+
+			setTodos(sortedTodos);
+		} catch (err) {
+			console.error("Error thrown when fetching todos:", err);
+			setError(err instanceof Error ? err.message : "It's not me, it's you");
+		} finally {
+			setIsLoading(false);
+		}
+	}
+
+	useEffect(() => {
+		// eslint-disable-next-line react-hooks/set-state-in-effect
+		getTodos();
+	}, []);
+
+	return (
+		<>
+			<title>Todos</title>
+			<h1>Todos</h1>
+
+			{error && (
+				<Alert variant="danger">
+					{error}
+				</Alert>
+			)}
+
+			{isLoading && (
+				<Spinner animation="border" role="status">
+					<span className="visually-hidden">Loading...</span>
+				</Spinner>
+			)}
+
+			{todos && (<>
+				{todos.length > 0 ? (
+					<>
+						<ListGroup className="todolist mb-3">
+							{todos.map(todo => (
+								<ListGroup.Item
+									action
+									as={Link}
+									className={todo.completed ? "completed" : ""}
+									key={todo.id}
+									to={"/todos/" + todo.id}
+								>
+									<span className="todo-title">{todo.title}</span>
+								</ListGroup.Item>
+							))}
+						</ListGroup>
+
+						<TodoCounter
+							total={todos.length}
+							uncompleted={todos.filter(todo => !todo.completed).length}
+						/>
+					</>
+				) : (
+					<Alert variant="success">
+						You ain't got no todos to do? 🤔
+					</Alert>
+				)}
+			</>)}
+		</>
+	)
+}
+
+export default TodosPage;
