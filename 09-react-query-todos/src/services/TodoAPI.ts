@@ -5,6 +5,7 @@ import axios from "axios";
 import type { CreateTodoPayload, Todo, UpdateTodoPayload } from "../types/Todo";
 
 const BASE_URL = "http://localhost:3000";
+const FAKE_DELAY = 1500;
 
 // Create a new axios instance
 const http = axios.create({
@@ -17,19 +18,81 @@ const http = axios.create({
 });
 
 /**
+ * Execute a HTTP GET request to an endpoint
+ *
+ * @param endpoint Endpoint to HTTP GET
+ * @returns {Promise<T>}
+ */
+const get = async <T>(endpoint: string) => {
+	const res = await http.get<T>(endpoint);
+
+	if (FAKE_DELAY) {
+		await new Promise(r => setTimeout(r, FAKE_DELAY));
+	}
+
+	return res.data;
+}
+
+/**
+ * Execute a HTTP POST request to an endpoint
+ *
+ * @param endpoint Endpoint to HTTP POST
+ * @returns {Promise<T>}
+ */
+const post = async <TResponse, TPayload>(endpoint: string, payload: TPayload) => {
+	const res = await http.post<TResponse>(endpoint, payload);
+
+	if (FAKE_DELAY) {
+		await new Promise(r => setTimeout(r, FAKE_DELAY));
+	}
+
+	return res.data;
+}
+
+/**
+ * Execute a HTTP PATCH request to an endpoint
+ *
+ * @param endpoint Endpoint to HTTP PATCH
+ * @returns {Promise<T>}
+ */
+const patch = async <TResponse, TPayload>(endpoint: string, payload: TPayload) => {
+	const res = await http.patch<TResponse>(endpoint, payload);
+
+	if (FAKE_DELAY) {
+		await new Promise(r => setTimeout(r, FAKE_DELAY));
+	}
+
+	return res.data;
+}
+
+/**
+ * Execute a HTTP DELETE request to an endpoint
+ *
+ * @param endpoint Endpoint to HTTP DELETE
+ * @returns {Promise<T>}
+ */
+const del = async <T>(endpoint: string) => {
+	const res = await http.delete<T>(endpoint);
+
+	if (FAKE_DELAY) {
+		await new Promise(r => setTimeout(r, FAKE_DELAY));
+	}
+
+	return res.data;
+}
+
+/**
  * Get all todos
  */
 export const getTodos = async () => {
-	const res = await http.get<Todo[]>("/todos");
-	return res.data;
+	return await get<Todo[]>("/todos");
 }
 
 /**
  * Get todo
  */
 export const getTodo = async (id: number) => {
-	const res = await http.get<Todo>("/todos/" + id);
-	return res.data;
+	return await get<Todo>("/todos/" + id);
 }
 
 /**
@@ -38,8 +101,7 @@ export const getTodo = async (id: number) => {
  * @param payload Object with properties and values for the new todo
  */
 export const createTodo = async (payload: CreateTodoPayload) => {
-	const res = await http.post<Todo>("/todos", payload);
-	return res.data;
+	return post<Todo, CreateTodoPayload>("/todos", payload);
 }
 
 /**
@@ -49,8 +111,7 @@ export const createTodo = async (payload: CreateTodoPayload) => {
  * @param payload Data to update todo with
  */
 export const updateTodo = async (todoId: number, payload: UpdateTodoPayload) => {
-	const res = await http.patch<Todo>("/todos/" + todoId, payload);
-	return res.data;
+	return patch<Todo, UpdateTodoPayload>("/todos/" + todoId, payload)
 }
 
 /**
@@ -59,6 +120,6 @@ export const updateTodo = async (todoId: number, payload: UpdateTodoPayload) => 
  * @param todoId Todo to delete
  */
 export const deleteTodo = async (todoId: number) => {
-	await http.delete("/todos/" + todoId);
+	await del("/todos/" + todoId);
 	return true;
 }
