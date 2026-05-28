@@ -28,8 +28,6 @@ const CreateTodoPage = () => {
 
 			{createTodoMutation.isError && <Alert variant="warning">{createTodoMutation.error.message}</Alert>}
 
-			{createTodoMutation.isPending && <p role="status">Mutating 👶🏻☢️🥷🏻🐢...</p>}
-
 			<AddNewTodoForm onAdd={handleCreateTodo} />
 
 			{createTodoMutation.isSuccess && (
