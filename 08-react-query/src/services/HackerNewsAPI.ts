@@ -7,6 +7,8 @@
 import axios from "axios";
 import type { HN_SearchResponse } from "./HackerNewsAPI.types";
 
+const FAKE_DELAY = 1500;
+
 // Create an axios instance
 const http = axios.create({
 	baseURL: "https://hn.algolia.com/api/v1",
@@ -24,6 +26,12 @@ const http = axios.create({
  */
 const get = async <T>(endpoint: string) => {
 	const res = await http.get<T>(endpoint);
+
+	// Fake slow api 🐢
+	if (FAKE_DELAY) {
+		await new Promise(r => setTimeout(r, FAKE_DELAY));
+	}
+
 	return res.data;
 }
 
@@ -44,5 +52,6 @@ export const search = async (query: string, page = 0) => {
  * @param page Page of search results to get
  */
 export const searchByDate = async (query: string, page = 0) => {
+	console.log(`Searching for "${query}" page ${page}`);
 	return await get<HN_SearchResponse>(`/search_by_date?query=${query}&tags=story&page=${page}`);
 }

@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
@@ -16,10 +16,11 @@ const HackerNewsSearchPage = () => {
 	// get `query` from search params
 	const query = searchParams.get("query") ?? "";
 
-	const { data: searchResult, error, isError, isFetching, isLoading } = useQuery({
+	const { data: searchResult, error, isError, isFetching, isLoading, isPlaceholderData } = useQuery({
 		queryKey: ["search-hn", { page, query }],
 		queryFn: () => searchByDate(query, page),
 		enabled: !!query,  // Boolean(query)  converts query (string) to a boolean value
+		placeholderData: keepPreviousData,
 	});
 
 	// 💇🏼‍♀️
@@ -109,8 +110,8 @@ const HackerNewsSearchPage = () => {
 					</ListGroup>
 
 					<Pagination
-						hasNextPage={searchResult.page + 1 < searchResult.nbPages}
-						hasPreviousPage={searchResult.page > 0}
+						hasNextPage={!isPlaceholderData && searchResult.page + 1 < searchResult.nbPages}
+						hasPreviousPage={!isPlaceholderData && searchResult.page > 0}
 						onNextPage={() => setPage(prevValue => prevValue + 1)}
 						onPreviousPage={() => setPage(prevValue => prevValue - 1)}
 						page={searchResult.page + 1}

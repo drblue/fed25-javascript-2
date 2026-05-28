@@ -4,9 +4,10 @@ $headings-margin-bottom: 0.75em;
 @import "cat-spinner";
 
 #loading-spinner {
-	position: absolute;
-	right: 0.5rem;
-	top: 1rem;
+	position: fixed;
+	right: 3rem;
+	top: 3rem;
+	z-index: 1;
 }
 
 #App {
