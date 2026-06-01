@@ -1,9 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import { useNavigate, useParams } from "react-router";
 import EditTodoForm from "../components/EditTodoForm";
 import * as TodoAPI from "../services/TodoAPI";
+import type { UpdateTodoPayload } from "../services/TodoAPI.types";
 
 const EditTodoPage = () => {
 	const { id } = useParams();
@@ -15,22 +16,16 @@ const EditTodoPage = () => {
 		queryFn: () => TodoAPI.getTodo(todoId),
 	});
 
+	const updateTodoMutation = useMutation({
+		mutationFn: (data: UpdateTodoPayload) => TodoAPI.updateTodo(todoId, data),
+	});
+
 	const handleSave = async (title: string) => {
-		if (!todo) {
-			throw new Error("Can't submit, `todo` is null");
-		}
-
-		if (!title) {
-			return;
-		}
-
-		// Tell API to update the todo
-		await TodoAPI.updateTodo(todo.id, {
-			title,
-		});
+		// Call mutation to update the todo
+		updateTodoMutation.mutate({ title: title });
 
 		// Redirect user to /todos/:id
-		navigate("/todos/" + todo.id);
+		// navigate("/todos/" + todo.id);
 	}
 
 	if (isError) {
