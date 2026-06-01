@@ -1,62 +1,40 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
 import { useNavigate, useParams } from "react-router";
+import EditTodoForm from "../components/EditTodoForm";
 import * as TodoAPI from "../services/TodoAPI";
-import type { Todo } from "../services/TodoAPI.types";
 
 const EditTodoPage = () => {
-	const [error, setError] = useState<string | false>(false);
-	const [inputTitle, setInputTitle] = useState("");
-	const [isLoading, setIsLoading] = useState(true);
-	const [todo, setTodo] = useState<Todo | null>(null);
 	const { id } = useParams();
 	const todoId = Number(id);
 	const navigate = useNavigate();
 
-	const getTodo = async (id: number) => {
-		// reset state
-		setError(false);
-		setIsLoading(true);
-		setTodo(null);
+	const { data: todo, error, isError, isLoading } = useQuery({
+		queryKey: ["todo", { id: todoId }],
+		queryFn: () => TodoAPI.getTodo(todoId),
+	});
 
-		// Make request to API
-		try {
-			const data = await TodoAPI.getTodo(id);
-			setInputTitle(data.title);
-			setTodo(data);
-		} catch (err) {
-			console.error(`Error thrown when fetching todo with id '${id}':`, err);
-			setError(err instanceof Error ? err.message : "It's not me, it's you");
-		} finally {
-			setIsLoading(false);
-		}
-	}
-
-	const handleSubmit = async (e: React.SubmitEvent) => {
-		e.preventDefault();
-
+	const handleSave = async (title: string) => {
 		if (!todo) {
 			throw new Error("Can't submit, `todo` is null");
 		}
 
+		if (!title) {
+			return;
+		}
+
 		// Tell API to update the todo
 		await TodoAPI.updateTodo(todo.id, {
-			title: inputTitle.trim(),
+			title,
 		});
 
 		// Redirect user to /todos/:id
 		navigate("/todos/" + todo.id);
 	}
 
-	useEffect(() => {
-		// eslint-disable-next-line react-hooks/set-state-in-effect
-		getTodo(todoId);
-	}, [todoId]);
-
-	if (error) {
-		return <Alert variant="warning">{error}</Alert>;
+	if (isError) {
+		return <Alert variant="warning">{error.message}</Alert>;
 	}
 
 	if (isLoading) {
@@ -67,29 +45,11 @@ const EditTodoPage = () => {
 		<>
 			<h1 title={"Todo #" + todo.id}>Edit: {todo.title}</h1>
 
-			<Form onSubmit={handleSubmit} className="mb-4">
-				<Form.Group className="mb-3" controlId="title">
-					<Form.Label>Title</Form.Label>
-					<Form.Control
-						onChange={(e) => setInputTitle(e.target.value)}
-						placeholder="Buy milk"
-						type="text"
-						value={inputTitle}
-					/>
-
-					{inputTitle.trim().length > 0 && inputTitle.trim().length < 3 && (
-						<Form.Text className="text-danger text-small">
-							Please enter 3 characters or more.
-						</Form.Text>
-					)}
-				</Form.Group>
-
-				<Button
-					disabled={inputTitle.trim().length < 3}
-					type="submit"
-					variant="success"
-				>Save</Button>
-			</Form>
+			<EditTodoForm
+				key={todoId}
+				onSave={handleSave}
+				todo={todo}
+			/>
 
 			<Button
 				onClick={() => navigate(-1)}
