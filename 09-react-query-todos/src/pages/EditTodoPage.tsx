@@ -18,6 +18,10 @@ const EditTodoPage = () => {
 
 	const updateTodoMutation = useMutation({
 		mutationFn: (data: UpdateTodoPayload) => TodoAPI.updateTodo(todoId, data),
+		onSuccess: () => {
+			// Redirect user to /todos/:id
+			navigate("/todos/" + todoId);
+		},
 	});
 
 	if (isError) {
