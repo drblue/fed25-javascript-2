@@ -9,6 +9,7 @@ import * as TodoAPI from "../services/TodoAPI";
 import type { UpdateTodoPayload } from "../services/TodoAPI.types";
 
 const TodoPage = () => {
+	const [queryEnabled, setQueryEnabled] = useState(true);
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const { id } = useParams();
 	const todoId = Number(id);
@@ -18,11 +19,26 @@ const TodoPage = () => {
 	const { data: todo, error, isError, isLoading } = useQuery({
 		queryKey: ["todo", { id: todoId }],
 		queryFn: () => TodoAPI.getTodo(todoId),
+		enabled: queryEnabled,
 	});
 
 	const deleteTodoMutation = useMutation({
 		mutationFn: () => TodoAPI.deleteTodo(todoId),
+		onMutate: () => {
+			// disable query for this specific todo, so it's not refetched onSuccess
+			setQueryEnabled(false);
+		},
+		onError: () => {
+			// something went wrong, re-enable query
+			setQueryEnabled(true);
+		},
 		onSuccess: () => {
+			// remove the query for this specific todo
+			queryClient.removeQueries({ queryKey: ["todo", { id: todoId }] });
+
+			// invalidate any `["todos"]` queries that exist in the cache
+			queryClient.invalidateQueries({ queryKey: ["todos"] });
+
 			// Redirect to "/todos" (and replace the current history entry with the new URL)
 			navigate("/todos", {
 				replace: true,
