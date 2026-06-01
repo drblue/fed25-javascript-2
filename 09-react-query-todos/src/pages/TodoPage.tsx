@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 import { Link, useNavigate, useParams } from "react-router";
 import ConfirmationModal from "../components/ConfirmationModal";
 import * as TodoAPI from "../services/TodoAPI";
-import type { Todo, UpdateTodoPayload } from "../services/TodoAPI.types";
+import type { UpdateTodoPayload } from "../services/TodoAPI.types";
 
 const TodoPage = () => {
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -18,17 +18,26 @@ const TodoPage = () => {
 		queryFn: () => TodoAPI.getTodo(todoId),
 	});
 
+	const deleteTodoMutation = useMutation({
+		mutationFn: () => TodoAPI.deleteTodo(todoId),
+		onSuccess: () => {
+			// Redirect to "/todos" (and replace the current history entry with the new URL)
+			navigate("/todos", {
+				replace: true,
+			});
+		},
+	});
+
 	const updateTodoMutation = useMutation({
 		mutationFn: (data: UpdateTodoPayload) => TodoAPI.updateTodo(todoId, data),
 	});
 
-	const handleDelete = async (todo: Todo) => {
-		await TodoAPI.deleteTodo(todo.id);
+	const handleDelete = () => {
+		// Hide modal
+		setShowDeleteModal(false);
 
-		// Redirect to "/todos" (and replace the current history entry with the new URL)
-		navigate("/todos", {
-			replace: true,
-		});
+		// Call mutation to delete todo
+		deleteTodoMutation.mutate();
 	}
 
 	if (isError) {
@@ -71,7 +80,7 @@ const TodoPage = () => {
 				<ConfirmationModal
 					confirmButtonText="Delete 4 realz"
 					onCancel={() => setShowDeleteModal(false)}
-					onConfirm={() => handleDelete(todo)}
+					onConfirm={() => handleDelete()}
 					show={showDeleteModal}
 					title="Confirm delete"
 					variant="danger"
