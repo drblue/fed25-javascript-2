@@ -20,14 +20,6 @@ const EditTodoPage = () => {
 		mutationFn: (data: UpdateTodoPayload) => TodoAPI.updateTodo(todoId, data),
 	});
 
-	const handleSave = async (title: string) => {
-		// Call mutation to update the todo
-		updateTodoMutation.mutate({ title: title });
-
-		// Redirect user to /todos/:id
-		// navigate("/todos/" + todo.id);
-	}
-
 	if (isError) {
 		return <Alert variant="warning">{error.message}</Alert>;
 	}
@@ -42,7 +34,7 @@ const EditTodoPage = () => {
 
 			<EditTodoForm
 				key={todoId}
-				onSave={handleSave}
+				onSave={(title: string) => updateTodoMutation.mutate({ title })}
 				todo={todo}
 			/>
 

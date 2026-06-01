@@ -4,14 +4,14 @@ import Form from "react-bootstrap/Form";
 import type { Todo } from "../services/TodoAPI.types";
 
 interface EditTodoFormProps {
-	onSave: (title: string) => Promise<void>;
+	onSave: (title: string) => void;
 	todo: Todo;
 }
 
 const EditTodoForm: React.FC<EditTodoFormProps> = ({ onSave, todo }) => {
 	const [inputTitle, setInputTitle] = useState(todo.title);
 
-	const handleSubmit = async (e: React.SubmitEvent) => {
+	const handleSubmit = (e: React.SubmitEvent) => {
 		e.preventDefault();
 
 		// Tell parent to save the data
