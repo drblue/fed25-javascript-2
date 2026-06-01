@@ -8,7 +8,13 @@ import * as TodoAPI from "../services/TodoAPI";
 const TodosPage = () => {
 	const { data: todos, error, isError, isLoading } = useQuery({
 		queryKey: ["todos"],
-		queryFn: TodoAPI.getTodos,
+		queryFn: async () => {
+			const data = await TodoAPI.getTodos();
+			const sortedTodos = data
+				.sort((a, b) => a.title.localeCompare(b.title))
+				.sort((a, b) => Number(a.completed) - Number(b.completed));
+			return sortedTodos;
+		},
 	});
 
 	return (
