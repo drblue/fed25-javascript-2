@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import { useNavigate, useParams } from "react-router";
@@ -10,6 +10,7 @@ const EditTodoPage = () => {
 	const { id } = useParams();
 	const todoId = Number(id);
 	const navigate = useNavigate();
+	const queryClient = useQueryClient();
 
 	const { data: todo, error, isError, isLoading } = useQuery({
 		queryKey: ["todo", { id: todoId }],
@@ -19,6 +20,12 @@ const EditTodoPage = () => {
 	const updateTodoMutation = useMutation({
 		mutationFn: (data: UpdateTodoPayload) => TodoAPI.updateTodo(todoId, data),
 		onSuccess: () => {
+			// invalidate the query for this specific todo
+			queryClient.invalidateQueries({ queryKey: ["todo", { id: todoId }] });
+
+			// invalidate any `["todos"]` queries that exist in the cache
+			queryClient.invalidateQueries({ queryKey: ["todos"] });
+
 			// Redirect user to /todos/:id
 			navigate("/todos/" + todoId);
 		},

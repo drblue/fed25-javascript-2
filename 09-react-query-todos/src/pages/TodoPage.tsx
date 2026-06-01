@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import Badge from "react-bootstrap/Badge";
@@ -13,6 +13,8 @@ const TodoPage = () => {
 	const { id } = useParams();
 	const todoId = Number(id);
 	const navigate = useNavigate();
+	const queryClient = useQueryClient();
+
 	const { data: todo, error, isError, isLoading } = useQuery({
 		queryKey: ["todo", { id: todoId }],
 		queryFn: () => TodoAPI.getTodo(todoId),
@@ -30,6 +32,13 @@ const TodoPage = () => {
 
 	const updateTodoMutation = useMutation({
 		mutationFn: (data: UpdateTodoPayload) => TodoAPI.updateTodo(todoId, data),
+		onSuccess: () => {
+			// invalidate the query for this specific todo
+			queryClient.invalidateQueries({ queryKey: ["todo", { id: todoId }] });
+
+			// invalidate any `["todos"]` queries that exist in the cache
+			queryClient.invalidateQueries({ queryKey: ["todos"] });
+		},
 	});
 
 	const handleDelete = () => {
