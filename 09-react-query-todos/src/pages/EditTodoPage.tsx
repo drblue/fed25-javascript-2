@@ -37,6 +37,7 @@ const EditTodoPage = () => {
 			<h1 title={"Todo #" + todo.id}>Edit: {todo.title}</h1>
 
 			<EditTodoForm
+				isSaving={updateTodoMutation.isPending}
 				key={todoId}
 				onSave={(title: string) => updateTodoMutation.mutate({ title })}
 				todo={todo}

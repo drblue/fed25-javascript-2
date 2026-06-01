@@ -4,11 +4,12 @@ import Form from "react-bootstrap/Form";
 import type { Todo } from "../services/TodoAPI.types";
 
 interface EditTodoFormProps {
+	isSaving: boolean;
 	onSave: (title: string) => void;
 	todo: Todo;
 }
 
-const EditTodoForm: React.FC<EditTodoFormProps> = ({ onSave, todo }) => {
+const EditTodoForm: React.FC<EditTodoFormProps> = ({ isSaving, onSave, todo }) => {
 	const [inputTitle, setInputTitle] = useState(todo.title);
 
 	const handleSubmit = (e: React.SubmitEvent) => {
@@ -37,7 +38,7 @@ const EditTodoForm: React.FC<EditTodoFormProps> = ({ onSave, todo }) => {
 			</Form.Group>
 
 			<Button
-				disabled={inputTitle.trim().length < 3}
+				disabled={inputTitle.trim().length < 3 || isSaving}
 				type="submit"
 				variant="success"
 			>Save</Button>
