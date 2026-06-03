@@ -1,10 +1,11 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
 import { Link, useNavigate, useParams } from "react-router";
 import ConfirmationModal from "../components/ConfirmationModal";
+import useTodo from "../hooks/useTodo";
 import * as TodoAPI from "../services/TodoAPI";
 import type { Todo, UpdateTodoPayload } from "../services/TodoAPI.types";
 import { sortTodos } from "../utils/sorting";
@@ -17,11 +18,7 @@ const TodoPage = () => {
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
 
-	const { data: todo, error, isError, isLoading } = useQuery({
-		queryKey: ["todo", { id: todoId }],
-		queryFn: () => TodoAPI.getTodo(todoId),
-		enabled: queryEnabled,
-	});
+	const { data: todo, error, isError, isLoading } = useTodo(todoId);
 
 	const deleteTodoMutation = useMutation({
 		mutationFn: () => TodoAPI.deleteTodo(todoId),
