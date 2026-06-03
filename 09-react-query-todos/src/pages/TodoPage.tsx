@@ -7,6 +7,7 @@ import { Link, useNavigate, useParams } from "react-router";
 import ConfirmationModal from "../components/ConfirmationModal";
 import * as TodoAPI from "../services/TodoAPI";
 import type { Todo, UpdateTodoPayload } from "../services/TodoAPI.types";
+import { sortTodos } from "../utils/sorting";
 
 const TodoPage = () => {
 	const [queryEnabled, setQueryEnabled] = useState(true);
@@ -40,13 +41,7 @@ const TodoPage = () => {
 			// otherwise fetch the todos from the api
 			const cachedTodos = await queryClient.fetchQuery({
 				queryKey: ["todos"],
-				queryFn: async () => {
-					const data = await TodoAPI.getTodos();
-					const sortedTodos = data
-						.sort((a, b) => a.title.localeCompare(b.title))
-						.sort((a, b) => Number(a.completed) - Number(b.completed));
-					return sortedTodos;
-				},
+				queryFn: async () => sortTodos(await TodoAPI.getTodos()),
 			});
 
 			// set a new list of todos in the cache where the deleted todo has been removed
@@ -69,13 +64,7 @@ const TodoPage = () => {
 			// otherwise fetch the todos from the api
 			const cachedTodos = await queryClient.fetchQuery({
 				queryKey: ["todos"],
-				queryFn: async () => {
-					const data = await TodoAPI.getTodos();
-					const sortedTodos = data
-						.sort((a, b) => a.title.localeCompare(b.title))
-						.sort((a, b) => Number(a.completed) - Number(b.completed));
-					return sortedTodos;
-				},
+				queryFn: async () => sortTodos(await TodoAPI.getTodos()),
 			});
 
 			// replace the todo with the updated todo

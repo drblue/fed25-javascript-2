@@ -17,17 +17,17 @@
     },
     {
       "id": 4,
-      "title": "Learn React Query",
-      "completed": false
+      "title": "Learn TanStack React Query",
+      "completed": true
     },
     {
       "id": 5,
-      "title": "Take over the world 😈",
+      "title": "Help the world ☺️",
       "completed": false
     },
     {
       "title": "Learn about mutations ☢️🕷️",
-      "completed": false,
+      "completed": true,
       "id": 6
     },
     {

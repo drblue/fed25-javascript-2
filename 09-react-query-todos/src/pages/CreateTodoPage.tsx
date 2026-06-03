@@ -4,6 +4,7 @@ import { Link } from "react-router";
 import AddNewTodoForm from "../components/AddNewTodoForm";
 import * as TodoAPI from "../services/TodoAPI";
 import type { CreateTodoPayload, Todo } from "../services/TodoAPI.types";
+import { sortTodos } from "../utils/sorting";
 
 const CreateTodoPage = () => {
 	const queryClient = useQueryClient();
@@ -18,13 +19,7 @@ const CreateTodoPage = () => {
 			// otherwise fetch the todos from the api
 			const cachedTodos = await queryClient.fetchQuery({
 				queryKey: ["todos"],
-				queryFn: async () => {
-					const data = await TodoAPI.getTodos();
-					const sortedTodos = data
-						.sort((a, b) => a.title.localeCompare(b.title))
-						.sort((a, b) => Number(a.completed) - Number(b.completed));
-					return sortedTodos;
-				},
+				queryFn: async () => sortTodos(await TodoAPI.getTodos()),
 			});
 
 			// bail if the newly created todo already exists in the cached todos
@@ -34,7 +29,7 @@ const CreateTodoPage = () => {
 			}
 
 			// create a new array based on the cachedTodos + the newly created todo
-			queryClient.setQueryData<Todo[]>(["todos"], [...cachedTodos, createdTodo]);
+			queryClient.setQueryData<Todo[]>(["todos"], sortTodos([...cachedTodos, createdTodo]));
 		},
 	});
 

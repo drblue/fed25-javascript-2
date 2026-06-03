@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router";
 import EditTodoForm from "../components/EditTodoForm";
 import * as TodoAPI from "../services/TodoAPI";
 import type { UpdateTodoPayload } from "../services/TodoAPI.types";
+import { sortTodos } from "../utils/sorting";
 
 const EditTodoPage = () => {
 	const { id } = useParams();
@@ -27,23 +28,17 @@ const EditTodoPage = () => {
 			// otherwise fetch the todos from the api
 			const cachedTodos = await queryClient.fetchQuery({
 				queryKey: ["todos"],
-				queryFn: async () => {
-					const data = await TodoAPI.getTodos();
-					const sortedTodos = data
-						.sort((a, b) => a.title.localeCompare(b.title))
-						.sort((a, b) => Number(a.completed) - Number(b.completed));
-					return sortedTodos;
-				},
+				queryFn: async () => sortTodos(await TodoAPI.getTodos()),
 			});
 
 			// replace the todo with the updated todo
-			queryClient.setQueryData(["todos"], cachedTodos.map(t => {
+			queryClient.setQueryData(["todos"], sortTodos(cachedTodos.map(t => {
 				if (t.id !== updatedTodo.id) {
 					return t;  // this is not the todo you're looking for
 				}
 
 				return updatedTodo;  // replace object in array with the updated todo
-			}));
+			})));
 
 			// Redirect user to /todos/:id
 			navigate("/todos/" + todoId);

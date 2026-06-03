@@ -4,17 +4,12 @@ import ListGroup from "react-bootstrap/ListGroup";
 import { Link } from "react-router";
 import TodoCounter from "../components/TodoCounter";
 import * as TodoAPI from "../services/TodoAPI";
+import { sortTodos } from "../utils/sorting";
 
 const TodosPage = () => {
 	const { data: todos, error, isError, isLoading } = useQuery({
 		queryKey: ["todos"],
-		queryFn: async () => {
-			const data = await TodoAPI.getTodos();
-			const sortedTodos = data
-				.sort((a, b) => a.title.localeCompare(b.title))
-				.sort((a, b) => Number(a.completed) - Number(b.completed));
-			return sortedTodos;
-		},
+		queryFn: async () => sortTodos(await TodoAPI.getTodos()),
 	});
 
 	return (
