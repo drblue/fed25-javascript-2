@@ -14,20 +14,27 @@ const CreateTodoPage = () => {
 			// set the response from the mutation as the query cache entry for this todo
 			queryClient.setQueryData(["todo", { id: createdTodo.id }], createdTodo);
 
-			// prefetch ["todos"] query in order to populate the todos cache if it doesn't exist
-			await queryClient.prefetchQuery({
+			// get ["todos"] from the cache (if it exists and is fresh 🌱)
+			// otherwise fetch the todos from the api
+			const cachedTodos = await queryClient.fetchQuery({
 				queryKey: ["todos"],
-				queryFn: TodoAPI.getTodos,
+				queryFn: async () => {
+					const data = await TodoAPI.getTodos();
+					const sortedTodos = data
+						.sort((a, b) => a.title.localeCompare(b.title))
+						.sort((a, b) => Number(a.completed) - Number(b.completed));
+					return sortedTodos;
+				},
 			});
 
-			// instead of nvalidating the `["todos"]` query, we can construct new data
-			// based on the previous data + the newly created todo from the mutation
-			queryClient.setQueryData<Todo[]>(["todos"], (prevTodos = []) => {
-				return [
-					...prevTodos,
-					createdTodo,
-				];
-			});
+			// bail if the newly created todo already exists in the cached todos
+			if (cachedTodos.find(todo => todo.id === createdTodo.id)) {
+				// FOUND IT! 🤩
+				return;
+			}
+
+			// create a new array based on the cachedTodos + the newly created todo
+			queryClient.setQueryData<Todo[]>(["todos"], [...cachedTodos, createdTodo]);
 		},
 	});
 
