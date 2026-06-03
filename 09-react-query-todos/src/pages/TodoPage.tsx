@@ -6,8 +6,9 @@ import Button from "react-bootstrap/Button";
 import { Link, useNavigate, useParams } from "react-router";
 import ConfirmationModal from "../components/ConfirmationModal";
 import useTodo from "../hooks/useTodo";
+import useUpdateTodo from "../hooks/useUpdateTodo";
 import * as TodoAPI from "../services/TodoAPI";
-import type { Todo, UpdateTodoPayload } from "../services/TodoAPI.types";
+import type { Todo } from "../services/TodoAPI.types";
 import { sortTodos } from "../utils/sorting";
 
 const TodoPage = () => {
@@ -51,29 +52,7 @@ const TodoPage = () => {
 		},
 	});
 
-	const updateTodoMutation = useMutation({
-		mutationFn: (data: UpdateTodoPayload) => TodoAPI.updateTodo(todoId, data),
-		onSuccess: async (updatedTodo) => {
-			// set the response from the mutation as the query cache entry for this todo
-			queryClient.setQueryData(["todo", { id: todoId }], updatedTodo);
-
-			// get ["todos"] from the cache (if it exists and is fresh 🌱)
-			// otherwise fetch the todos from the api
-			const cachedTodos = await queryClient.fetchQuery({
-				queryKey: ["todos"],
-				queryFn: async () => sortTodos(await TodoAPI.getTodos()),
-			});
-
-			// replace the todo with the updated todo
-			queryClient.setQueryData(["todos"], cachedTodos.map(t => {
-				if (t.id !== updatedTodo.id) {
-					return t;  // this is not the todo you're looking for
-				}
-
-				return updatedTodo;  // replace object in array with the updated todo
-			}));
-		},
-	});
+	const updateTodoMutation = useUpdateTodo(todoId);
 
 	const handleDelete = () => {
 		// Hide modal
