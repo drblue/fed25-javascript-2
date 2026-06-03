@@ -3,16 +3,25 @@ import Alert from "react-bootstrap/Alert";
 import { Link } from "react-router";
 import AddNewTodoForm from "../components/AddNewTodoForm";
 import * as TodoAPI from "../services/TodoAPI";
-import type { CreateTodoPayload } from "../services/TodoAPI.types";
+import type { CreateTodoPayload, Todo } from "../services/TodoAPI.types";
 
 const CreateTodoPage = () => {
 	const queryClient = useQueryClient();
 
 	const createTodoMutation = useMutation({
 		mutationFn: (data: CreateTodoPayload) => TodoAPI.createTodo(data),
-		onSuccess: () => {
-			// invalidate any `["todos"]` queries that exist in the cache
-			queryClient.invalidateQueries({ queryKey: ["todos"] });
+		onSuccess: (createdTodo) => {
+			// set the response from the mutation as the query cache entry for this todo
+			queryClient.setQueryData(["todo", { id: createdTodo.id }], createdTodo);
+
+			// instead of nvalidating the `["todos"]` query, we can construct new data
+			// based on the previous data + the newly created todo from the mutation
+			queryClient.setQueryData<Todo[]>(["todos"], (prevTodos = []) => {
+				return [
+					...prevTodos,
+					createdTodo,
+				];
+			});
 		},
 	});
 
