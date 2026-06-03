@@ -32,12 +32,23 @@ const TodoPage = () => {
 			// something went wrong, re-enable query
 			setQueryEnabled(true);
 		},
-		onSuccess: () => {
+		onSuccess: async () => {
 			// remove the query for this specific todo
 			queryClient.removeQueries({ queryKey: ["todo", { id: todoId }] });
 
-			// invalidate any `["todos"]` queries that exist in the cache
-			queryClient.invalidateQueries({ queryKey: ["todos"] });
+			// prefetch ["todos"] query
+			// (the todo has already been deleted so this list won't contain it)
+			await queryClient.prefetchQuery({
+				queryKey: ["todos"],
+				queryFn: async () => {
+					const data = await TodoAPI.getTodos();
+					const sortedTodos = data
+						.sort((a, b) => a.title.localeCompare(b.title))
+						.sort((a, b) => Number(a.completed) - Number(b.completed));
+					return sortedTodos;
+				},
+				staleTime: 0,  // always prefetch, even if the existing data is considered fresh 🌱
+			});
 
 			// Redirect to "/todos" (and replace the current history entry with the new URL)
 			navigate("/todos", {
