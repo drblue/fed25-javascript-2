@@ -18,7 +18,7 @@ const TodoPage = () => {
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
 
-	const { data: todo, error, isError, isLoading } = useTodo(todoId);
+	const { data: todo, error, isError, isLoading } = useTodo(todoId, queryEnabled);
 
 	const deleteTodoMutation = useMutation({
 		mutationFn: () => TodoAPI.deleteTodo(todoId),
