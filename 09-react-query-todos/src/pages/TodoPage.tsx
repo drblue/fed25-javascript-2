@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 import { Link, useNavigate, useParams } from "react-router";
 import ConfirmationModal from "../components/ConfirmationModal";
 import * as TodoAPI from "../services/TodoAPI";
-import type { UpdateTodoPayload } from "../services/TodoAPI.types";
+import type { Todo, UpdateTodoPayload } from "../services/TodoAPI.types";
 
 const TodoPage = () => {
 	const [queryEnabled, setQueryEnabled] = useState(true);
@@ -47,7 +47,11 @@ const TodoPage = () => {
 						.sort((a, b) => Number(a.completed) - Number(b.completed));
 					return sortedTodos;
 				},
-				staleTime: 0,  // always prefetch, even if the existing data is considered fresh 🌱
+			});
+
+			// set a new list of todos in the cache where the deleted todo has been removed
+			queryClient.setQueryData<Todo[]>(["todos"], (prevTodos) => {
+				return (prevTodos ?? []).filter(t => t.id !== todoId);
 			});
 
 			// Redirect to "/todos" (and replace the current history entry with the new URL)
