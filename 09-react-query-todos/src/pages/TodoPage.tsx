@@ -52,8 +52,19 @@ const TodoPage = () => {
 			// set the response from the mutation as the query cache entry for this todo
 			queryClient.setQueryData(["todo", { id: todoId }], updatedTodo);
 
-			// invalidate any `["todos"]` queries that exist in the cache
-			queryClient.invalidateQueries({ queryKey: ["todos"] });
+			// prefetch ["todos"] query as it's very likely the user will return to the
+			// todo list as their next step
+			queryClient.prefetchQuery({
+				queryKey: ["todos"],
+				queryFn: async () => {
+					const data = await TodoAPI.getTodos();
+					const sortedTodos = data
+						.sort((a, b) => a.title.localeCompare(b.title))
+						.sort((a, b) => Number(a.completed) - Number(b.completed));
+					return sortedTodos;
+				},
+				staleTime: 0,  // always prefetch, even if the existing data is considered fresh 🌱
+			});
 		},
 	});
 
