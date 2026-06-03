@@ -1,37 +1,11 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Alert from "react-bootstrap/Alert";
 import { Link } from "react-router";
 import AddNewTodoForm from "../components/AddNewTodoForm";
-import * as TodoAPI from "../services/TodoAPI";
-import type { CreateTodoPayload, Todo } from "../services/TodoAPI.types";
-import { sortTodos } from "../utils/sorting";
+import useCreateTodo from "../hooks/useCreateTodo";
+import type { CreateTodoPayload } from "../services/TodoAPI.types";
 
 const CreateTodoPage = () => {
-	const queryClient = useQueryClient();
-
-	const createTodoMutation = useMutation({
-		mutationFn: (data: CreateTodoPayload) => TodoAPI.createTodo(data),
-		onSuccess: async (createdTodo) => {
-			// set the response from the mutation as the query cache entry for this todo
-			queryClient.setQueryData(["todo", { id: createdTodo.id }], createdTodo);
-
-			// get ["todos"] from the cache (if it exists and is fresh 🌱)
-			// otherwise fetch the todos from the api
-			const cachedTodos = await queryClient.fetchQuery({
-				queryKey: ["todos"],
-				queryFn: async () => sortTodos(await TodoAPI.getTodos()),
-			});
-
-			// bail if the newly created todo already exists in the cached todos
-			if (cachedTodos.find(todo => todo.id === createdTodo.id)) {
-				// FOUND IT! 🤩
-				return;
-			}
-
-			// create a new array based on the cachedTodos + the newly created todo
-			queryClient.setQueryData<Todo[]>(["todos"], sortTodos([...cachedTodos, createdTodo]));
-		},
-	});
+	const createTodoMutation = useCreateTodo();
 
 	const handleCreateTodo = async (title: string) => {
 		const payload: CreateTodoPayload = {
