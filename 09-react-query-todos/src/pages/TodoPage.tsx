@@ -1,15 +1,12 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
 import { Link, useNavigate, useParams } from "react-router";
 import ConfirmationModal from "../components/ConfirmationModal";
+import useDeleteTodo from "../hooks/useDeleteTodo";
 import useTodo from "../hooks/useTodo";
 import useUpdateTodo from "../hooks/useUpdateTodo";
-import * as TodoAPI from "../services/TodoAPI";
-import type { Todo } from "../services/TodoAPI.types";
-import { sortTodos } from "../utils/sorting";
 
 const TodoPage = () => {
 	const [queryEnabled, setQueryEnabled] = useState(true);
@@ -17,40 +14,24 @@ const TodoPage = () => {
 	const { id } = useParams();
 	const todoId = Number(id);
 	const navigate = useNavigate();
-	const queryClient = useQueryClient();
 
 	const { data: todo, error, isError, isLoading } = useTodo(todoId, queryEnabled);
 
-	const deleteTodoMutation = useMutation({
-		mutationFn: () => TodoAPI.deleteTodo(todoId),
-		onMutate: () => {
-			// disable query for this specific todo, so it's not refetched onSuccess
-			setQueryEnabled(false);
-		},
-		onError: () => {
-			// something went wrong, re-enable query
-			setQueryEnabled(true);
-		},
-		onSuccess: async () => {
-			// remove the query for this specific todo
-			queryClient.removeQueries({ queryKey: ["todo", { id: todoId }] });
+	const onError = () => {
+		// disable query for this specific todo, so it's not refetched onSuccess
+		setQueryEnabled(false);
+	}
 
-			// get ["todos"] from the cache (if it exists and is fresh 🌱)
-			// otherwise fetch the todos from the api
-			const cachedTodos = await queryClient.fetchQuery({
-				queryKey: ["todos"],
-				queryFn: async () => sortTodos(await TodoAPI.getTodos()),
-			});
+	const onMutate = () => {
+		// something went wrong, re-enable query
+		setQueryEnabled(true);
+	}
 
-			// set a new list of todos in the cache where the deleted todo has been removed
-			queryClient.setQueryData<Todo[]>(["todos"], cachedTodos.filter(t => t.id !== todoId));
-
-			// Redirect to "/todos" (and replace the current history entry with the new URL)
-			navigate("/todos", {
-				replace: true,
-			});
-		},
-	});
+	const deleteTodoMutation = useDeleteTodo(
+		todoId,
+		onError,
+		onMutate,
+	);
 
 	const updateTodoMutation = useUpdateTodo(todoId);
 
@@ -59,7 +40,14 @@ const TodoPage = () => {
 		setShowDeleteModal(false);
 
 		// Call mutation to delete todo
-		deleteTodoMutation.mutate();
+		deleteTodoMutation.mutate(undefined, {
+			onSuccess: () => {
+				// Redirect to "/todos" (and replace the current history entry with the new URL)
+				navigate("/todos", {
+					replace: true,
+				});
+			},
+		});
 	}
 
 	if (isError) {
