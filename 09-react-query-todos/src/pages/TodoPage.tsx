@@ -36,9 +36,9 @@ const TodoPage = () => {
 			// remove the query for this specific todo
 			queryClient.removeQueries({ queryKey: ["todo", { id: todoId }] });
 
-			// prefetch ["todos"] query
-			// (the todo has already been deleted so this list won't contain it)
-			await queryClient.prefetchQuery({
+			// get ["todos"] from the cache (if it exists and is fresh 🌱)
+			// otherwise fetch the todos from the api
+			const cachedTodos = await queryClient.fetchQuery({
 				queryKey: ["todos"],
 				queryFn: async () => {
 					const data = await TodoAPI.getTodos();
@@ -50,9 +50,7 @@ const TodoPage = () => {
 			});
 
 			// set a new list of todos in the cache where the deleted todo has been removed
-			queryClient.setQueryData<Todo[]>(["todos"], (prevTodos) => {
-				return (prevTodos ?? []).filter(t => t.id !== todoId);
-			});
+			queryClient.setQueryData<Todo[]>(["todos"], cachedTodos.filter(t => t.id !== todoId));
 
 			// Redirect to "/todos" (and replace the current history entry with the new URL)
 			navigate("/todos", {
