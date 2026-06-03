@@ -10,9 +10,15 @@ const CreateTodoPage = () => {
 
 	const createTodoMutation = useMutation({
 		mutationFn: (data: CreateTodoPayload) => TodoAPI.createTodo(data),
-		onSuccess: (createdTodo) => {
+		onSuccess: async (createdTodo) => {
 			// set the response from the mutation as the query cache entry for this todo
 			queryClient.setQueryData(["todo", { id: createdTodo.id }], createdTodo);
+
+			// prefetch ["todos"] query in order to populate the todos cache if it doesn't exist
+			await queryClient.prefetchQuery({
+				queryKey: ["todos"],
+				queryFn: TodoAPI.getTodos,
+			});
 
 			// instead of nvalidating the `["todos"]` query, we can construct new data
 			// based on the previous data + the newly created todo from the mutation
