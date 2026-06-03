@@ -5,7 +5,7 @@ import axios from "axios";
 import type { CreateTodoPayload, Todo, UpdateTodoPayload } from "./TodoAPI.types";
 
 const BASE_URL = "http://localhost:3000";
-const FAKE_DELAY = 1500;
+const FAKE_DELAY = 0;
 
 // Create a new axios instance
 const http = axios.create({
