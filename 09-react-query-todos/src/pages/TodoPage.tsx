@@ -48,13 +48,13 @@ const TodoPage = () => {
 
 	const updateTodoMutation = useMutation({
 		mutationFn: (data: UpdateTodoPayload) => TodoAPI.updateTodo(todoId, data),
-		onSuccess: (updatedTodo) => {
+		onSuccess: async (updatedTodo) => {
 			// set the response from the mutation as the query cache entry for this todo
 			queryClient.setQueryData(["todo", { id: todoId }], updatedTodo);
 
 			// prefetch ["todos"] query as it's very likely the user will return to the
 			// todo list as their next step
-			queryClient.prefetchQuery({
+			await queryClient.prefetchQuery({
 				queryKey: ["todos"],
 				queryFn: async () => {
 					const data = await TodoAPI.getTodos();
@@ -96,6 +96,7 @@ const TodoPage = () => {
 			<div className="buttons mb-4">
 				{/* Toggle */}
 				<Button
+					disabled={updateTodoMutation.isPending}
 					onClick={() => updateTodoMutation.mutate({ completed: !todo.completed })}
 					variant="success"
 				>Toggle</Button>
@@ -109,6 +110,7 @@ const TodoPage = () => {
 
 				{/* Delete */}
 				<Button
+					disabled={deleteTodoMutation.isPending}
 					onClick={() => setShowDeleteModal(true)}
 					variant="danger"
 				>Delete</Button>
