@@ -1,5 +1,5 @@
 import WarningAlert from "../components/alerts/WarningAlert";
-import AuthorList from "../components/lists/AuthorList";
+import BSSortableAuthorTable from "../components/tables/BSSortableAuthorTable";
 import useAuthors from "../hooks/useAuthors";
 
 const AuthorsPage = () => {
@@ -18,7 +18,7 @@ const AuthorsPage = () => {
 
 			{isLoading && <p>Loading authors...</p>}
 
-			{authors && <AuthorList authors={authors} />}
+			{authors && <BSSortableAuthorTable authors={authors} />}
 		</>
 	);
 };
