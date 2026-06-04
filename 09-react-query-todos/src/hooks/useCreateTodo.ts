@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 import { createTodo, getTodos } from "../services/TodoAPI";
 import type { CreateTodoPayload, Todo } from "../services/TodoAPI.types";
 import { sortTodos } from "../utils/sorting";
@@ -27,6 +28,9 @@ const useCreateTodo = () => {
 
 			// create a new array based on the cachedTodos + the newly created todo
 			queryClient.setQueryData<Todo[]>(["todos"], sortTodos([...cachedTodos, createdTodo]));
+
+			// 🥂
+			toast.success("Todo created", { icon: () => "🎉" });
 		},
 	});
 }
