@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router";
 import type { Book } from "../../services/BooksAPI.types";
+import { isNumber, isString } from "../../utils/typehelpers";
 
 interface BSSortableBookTableProps {
 	books: Book[];
@@ -46,13 +47,13 @@ const BSSortableBookTable: React.FC<BSSortableBookTableProps> = ({ books }) => {
 
 			// 4. Sort by sortKey
 			// 5. Take into account the order (asc/desc)
-			if (typeof aValue === "string" && typeof bValue === "string") {
+			if (isString(aValue) && isString(bValue)) {
 				return sortOrder === "asc"
 					? aValue.localeCompare(bValue)
 					: bValue.localeCompare(aValue);
 			}
 
-			if (typeof aValue === "number" && typeof bValue === "number") {
+			if (isNumber(aValue) && isNumber(bValue)) {
 				return sortOrder === "asc"
 					? aValue - bValue
 					: bValue - aValue;
