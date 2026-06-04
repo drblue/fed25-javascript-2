@@ -37,9 +37,9 @@ function App() {
 				// autoClose={false}  // close it yourself!
 				// pauseOnFocusLoss={false}
 				closeOnClick
-				limit={5}
+				// limit={5}
 				theme="colored"
-				stacked
+				// stacked
 			/>
 		</div>
 	);
