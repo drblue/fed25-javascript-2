@@ -31,7 +31,16 @@ function App() {
 			</Container>
 
 			<ReactQueryDevtools />
-			<ToastContainer />
+			<ToastContainer
+				// position="bottom-right"
+				// autoClose={3000}  // close automatically after 3 seconds instead of 5
+				// autoClose={false}  // close it yourself!
+				// pauseOnFocusLoss={false}
+				closeOnClick
+				limit={5}
+				theme="colored"
+				stacked
+			/>
 		</div>
 	);
 }
