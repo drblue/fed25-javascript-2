@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import { useNavigate, useParams } from "react-router";
+import { toast } from "react-toastify";
 import EditTodoForm from "../components/EditTodoForm";
 import useUpdateTodo from "../hooks/useUpdateTodo";
 import * as TodoAPI from "../services/TodoAPI";
@@ -22,8 +23,10 @@ const EditTodoPage = () => {
 		updateTodoMutation.mutate({
 			title,
 		}, {
-			onSuccess: () => {
+			onSuccess: (updatedTodo) => {
 				// console.log("updateTodoMutation.mutate onSuccess running (will run second)");
+				// 🥂 Toast the user
+				toast.success(`Title "${updatedTodo.title}" saved 🏊🏻🛟`);
 
 				// Redirect user to /todos/:id
 				navigate("/todos/" + todoId);

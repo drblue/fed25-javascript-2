@@ -3,6 +3,7 @@ import Alert from "react-bootstrap/Alert";
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
 import { Link, useNavigate, useParams } from "react-router";
+import { toast } from "react-toastify";
 import ConfirmationModal from "../components/ConfirmationModal";
 import useDeleteTodo from "../hooks/useDeleteTodo";
 import useTodo from "../hooks/useTodo";
@@ -42,6 +43,9 @@ const TodoPage = () => {
 		// Call mutation to delete todo
 		deleteTodoMutation.mutate(undefined, {
 			onSuccess: () => {
+				// 🥂 Toast the user
+				toast.success("Omg that felt good");
+
 				// Redirect to "/todos" (and replace the current history entry with the new URL)
 				navigate("/todos", {
 					replace: true,
