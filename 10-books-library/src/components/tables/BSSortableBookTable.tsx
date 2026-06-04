@@ -7,8 +7,8 @@ interface BSSortableBookTableProps {
 	books: Book[];
 }
 
-// type SortKeys = "title" | "pages" | "published";
-type SortKeys = keyof Book;  // get a literal string union of all keys in Book type
+type SortKeys = "title" | "pages" | "published";
+// type SortKeys = keyof Book;  // get a literal string union of all keys in Book type
 type SortOrder = "asc" | "desc";
 
 const BSSortableBookTable: React.FC<BSSortableBookTableProps> = ({ books }) => {
@@ -17,10 +17,21 @@ const BSSortableBookTable: React.FC<BSSortableBookTableProps> = ({ books }) => {
 
 	const orderBy = (key: SortKeys) => {
 		// 1. If we don't already sort by this key, sort by this key and set order to ascending
+		if (sortKey !== key) {
+			setSortKey(key);
+			setSortOrder("asc");
+			return;
+		}
 
 		// 2. If we already sort by this key and order is ascending, set order to descending
+		if (sortOrder === "asc") {
+			setSortOrder("desc");
+			return;
+		}
 
-		// 3. Else remove all sorting and set order to ascending
+		// 3. Otherwise remove all sorting and set order to ascending
+		setSortKey(null);
+		setSortOrder("asc");
 	}
 
 	const sortedData = useMemo(() => {
@@ -30,8 +41,22 @@ const BSSortableBookTable: React.FC<BSSortableBookTableProps> = ({ books }) => {
 
 		return [...books].sort((a, b) => {
 			// Do the magic here 🪄🧙🏻
+			const aValue = a[sortKey];
+			const bValue = b[sortKey];
+
 			// 4. Sort by sortKey
 			// 5. Take into account the order (asc/desc)
+			if (typeof aValue === "string" && typeof bValue === "string") {
+				return sortOrder === "asc"
+					? aValue.localeCompare(bValue)
+					: bValue.localeCompare(aValue);
+			}
+
+			if (typeof aValue === "number" && typeof bValue === "number") {
+				return sortOrder === "asc"
+					? aValue - bValue
+					: bValue - aValue;
+			}
 
 			// Keep the current order
 			return 0;
