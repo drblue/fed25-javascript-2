@@ -1,5 +1,5 @@
 import WarningAlert from "../components/alerts/WarningAlert";
-import BSBookTable from "../components/tables/BSBookTable";
+import BSSortableBookTable from "../components/tables/BSSortableBookTable";
 import useBooks from "../hooks/useBooks";
 
 const BooksPage = () => {
@@ -18,7 +18,7 @@ const BooksPage = () => {
 
 			{isLoading && <p>Loading books...</p>}
 
-			{books && <BSBookTable books={books} />}
+			{books && <BSSortableBookTable books={books} />}
 		</>
 	);
 };
