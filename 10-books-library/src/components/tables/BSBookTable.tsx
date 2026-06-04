@@ -29,8 +29,8 @@ const BSBookTable: React.FC<BSBookTableProps> = ({ books }) => {
 						<td>
 							<Link to={"/authors/" + book.author.id}>{book.author.name}</Link>
 						</td>
-						<td>{book.pages}</td>
-						<td>{book.published}</td>
+						<td className="text-end">{book.pages}</td>
+						<td className="text-end">{book.published}</td>
 					</tr>
 				))}
 			</tbody>
