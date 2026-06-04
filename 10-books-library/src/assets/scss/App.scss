@@ -1,0 +1,11 @@
+@import "bootstrap/scss/bootstrap";
+
+// make react-toastify more bootstrapp-y
+@import "toastify";
+
+#global-loading-spinner {
+	position: fixed;
+	top: 4.5rem;
+	right: 4.5rem;
+	z-index: 1;
+}
