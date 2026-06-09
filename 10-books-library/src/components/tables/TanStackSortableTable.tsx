@@ -1,10 +1,15 @@
-import { flexRender, getCoreRowModel, getSortedRowModel, useReactTable, type ColumnDef, type SortingState } from "@tanstack/react-table";
+import { flexRender, getCoreRowModel, getSortedRowModel, useReactTable, type ColumnDef, type SortDirection, type SortingState } from "@tanstack/react-table";
 import { useState } from "react";
 import Table from "react-bootstrap/Table";
 
 interface TanStackSortableTableProps<T> {
 	columns: ColumnDef<T>[];
 	data: T[];
+}
+
+const sortingIndicators: Record<SortDirection, string> = {
+	asc: "🙂",
+	desc: "🙃",
 }
 
 const TanStackSortableTable = <T,>({ columns, data }: TanStackSortableTableProps<T>) => {
@@ -35,6 +40,9 @@ const TanStackSortableTable = <T,>({ columns, data }: TanStackSortableTableProps
 										onClick={header.column.getToggleSortingHandler()}
 									>
 										{flexRender(header.column.columnDef.header, header.getContext())}
+
+										{/* Add sorting indicator */}
+										{header.column.getIsSorted() && " " + sortingIndicators[header.column.getIsSorted() as SortDirection]}
 									</div>
 								}
 							</th>
