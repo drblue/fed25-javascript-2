@@ -17,10 +17,16 @@ const columns: ColumnDef<Book>[] = [
 			{
 				header: "Pages",
 				accessorKey: "pages",  // {book.pages}
+				cell: ({ getValue }) => (
+					<span className="d-block text-end">{getValue()}</span>
+				),
 			},
 			{
 				header: "Published",
 				accessorKey: "published",
+				cell: ({ getValue }) => (
+					<span className="d-block text-end">{getValue()}</span>
+				),
 			},
 		],
 	},
@@ -30,6 +36,10 @@ const columns: ColumnDef<Book>[] = [
 			{
 				header: "Name",
 				accessorKey: "author.name",
+			},
+			{
+				header: "Birthdate",
+				accessorKey: "author.date_of_birth",
 			},
 		],
 	},
