@@ -1,4 +1,5 @@
-import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from "@tanstack/react-table";
+import { flexRender, getCoreRowModel, getSortedRowModel, useReactTable, type ColumnDef, type SortingState } from "@tanstack/react-table";
+import { useState } from "react";
 import Table from "react-bootstrap/Table";
 
 interface TanStackSortableTableProps<T> {
@@ -7,10 +8,17 @@ interface TanStackSortableTableProps<T> {
 }
 
 const TanStackSortableTable = <T,>({ columns, data }: TanStackSortableTableProps<T>) => {
+	const [sorting, setSorting] = useState<SortingState>([]);
+
 	const table = useReactTable({
 		columns,
 		data,
+		state: {
+			sorting,
+		},
+		onSortingChange: setSorting,
 		getCoreRowModel: getCoreRowModel(),
+		getSortedRowModel: getSortedRowModel(),
 	});
 
 	return (
@@ -22,7 +30,12 @@ const TanStackSortableTable = <T,>({ columns, data }: TanStackSortableTableProps
 							<th key={header.id} colSpan={header.colSpan}>
 								{header.isPlaceholder
 									? null
-									: flexRender(header.column.columnDef.header, header.getContext())
+									: <div
+										className={header.column.getCanSort() ? "sortable": ""}
+										onClick={header.column.getToggleSortingHandler()}
+									>
+										{flexRender(header.column.columnDef.header, header.getContext())}
+									</div>
 								}
 							</th>
 						))}
