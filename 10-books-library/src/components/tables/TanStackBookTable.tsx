@@ -1,5 +1,6 @@
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from "@tanstack/react-table";
 import Table from "react-bootstrap/Table";
+import { Link } from "react-router";
 import type { Book } from "../../services/BooksAPI.types";
 
 interface TanStackBookTableProps {
@@ -36,6 +37,11 @@ const columns: ColumnDef<Book>[] = [
 			{
 				header: "Name",
 				accessorKey: "author.name",
+				cell: ({ getValue, row }) => (
+					<Link to={"/authors/" + row.original.author.id}>
+						{getValue()}
+					</Link>
+				),
 			},
 			{
 				header: "Birthdate",
