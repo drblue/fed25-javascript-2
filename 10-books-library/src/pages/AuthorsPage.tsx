@@ -9,7 +9,8 @@ const columnHelper = createColumnHelper<Author>();
 
 const columns = [
 	columnHelper.group({
-		header: "ID",
+		id: "id-group",
+		// header: "ID",
 		columns: [
 			columnHelper.accessor("id", {
 				header: "ID",
@@ -22,14 +23,31 @@ const columns = [
 		columns: [
 			columnHelper.accessor("name", {
 				header: "Name",
-				cell: ({ getValue, row }) => (
-					<Link to={"/authors/" + row.original.id}>
-						{getValue()}
-					</Link>
-				),
+				// cell: ({ getValue, row }) => (
+				// 	<Link to={"/authors/" + row.original.id}>
+				// 		{getValue()}
+				// 	</Link>
+				// ),
 			}),
 			columnHelper.accessor("date_of_birth", {
 				header: "Birthdate",
+			}),
+		],
+	}),
+
+	columnHelper.group({
+		id: "actions-group",
+		columns: [
+			columnHelper.display({
+				header: "Actions",
+				cell: ({ row }) => (
+					<div className="d-flex gap-1">
+						<Link
+							className="btn btn-primary btn-sm"
+							to={"/authors/" + row.original.id}
+						>View</Link>
+					</div>
+				),
 			}),
 		],
 	}),
