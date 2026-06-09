@@ -8,8 +8,8 @@ interface TanStackSortableTableProps<T> {
 }
 
 const sortingIndicators: Record<SortDirection, string> = {
-	asc: "🙂",
-	desc: "🙃",
+	asc: "⬆️",
+	desc: "⬇️",
 }
 
 const TanStackSortableTable = <T,>({ columns, data }: TanStackSortableTableProps<T>) => {
