@@ -8,16 +8,30 @@ interface TanStackBookTableProps {
 
 const columns: ColumnDef<Book>[] = [
 	{
-		header: "Title",
-		accessorKey: "title",  // {book.title}
+		header: "Book Info",
+		columns: [
+			{
+				header: "Title",
+				accessorKey: "title",  // {book.title}
+			},
+			{
+				header: "Pages",
+				accessorKey: "pages",  // {book.pages}
+			},
+			{
+				header: "Published",
+				accessorKey: "published",
+			},
+		],
 	},
 	{
-		header: "Pages",
-		accessorKey: "pages",  // {book.pages}
-	},
-	{
-		header: "Published",
-		accessorKey: "published",
+		header: "Author Info",
+		columns: [
+			{
+				header: "Name",
+				accessorKey: "author.name",
+			},
+		],
 	},
 ];
 
@@ -34,7 +48,7 @@ const TanStackBookTable: React.FC<TanStackBookTableProps> = ({ books }) => {
 				{table.getHeaderGroups().map(headerGroup => (
 					<tr key={headerGroup.id}>
 						{headerGroup.headers.map(header => (
-							<th key={header.id}>
+							<th key={header.id} colSpan={header.colSpan}>
 								{header.isPlaceholder
 									? null
 									: flexRender(header.column.columnDef.header, header.getContext())
