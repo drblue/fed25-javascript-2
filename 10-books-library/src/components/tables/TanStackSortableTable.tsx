@@ -31,22 +31,26 @@ const TanStackSortableTable = <T,>({ columns, data }: TanStackSortableTableProps
 			<thead>
 				{table.getHeaderGroups().map(headerGroup => (
 					<tr key={headerGroup.id}>
-						{headerGroup.headers.map(header => (
-							<th key={header.id} colSpan={header.colSpan}>
-								{header.isPlaceholder
-									? null
-									: <div
-										className={header.column.getCanSort() ? "sortable": ""}
-										onClick={header.column.getToggleSortingHandler()}
-									>
-										{flexRender(header.column.columnDef.header, header.getContext())}
+						{headerGroup.headers.map(header => {
+							const sortDirection = header.column.getIsSorted();
 
-										{/* Add sorting indicator */}
-										{header.column.getIsSorted() && " " + sortingIndicators[header.column.getIsSorted() as SortDirection]}
-									</div>
-								}
-							</th>
-						))}
+							return (
+								<th key={header.id} colSpan={header.colSpan}>
+									{header.isPlaceholder
+										? null
+										: <div
+											className={header.column.getCanSort() ? "sortable": ""}
+											onClick={header.column.getToggleSortingHandler()}
+										>
+											{flexRender(header.column.columnDef.header, header.getContext())}
+
+											{/* Add sorting indicator */}
+											{sortDirection && " " + sortingIndicators[sortDirection]}
+										</div>
+									}
+								</th>
+							)
+						})}
 					</tr>
 				))}
 			</thead>
