@@ -3,6 +3,7 @@ import WarningAlert from "../components/alerts/WarningAlert";
 import TanStackBasicTable from "../components/tables/TanStackBasicTable";
 import useAuthors from "../hooks/useAuthors";
 import type { Author } from "../services/BooksAPI.types";
+import { Link } from "react-router";
 
 const columnHelper = createColumnHelper<Author>();
 
@@ -21,6 +22,11 @@ const columns = [
 		columns: [
 			columnHelper.accessor("name", {
 				header: "Name",
+				cell: ({ getValue, row }) => (
+					<Link to={"/authors/" + row.original.id}>
+						{getValue()}
+					</Link>
+				),
 			}),
 			columnHelper.accessor("date_of_birth", {
 				header: "Birthdate",
