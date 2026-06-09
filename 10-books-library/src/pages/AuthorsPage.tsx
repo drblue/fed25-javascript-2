@@ -1,6 +1,33 @@
+import { createColumnHelper } from "@tanstack/react-table";
 import WarningAlert from "../components/alerts/WarningAlert";
-import BSSortableAuthorTable from "../components/tables/BSSortableAuthorTable";
+import TanStackBasicTable from "../components/tables/TanStackBasicTable";
 import useAuthors from "../hooks/useAuthors";
+import type { Author } from "../services/BooksAPI.types";
+
+const columnHelper = createColumnHelper<Author>();
+
+const columns = [
+	columnHelper.group({
+		header: "ID",
+		columns: [
+			columnHelper.accessor("id", {
+				header: "ID",
+			}),
+		],
+	}),
+
+	columnHelper.group({
+		header: "Author Details",
+		columns: [
+			columnHelper.accessor("name", {
+				header: "Name",
+			}),
+			columnHelper.accessor("date_of_birth", {
+				header: "Birthdate",
+			}),
+		],
+	}),
+];
 
 const AuthorsPage = () => {
 	const { data: authors, isError, isLoading } = useAuthors();
@@ -18,7 +45,7 @@ const AuthorsPage = () => {
 
 			{isLoading && <p>Loading authors...</p>}
 
-			{authors && <BSSortableAuthorTable authors={authors} />}
+			{authors && <TanStackBasicTable columns={columns} data={authors} />}
 		</>
 	);
 };
