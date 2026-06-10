@@ -83,6 +83,13 @@
       "published": 1792,
       "pages": 650,
       "id": 12
+    },
+    {
+      "title": "Pride and Prejudice",
+      "pages": 384,
+      "published": 1813,
+      "authorId": 11,
+      "id": 13
     }
   ],
   "authors": [
