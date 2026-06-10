@@ -75,7 +75,7 @@ const AuthorsPage = () => {
 
 			<hr />
 
-			<Card>
+			<Card className="mb-4">
 				<Card.Body>
 					<Card.Title>Create Author</Card.Title>
 

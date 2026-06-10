@@ -3,6 +3,15 @@
 // make react-toastify more bootstrapp-y
 @import "toastify";
 
+hr {
+	margin-top: 3rem;
+	margin-bottom: 3rem;
+}
+
+.table-responsive + hr {
+	margin-top: 2rem;
+}
+
 #global-loading-spinner {
 	position: fixed;
 	top: 4.5rem;
