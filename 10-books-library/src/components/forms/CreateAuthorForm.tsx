@@ -5,13 +5,18 @@ import useCreateAuthor from "../../hooks/useCreateAuthor";
 import type { NewAuthor } from "../../services/BooksAPI.types";
 
 const CreateAuthorForm = () => {
-	const { handleSubmit, register, formState: { errors } } = useForm<NewAuthor>();
+	const { handleSubmit, register, reset, formState: { errors } } = useForm<NewAuthor>();
 	const createAuthorMutation = useCreateAuthor();
 
 	const onCreateAuthorSubmit: SubmitHandler<NewAuthor> = (data) => {
 		console.log("Submitted (and validated) data:", data);
 
-		createAuthorMutation.mutate(data);
+		createAuthorMutation.mutate(data, {
+			onSuccess: () => {
+				// reset form
+				reset();
+			},
+		});
 		/*
 		const mutationPromise = createAuthorMutation.mutateAsync(data);
 		toast.promise(mutationPromise, {

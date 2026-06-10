@@ -69,6 +69,13 @@
       "published": 2022,
       "authorId": 9,
       "id": 10
+    },
+    {
+      "title": "My shorts - A third love story",
+      "pages": 3,
+      "published": 2023,
+      "authorId": 9,
+      "id": 11
     }
   ],
   "authors": [

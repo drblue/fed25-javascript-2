@@ -12,7 +12,7 @@ interface CreateBookFormProps {
 const currentYear = new Date().getFullYear();
 
 const CreateBookForm: React.FC<CreateBookFormProps> = ({ authorId }) => {
-	const { handleSubmit, register, formState: { errors } } = useForm<NewBook>();
+	const { handleSubmit, register, reset, formState: { errors } } = useForm<NewBook>();
 	const createBookMutation = useCreateBook();
 	const { data: authors } = useAuthors();
 
@@ -22,7 +22,12 @@ const CreateBookForm: React.FC<CreateBookFormProps> = ({ authorId }) => {
 		const data = authorId ? { ...formData, authorId } : formData;
 		console.log("Data that will be mutated:", data);
 
-		createBookMutation.mutate(data);
+		createBookMutation.mutate(data, {
+			onSuccess: () => {
+				// reset form
+				reset();
+			},
+		});
 	}
 
 	const sortedAuthors = authors && [...authors].sort((a, b) => a.name.localeCompare(b.name));
