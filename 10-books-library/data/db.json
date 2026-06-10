@@ -55,6 +55,20 @@
       "pages": 409,
       "published": 1811,
       "id": 8
+    },
+    {
+      "title": "My pants - A love story",
+      "authorId": 9,
+      "pages": 1337,
+      "published": 2021,
+      "id": 9
+    },
+    {
+      "title": "My trousers - A second love story",
+      "pages": 42,
+      "published": 2022,
+      "authorId": 9,
+      "id": 10
     }
   ],
   "authors": [

@@ -16,9 +16,11 @@ const CreateBookForm: React.FC<CreateBookFormProps> = ({ authorId }) => {
 	const createBookMutation = useCreateBook();
 	const { data: authors } = useAuthors();
 
-	const onCreateAuthorBookSubmit: SubmitHandler<NewBook> = (data) => {
-		console.log("Submitted (and validated) data:", data);
-		console.log("authorId prop:", authorId);
+	const onCreateAuthorBookSubmit: SubmitHandler<NewBook> = (formData) => {
+		console.log("Submitted (and validated) data:", formData);
+
+		const data = authorId ? { ...formData, authorId } : formData;
+		console.log("Data that will be mutated:", data);
 
 		createBookMutation.mutate(data);
 	}
@@ -44,9 +46,10 @@ const CreateBookForm: React.FC<CreateBookFormProps> = ({ authorId }) => {
 				{errors.title && <Form.Control.Feedback type="invalid">{errors.title.message}</Form.Control.Feedback>}
 			</Form.Group>
 
-			<Form.Group className="mb-3" controlId="authorId">
+			{!authorId && <Form.Group className="mb-3" controlId="authorId">
 				<Form.Label>Author</Form.Label>
 				<Form.Select
+					// defaultValue={authorId}
 					{...register("authorId", {
 						required: "A book without an author is not a book",
 						valueAsNumber: true,
@@ -60,7 +63,7 @@ const CreateBookForm: React.FC<CreateBookFormProps> = ({ authorId }) => {
 						: <option>Loading...</option>}
 				</Form.Select>
 				{errors.authorId && <Form.Control.Feedback type="invalid">{errors.authorId.message}</Form.Control.Feedback>}
-			</Form.Group>
+			</Form.Group>}
 
 			<Form.Group className="mb-3" controlId="pages">
 				<Form.Label>Pages</Form.Label>
