@@ -57,7 +57,7 @@ const CreateAuthorForm = () => {
 			</Form.Group>
 
 			<div className="d-flex justify-content-end">
-				<Button variant="success" type="submit">
+				<Button variant="success" type="submit" disabled={createAuthorMutation.isPending}>
 					Create
 				</Button>
 			</div>

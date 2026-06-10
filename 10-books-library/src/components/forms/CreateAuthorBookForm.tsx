@@ -81,7 +81,7 @@ const CreateAuthorBookForm: React.FC<CreateAuthorBookFormProps> = ({ authorId })
 			</Form.Group>
 
 			<div className="d-flex justify-content-end">
-				<Button variant="success" type="submit">
+				<Button variant="success" type="submit" disabled={createBookMutation.isPending}>
 					Create
 				</Button>
 			</div>
