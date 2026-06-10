@@ -19,11 +19,14 @@ const CreateAuthorForm = () => {
 					placeholder="Astrid Lindgren"
 					type="text"
 					{...register("name", {
-						minLength: 3,
-						required: true,
+						minLength: {
+							message: "Name must be at least 3 characters",
+							value: 3,
+						},
+						required: "Is an author really an author without a name? 🤔",
 					})}
 				/>
-				{errors.name && <Form.Control.Feedback type="invalid">Y U HAVE SHORT NAME?!</Form.Control.Feedback>}
+				{errors.name && <Form.Control.Feedback type="invalid">{errors.name.message}</Form.Control.Feedback>}
 			</Form.Group>
 
 			<Form.Group className="mb-3" controlId="date_of_birth">
@@ -32,10 +35,13 @@ const CreateAuthorForm = () => {
 					isInvalid={!!errors.date_of_birth}
 					type="date"
 					{...register("date_of_birth", {
-						required: true,
+						required: {
+							message: "An author has to have been born",
+							value: true,
+						},
 					})}
 				/>
-				{errors.date_of_birth && <Form.Control.Feedback type="invalid">Y U NO IS BORN?!</Form.Control.Feedback>}
+				{errors.date_of_birth && <Form.Control.Feedback type="invalid">{errors.date_of_birth.message}</Form.Control.Feedback>}
 			</Form.Group>
 
 			<div className="d-flex justify-content-end">
