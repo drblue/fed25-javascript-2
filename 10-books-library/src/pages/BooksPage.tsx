@@ -1,7 +1,9 @@
 import type { ColumnDef } from "@tanstack/react-table";
+import Card from "react-bootstrap/Card";
 import { Link } from "react-router";
 import WarningAlert from "../components/alerts/WarningAlert";
 import TanStackSortableTable from "../components/tables/TanStackSortableTable";
+import CreateBookForm from "../components/forms/CreateBookForm";
 import useBooks from "../hooks/useBooks";
 import type { Book } from "../services/BooksAPI.types";
 
@@ -66,6 +68,16 @@ const BooksPage = () => {
 			{isLoading && <p>Loading books...</p>}
 
 			{books && <TanStackSortableTable columns={columns} data={books} />}
+
+			<hr />
+
+			<Card className="mb-4">
+				<Card.Body>
+					<Card.Title>Create Book</Card.Title>
+
+					<CreateBookForm />
+				</Card.Body>
+			</Card>
 		</>
 	);
 };

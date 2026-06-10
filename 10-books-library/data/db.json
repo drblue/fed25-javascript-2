@@ -50,46 +50,11 @@
       "authorId": 6
     },
     {
-      "id": 8,
-      "title": "Bananana",
-      "pages": 3,
-      "published": 2019,
-      "authorId": 7
-    },
-    {
-      "id": 9,
-      "title": "An Iron Heart",
-      "pages": 9,
-      "published": 1977,
-      "authorId": 8
-    },
-    {
-      "title": "My pants - A love story",
-      "authorId": 9,
-      "published": 1789,
-      "pages": 420,
-      "id": 10
-    },
-    {
-      "title": "My trousers - A second love story",
-      "authorId": 9,
-      "published": 1790,
-      "pages": 333,
-      "id": 11
-    },
-    {
-      "title": "My shorts - A third love story",
-      "authorId": 9,
-      "published": 1792,
-      "pages": 650,
-      "id": 12
-    },
-    {
-      "title": "Pride and Prejudice",
-      "pages": 384,
-      "published": 1813,
+      "title": "Sense and Sensibility",
       "authorId": 11,
-      "id": 13
+      "pages": 409,
+      "published": 1811,
+      "id": 8
     }
   ],
   "authors": [
