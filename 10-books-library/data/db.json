@@ -130,6 +130,11 @@
       "id": 9,
       "name": "Mr Fancy Pants",
       "date_of_birth": "1930-01-01"
+    },
+    {
+      "name": "J.K. Rowling",
+      "date_of_birth": "1965-07-31",
+      "id": 10
     }
   ]
 }

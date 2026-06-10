@@ -11,11 +11,11 @@ const useCreateAuthor = () => {
 		onError: () => {
 			// 😳
 			toast.warning(
-				<>
+				<p>
 					<strong>Something bad happened 😳!</strong>
 					<br />
 					It was not possible to create the author. Please try again later.
-				</>
+				</p>
 			);
 		},
 		onSuccess: (newAuthor) => {
@@ -24,7 +24,7 @@ const useCreateAuthor = () => {
 			});
 
 			// also insert the new author into the query cache
-			queryClient.setQueryData(["author", { id: newAuthor.id }], newAuthor);
+			queryClient.setQueryData(["author", { id: newAuthor.id }], { ...newAuthor, books: [] });
 
 			// 🥂
 			toast.success("Author created 🤩");

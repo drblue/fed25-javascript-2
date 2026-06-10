@@ -1,13 +1,17 @@
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useForm, type SubmitHandler } from "react-hook-form";
+import useCreateAuthor from "../../hooks/useCreateAuthor";
 import type { NewAuthor } from "../../services/BooksAPI.types";
 
 const CreateAuthorForm = () => {
 	const { handleSubmit, register, formState: { errors } } = useForm<NewAuthor>();
+	const createAuthorMutation = useCreateAuthor();
 
 	const onCreateAuthorSubmit: SubmitHandler<NewAuthor> = (data) => {
 		console.log("Submitted (and validated) data:", data);
+
+		createAuthorMutation.mutate(data);
 	}
 
 	return (
