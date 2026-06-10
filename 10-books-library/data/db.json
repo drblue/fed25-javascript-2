@@ -135,6 +135,11 @@
       "name": "J.K. Rowling",
       "date_of_birth": "1965-07-31",
       "id": 10
+    },
+    {
+      "name": "Jane Austen",
+      "date_of_birth": "1775-12-16",
+      "id": 11
     }
   ]
 }

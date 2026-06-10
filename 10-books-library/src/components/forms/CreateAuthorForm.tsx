@@ -12,6 +12,14 @@ const CreateAuthorForm = () => {
 		console.log("Submitted (and validated) data:", data);
 
 		createAuthorMutation.mutate(data);
+		/*
+		const mutationPromise = createAuthorMutation.mutateAsync(data);
+		toast.promise(mutationPromise, {
+			pending: "Creating author...",
+			success: "Created author!",
+			error: "Failed to create author",
+		});
+		*/
 	}
 
 	return (
