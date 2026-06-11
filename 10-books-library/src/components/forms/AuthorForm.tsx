@@ -11,7 +11,7 @@ interface AuthorFormProps {
 }
 
 const AuthorForm = ({ author }: AuthorFormProps) => {
-	const { control, handleSubmit, register, reset, formState: { errors } } = useForm<NewAuthor>({
+	const { control, handleSubmit, register, reset, formState: { errors, isDirty } } = useForm<NewAuthor>({
 		defaultValues: {
 			name: author?.name,
 			date_of_birth: author?.date_of_birth,
@@ -73,7 +73,11 @@ const AuthorForm = ({ author }: AuthorFormProps) => {
 					{errors.date_of_birth && <Form.Control.Feedback type="invalid">{errors.date_of_birth.message}</Form.Control.Feedback>}
 				</Form.Group>
 				<div className="d-flex justify-content-end">
-					<Button variant="success" type="submit" disabled={createAuthorMutation.isPending}>
+					<Button
+						disabled={createAuthorMutation.isPending || updateAuthorMutation.isPending || !isDirty}
+						type="submit"
+						variant="success"
+					>
 						Save
 					</Button>
 				</div>
