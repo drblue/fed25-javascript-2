@@ -1,5 +1,5 @@
 import Container from "react-bootstrap/Container";
-import { Route, Routes } from "react-router";
+import { Route, Routes, useLocation } from "react-router";
 import { ToastContainer } from "react-toastify";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import GlobalLoadingSpinner from "./components/spinners/GlobalLoadingSpinner";
@@ -10,24 +10,61 @@ import BooksPage from "./pages/BooksPage";
 import EditAuthorPage from "./pages/EditAuthorPage";
 import HomePage from "./pages/HomePage";
 import NotFoundPage from "./pages/NotFoundPage";
+import PageTransition from "./ui/PageTransition";
 import "./assets/scss/App.scss";
 
 function App() {
+	const location = useLocation();
+
 	return (
 		<div id="App">
 			<Navigation />
 			<GlobalLoadingSpinner />
 
 			<Container className="py-2">
-				<Routes>
-					<Route path="/" element={<HomePage />} />
+				<Routes location={location} key={location.pathname}>
+					<Route path="/" element={
+							<PageTransition>
+								<HomePage />
+							</PageTransition>
+						}
+					/>
 
-					<Route path="/authors" element={<AuthorsPage />} />
-					<Route path="/authors/:id" element={<AuthorPage />} />
-					<Route path="/authors/:id/edit" element={<EditAuthorPage />} />
-					<Route path="/books" element={<BooksPage />} />
+					<Route path="/authors" element={
+							<PageTransition>
+								<AuthorsPage />
+							</PageTransition>
+						}
+					/>
 
-					<Route path="*" element={<NotFoundPage />} />
+					<Route path="/authors/:id" element={
+							<PageTransition>
+								<AuthorPage />
+							</PageTransition>
+						}
+					/>
+
+					<Route path="/authors/:id/edit" element={
+							<PageTransition>
+								<EditAuthorPage />
+							</PageTransition>
+						}
+					/>
+
+					<Route path="/books" element={
+							<PageTransition>
+								<BooksPage />
+							</PageTransition>
+						}
+					/>
+
+
+					<Route path="*" element={
+							<PageTransition>
+								<NotFoundPage />
+							</PageTransition>
+						}
+					/>
 				</Routes>
 			</Container>
 
