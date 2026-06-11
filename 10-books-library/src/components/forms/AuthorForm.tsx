@@ -4,18 +4,21 @@ import Form from "react-bootstrap/Form";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import useCreateAuthor from "../../hooks/useCreateAuthor";
 import useUpdateAuthor from "../../hooks/useUpdateAuthor";
-import type { Author, NewAuthor } from "../../services/BooksAPI.types";
+import type { Author } from "../../services/BooksAPI.types";
+import { authorSchema, type AuthorSchema } from "../../schemas/AuthorSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface AuthorFormProps {
 	author?: Author;
 }
 
 const AuthorForm = ({ author }: AuthorFormProps) => {
-	const { control, handleSubmit, register, reset, watch, formState: { errors, isDirty } } = useForm<NewAuthor>({
+	const { control, handleSubmit, register, reset, watch, formState: { errors, isDirty } } = useForm<AuthorSchema>({
 		defaultValues: {
 			name: author?.name,
 			date_of_birth: author?.date_of_birth,
 		},
+		resolver: zodResolver(authorSchema),
 	});
 	const createAuthorMutation = useCreateAuthor();
 	const updateAuthorMutation = useUpdateAuthor(author?.id ?? 0);
@@ -24,7 +27,7 @@ const AuthorForm = ({ author }: AuthorFormProps) => {
 	const authorName = watch("name");
 	console.log("Current author name:", authorName);
 
-	const onAuthorSubmit: SubmitHandler<NewAuthor> = (data) => {
+	const onAuthorSubmit: SubmitHandler<AuthorSchema> = (data) => {
 		console.log("Submitted (and validated) data:", data);
 
 		// if we're passed an author via props
@@ -52,13 +55,7 @@ const AuthorForm = ({ author }: AuthorFormProps) => {
 						isInvalid={!!errors.name}
 						placeholder="Astrid Lindgren"
 						type="text"
-						{...register("name", {
-							minLength: {
-								message: "Name must be at least 3 characters",
-								value: 3,
-							},
-							required: "Is an author really an author without a name? 🤔",
-						})}
+						{...register("name")}
 					/>
 					{errors.name && <Form.Control.Feedback type="invalid">{errors.name.message}</Form.Control.Feedback>}
 				</Form.Group>
@@ -67,12 +64,7 @@ const AuthorForm = ({ author }: AuthorFormProps) => {
 					<Form.Control
 						isInvalid={!!errors.date_of_birth}
 						type="date"
-						{...register("date_of_birth", {
-							required: {
-								message: "An author has to have been born",
-								value: true,
-							},
-						})}
+						{...register("date_of_birth")}
 					/>
 					{errors.date_of_birth && <Form.Control.Feedback type="invalid">{errors.date_of_birth.message}</Form.Control.Feedback>}
 				</Form.Group>
