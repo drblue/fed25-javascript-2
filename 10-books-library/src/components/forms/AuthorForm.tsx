@@ -1,3 +1,4 @@
+import { DevTool } from "@hookform/devtools";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useForm, type SubmitHandler } from "react-hook-form";
@@ -10,7 +11,7 @@ interface AuthorFormProps {
 }
 
 const AuthorForm = ({ author }: AuthorFormProps) => {
-	const { handleSubmit, register, reset, formState: { errors } } = useForm<NewAuthor>({
+	const { control, handleSubmit, register, reset, formState: { errors } } = useForm<NewAuthor>({
 		defaultValues: {
 			name: author?.name,
 			date_of_birth: author?.date_of_birth,
@@ -39,45 +40,47 @@ const AuthorForm = ({ author }: AuthorFormProps) => {
 	}
 
 	return (
-		<Form onSubmit={handleSubmit(onAuthorSubmit)}>
-			<Form.Group className="mb-3" controlId="name">
-				<Form.Label>Author Name</Form.Label>
-				<Form.Control
-					isInvalid={!!errors.name}
-					placeholder="Astrid Lindgren"
-					type="text"
-					{...register("name", {
-						minLength: {
-							message: "Name must be at least 3 characters",
-							value: 3,
-						},
-						required: "Is an author really an author without a name? 🤔",
-					})}
-				/>
-				{errors.name && <Form.Control.Feedback type="invalid">{errors.name.message}</Form.Control.Feedback>}
-			</Form.Group>
+		<>
+			<Form onSubmit={handleSubmit(onAuthorSubmit)}>
+				<Form.Group className="mb-3" controlId="name">
+					<Form.Label>Author Name</Form.Label>
+					<Form.Control
+						isInvalid={!!errors.name}
+						placeholder="Astrid Lindgren"
+						type="text"
+						{...register("name", {
+							minLength: {
+								message: "Name must be at least 3 characters",
+								value: 3,
+							},
+							required: "Is an author really an author without a name? 🤔",
+						})}
+					/>
+					{errors.name && <Form.Control.Feedback type="invalid">{errors.name.message}</Form.Control.Feedback>}
+				</Form.Group>
+				<Form.Group className="mb-3" controlId="date_of_birth">
+					<Form.Label>Date of Birth</Form.Label>
+					<Form.Control
+						isInvalid={!!errors.date_of_birth}
+						type="date"
+						{...register("date_of_birth", {
+							required: {
+								message: "An author has to have been born",
+								value: true,
+							},
+						})}
+					/>
+					{errors.date_of_birth && <Form.Control.Feedback type="invalid">{errors.date_of_birth.message}</Form.Control.Feedback>}
+				</Form.Group>
+				<div className="d-flex justify-content-end">
+					<Button variant="success" type="submit" disabled={createAuthorMutation.isPending}>
+						Save
+					</Button>
+				</div>
+			</Form>
 
-			<Form.Group className="mb-3" controlId="date_of_birth">
-				<Form.Label>Date of Birth</Form.Label>
-				<Form.Control
-					isInvalid={!!errors.date_of_birth}
-					type="date"
-					{...register("date_of_birth", {
-						required: {
-							message: "An author has to have been born",
-							value: true,
-						},
-					})}
-				/>
-				{errors.date_of_birth && <Form.Control.Feedback type="invalid">{errors.date_of_birth.message}</Form.Control.Feedback>}
-			</Form.Group>
-
-			<div className="d-flex justify-content-end">
-				<Button variant="success" type="submit" disabled={createAuthorMutation.isPending}>
-					Save
-				</Button>
-			</div>
-		</Form>
+			<DevTool control={control} />
+		</>
 	);
 };
 
