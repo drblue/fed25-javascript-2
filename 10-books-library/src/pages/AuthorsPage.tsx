@@ -2,7 +2,7 @@ import { createColumnHelper } from "@tanstack/react-table";
 import Card from "react-bootstrap/Card";
 import WarningAlert from "../components/alerts/WarningAlert";
 import TanStackSortableTable from "../components/tables/TanStackSortableTable";
-import CreateAuthorForm from "../components/forms/CreateAuthorForm";
+import CreateAuthorForm from "../components/forms/AuthorForm";
 import useAuthors from "../hooks/useAuthors";
 import type { Author } from "../services/BooksAPI.types";
 import { Link } from "react-router";
@@ -44,6 +44,11 @@ const columns = [
 				header: "Actions",
 				cell: ({ row }) => (
 					<div className="d-flex gap-1">
+						<Link
+							className="btn btn-warning btn-sm"
+							to={"/authors/" + row.original.id + "/edit"}
+						>Edit</Link>
+
 						<Link
 							className="btn btn-primary btn-sm"
 							to={"/authors/" + row.original.id}

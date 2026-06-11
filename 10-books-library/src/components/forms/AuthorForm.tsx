@@ -2,33 +2,44 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import useCreateAuthor from "../../hooks/useCreateAuthor";
-import type { NewAuthor } from "../../services/BooksAPI.types";
+import type { Author, NewAuthor } from "../../services/BooksAPI.types";
+import useUpdateAuthor from "../../hooks/useUpdateAuthor";
 
-const CreateAuthorForm = () => {
-	const { handleSubmit, register, reset, formState: { errors } } = useForm<NewAuthor>();
+interface AuthorFormProps {
+	author?: Author;
+}
+
+const AuthorForm = ({ author }: AuthorFormProps) => {
+	const { handleSubmit, register, reset, formState: { errors } } = useForm<NewAuthor>({
+		defaultValues: {
+			name: author?.name,
+			date_of_birth: author?.date_of_birth,
+		},
+	});
 	const createAuthorMutation = useCreateAuthor();
+	const updateAuthorMutation = useUpdateAuthor(author?.id ?? 0);
 
-	const onCreateAuthorSubmit: SubmitHandler<NewAuthor> = (data) => {
+	const onAuthorSubmit: SubmitHandler<NewAuthor> = (data) => {
 		console.log("Submitted (and validated) data:", data);
 
-		createAuthorMutation.mutate(data, {
-			onSuccess: () => {
-				// reset form
-				reset();
-			},
-		});
-		/*
-		const mutationPromise = createAuthorMutation.mutateAsync(data);
-		toast.promise(mutationPromise, {
-			pending: "Creating author...",
-			success: "Created author!",
-			error: "Failed to create author",
-		});
-		*/
+		// if we're passed an author via props
+		// then we should update, otherwise create
+		if (author) {
+			// UPDATE!
+			updateAuthorMutation.mutate(data);
+		} else {
+			// CREATE!
+			createAuthorMutation.mutate(data, {
+				onSuccess: () => {
+					// reset form
+					reset();
+				},
+			});
+		}
 	}
 
 	return (
-		<Form onSubmit={handleSubmit(onCreateAuthorSubmit)}>
+		<Form onSubmit={handleSubmit(onAuthorSubmit)}>
 			<Form.Group className="mb-3" controlId="name">
 				<Form.Label>Author Name</Form.Label>
 				<Form.Control
@@ -63,11 +74,11 @@ const CreateAuthorForm = () => {
 
 			<div className="d-flex justify-content-end">
 				<Button variant="success" type="submit" disabled={createAuthorMutation.isPending}>
-					Create
+					Save
 				</Button>
 			</div>
 		</Form>
 	);
 };
 
-export default CreateAuthorForm;
+export default AuthorForm;

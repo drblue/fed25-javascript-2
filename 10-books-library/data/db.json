@@ -133,6 +133,16 @@
       "name": "Jane Austen",
       "date_of_birth": "1775-12-16",
       "id": 11
+    },
+    {
+      "name": "Cicci Citrus",
+      "date_of_birth": "1990-01-01",
+      "id": 12
+    },
+    {
+      "name": "David Dadel",
+      "date_of_birth": "1994-04-01",
+      "id": 13
     }
   ]
 }

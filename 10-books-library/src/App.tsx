@@ -7,6 +7,7 @@ import Navigation from "./pages/partials/Navigation";
 import AuthorsPage from "./pages/AuthorsPage";
 import AuthorPage from "./pages/AuthorPage";
 import BooksPage from "./pages/BooksPage";
+import EditAuthorPage from "./pages/EditAuthorPage";
 import HomePage from "./pages/HomePage";
 import NotFoundPage from "./pages/NotFoundPage";
 import "./assets/scss/App.scss";
@@ -23,6 +24,7 @@ function App() {
 
 					<Route path="/authors" element={<AuthorsPage />} />
 					<Route path="/authors/:id" element={<AuthorPage />} />
+					<Route path="/authors/:id/edit" element={<EditAuthorPage />} />
 					<Route path="/books" element={<BooksPage />} />
 
 					<Route path="*" element={<NotFoundPage />} />
