@@ -3,15 +3,15 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import useCreateAuthor from "../../hooks/useCreateAuthor";
-import type { Author, NewAuthor } from "../../services/BooksAPI.types";
 import useUpdateAuthor from "../../hooks/useUpdateAuthor";
+import type { Author, NewAuthor } from "../../services/BooksAPI.types";
 
 interface AuthorFormProps {
 	author?: Author;
 }
 
 const AuthorForm = ({ author }: AuthorFormProps) => {
-	const { control, handleSubmit, register, reset, formState: { errors, isDirty } } = useForm<NewAuthor>({
+	const { control, handleSubmit, register, reset, watch, formState: { errors, isDirty } } = useForm<NewAuthor>({
 		defaultValues: {
 			name: author?.name,
 			date_of_birth: author?.date_of_birth,
@@ -19,6 +19,10 @@ const AuthorForm = ({ author }: AuthorFormProps) => {
 	});
 	const createAuthorMutation = useCreateAuthor();
 	const updateAuthorMutation = useUpdateAuthor(author?.id ?? 0);
+
+	// eslint-disable-next-line react-hooks/incompatible-library
+	const authorName = watch("name");
+	console.log("Current author name:", authorName);
 
 	const onAuthorSubmit: SubmitHandler<NewAuthor> = (data) => {
 		console.log("Submitted (and validated) data:", data);
