@@ -1,4 +1,4 @@
-import { collection, CollectionReference, getDocs } from "firebase/firestore";
+import { getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
@@ -6,7 +6,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import { Link } from "react-router";
 import AddTodoForm from "../components/AddTodoForm";
 import TodoCounter from "../components/TodoCounter";
-import { db } from "../libs/firebase";
+import { todosCol } from "../libs/firebase";
 import type { NewTodo, Todo } from "../types/Todo.types";
 
 const TodosPage = () => {
@@ -23,13 +23,8 @@ const TodosPage = () => {
 	const getTodos = async () => {
 		setIsLoading(true);
 
-		// Get reference to the collection "todos"
-		const colRef = collection(db, "todos") as CollectionReference<Todo>;
-
 		// Get query snapshot of collection
-		const snapshot = await getDocs(colRef);
-		// console.log("Got snapshot 📸", snapshot);
-		// console.log("Documents 📑:", snapshot.docs);
+		const snapshot = await getDocs(todosCol);
 
 		// Map over all documents and extract the data
 		const data = snapshot.docs.map(doc => {
@@ -38,7 +33,6 @@ const TodosPage = () => {
 				_id: doc.id,
 			};
 		});
-		console.log("data:", data);
 
 		setTodos(data);
 		setIsLoading(false);
