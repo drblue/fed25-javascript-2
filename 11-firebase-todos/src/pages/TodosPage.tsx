@@ -1,7 +1,6 @@
 import Alert from "react-bootstrap/Alert";
-import Image from "react-bootstrap/Image";
 import ListGroup from "react-bootstrap/ListGroup";
-import { Link, useLocation } from "react-router";
+import { Link } from "react-router";
 import AddTodoForm from "../components/AddTodoForm";
 import TodoCounter from "../components/TodoCounter";
 import type { NewTodo, Todo } from "../types/Todo.types";
@@ -30,16 +29,8 @@ const todos: Todo[] = [
 ];
 
 const TodosPage = () => {
-	const location = useLocation();
-	const title: number = "Todos";
-
 	// Create a new todo
 	const addTodo = (todo: NewTodo) => {
-		let ghost = "👻";
-		console.log(ghost);
-
-		console.log("Am I silly 🤪?", location.state?.message);
-
 		// 👻
 		console.log("Would add a new todo:", todo);
 	};
