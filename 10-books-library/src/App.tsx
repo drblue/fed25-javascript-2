@@ -2,6 +2,7 @@ import Container from "react-bootstrap/Container";
 import { Route, Routes, useLocation } from "react-router";
 import { ToastContainer } from "react-toastify";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { AnimatePresence } from "motion/react";
 import GlobalLoadingSpinner from "./components/spinners/GlobalLoadingSpinner";
 import Navigation from "./pages/partials/Navigation";
 import AuthorsPage from "./pages/AuthorsPage";
@@ -22,50 +23,52 @@ function App() {
 			<GlobalLoadingSpinner />
 
 			<Container className="py-2">
-				<Routes location={location} key={location.pathname}>
-					<Route path="/" element={
-							<PageTransition>
-								<HomePage />
-							</PageTransition>
-						}
-					/>
+				<AnimatePresence mode="wait">
+					<Routes location={location} key={location.pathname}>
+						<Route path="/" element={
+								<PageTransition>
+									<HomePage />
+								</PageTransition>
+							}
+						/>
 
-					<Route path="/authors" element={
-							<PageTransition>
-								<AuthorsPage />
-							</PageTransition>
-						}
-					/>
+						<Route path="/authors" element={
+								<PageTransition>
+									<AuthorsPage />
+								</PageTransition>
+							}
+						/>
 
-					<Route path="/authors/:id" element={
-							<PageTransition>
-								<AuthorPage />
-							</PageTransition>
-						}
-					/>
+						<Route path="/authors/:id" element={
+								<PageTransition>
+									<AuthorPage />
+								</PageTransition>
+							}
+						/>
 
-					<Route path="/authors/:id/edit" element={
-							<PageTransition>
-								<EditAuthorPage />
-							</PageTransition>
-						}
-					/>
+						<Route path="/authors/:id/edit" element={
+								<PageTransition>
+									<EditAuthorPage />
+								</PageTransition>
+							}
+						/>
 
-					<Route path="/books" element={
-							<PageTransition>
-								<BooksPage />
-							</PageTransition>
-						}
-					/>
+						<Route path="/books" element={
+								<PageTransition>
+									<BooksPage />
+								</PageTransition>
+							}
+						/>
 
 
-					<Route path="*" element={
-							<PageTransition>
-								<NotFoundPage />
-							</PageTransition>
-						}
-					/>
-				</Routes>
+						<Route path="*" element={
+								<PageTransition>
+									<NotFoundPage />
+								</PageTransition>
+							}
+						/>
+					</Routes>
+				</AnimatePresence>
 			</Container>
 
 			<ReactQueryDevtools />

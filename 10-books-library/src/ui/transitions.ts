@@ -1,12 +1,7 @@
-import type { AnimationGeneratorType } from "motion/react"
-
 export const transition = {
-	// duration: 0.5,
-	// ease: "easeOut",
-	type: "spring" as AnimationGeneratorType,
-	mass: 1.4,
-	damping: 8,
-}
+	duration: 0.35,
+	ease: "easeInOut",
+} as const
 
 export const fadeIn = {
 	initial: { opacity: 0 },
