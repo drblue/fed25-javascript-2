@@ -1,39 +1,54 @@
+import { collection, CollectionReference, getDocs } from "firebase/firestore";
+import { useEffect, useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import ListGroup from "react-bootstrap/ListGroup";
 import { Link } from "react-router";
 import AddTodoForm from "../components/AddTodoForm";
 import TodoCounter from "../components/TodoCounter";
+import { db } from "../libs/firebase";
 import type { NewTodo, Todo } from "../types/Todo.types";
 
-const todos: Todo[] = [
-	{
-		_id: "Akpxptx7jdJ7SCOIuD16",
-		title: "Learn React 😊",
-		completed: true,
-	},
-	{
-		_id: "T4MKhcTg5bOHz80TOXwd",
-		title: "Learn Firebase 🔥",
-		completed: false,
-	},
-	{
-		_id: "fTZcsgGFiffA4DadSmQ2",
-		title: "Profit 💰",
-		completed: false,
-	},
-	{
-		_id: "pTLjnG6VDRMwnUqXzTV7",
-		title: "Take over the world 😈",
-		completed: false,
-	},
-];
-
 const TodosPage = () => {
+	const [isLoading, setIsLoading] = useState(true);
+	const [todos, setTodos] = useState<Todo[] | null>(null);
+
 	// Create a new todo
 	const addTodo = (todo: NewTodo) => {
 		// 👻
 		console.log("Would add a new todo:", todo);
 	};
+
+	// Get todos from the `todos`-collection
+	const getTodos = async () => {
+		setIsLoading(true);
+
+		// Get reference to the collection "todos"
+		const colRef = collection(db, "todos") as CollectionReference<Todo>;
+
+		// Get query snapshot of collection
+		const snapshot = await getDocs(colRef);
+		// console.log("Got snapshot 📸", snapshot);
+		// console.log("Documents 📑:", snapshot.docs);
+
+		// Map over all documents and extract the data
+		const data = snapshot.docs.map(doc => {
+			return {
+				...doc.data(),
+				_id: doc.id,
+			};
+		});
+		console.log("data:", data);
+
+		setTodos(data);
+		setIsLoading(false);
+	}
+
+	// Get todos on component mount
+	useEffect(() => {
+		(() => {
+			getTodos();
+		})();
+	}, []);
 
 	return (
 		<>
@@ -43,6 +58,8 @@ const TodosPage = () => {
 			<AddTodoForm
 				onAdd={addTodo}
 			/>
+
+			{isLoading && <p>Loading todos...</p>}
 
 			{todos && (<>
 				{todos.length > 0 ? (
