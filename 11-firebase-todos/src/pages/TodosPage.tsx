@@ -1,6 +1,7 @@
 import { collection, CollectionReference, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 import { Link } from "react-router";
 import AddTodoForm from "../components/AddTodoForm";
@@ -53,7 +54,10 @@ const TodosPage = () => {
 	return (
 		<>
 			<title>Todos</title>
-			<h1>Todos</h1>
+			<div className="d-flex justify-content-between align-items-start mb-3">
+				<h1>Todos</h1>
+				<Button onClick={() => getTodos()}>Refresh</Button>
+			</div>
 
 			<AddTodoForm
 				onAdd={addTodo}
