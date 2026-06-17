@@ -1,49 +1,20 @@
-import { getDocs } from "firebase/firestore";
-import { useEffect, useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 import { Link } from "react-router";
 import AddTodoForm from "../components/AddTodoForm";
 import TodoCounter from "../components/TodoCounter";
-import { todosCol } from "../libs/firebase";
-import type { NewTodo, Todo } from "../types/Todo.types";
+import useGetTodos from "../hooks/useGetTodos";
+import type { NewTodo } from "../types/Todo.types";
 
 const TodosPage = () => {
-	const [isLoading, setIsLoading] = useState(true);
-	const [todos, setTodos] = useState<Todo[] | null>(null);
+	const { getTodos, isLoading, todos } = useGetTodos();
 
 	// Create a new todo
 	const addTodo = (todo: NewTodo) => {
 		// 👻
 		console.log("Would add a new todo:", todo);
 	};
-
-	// Get todos from the `todos`-collection
-	const getTodos = async () => {
-		setIsLoading(true);
-
-		// Get query snapshot of collection
-		const snapshot = await getDocs(todosCol);
-
-		// Map over all documents and extract the data
-		const data = snapshot.docs.map(doc => {
-			return {
-				...doc.data(),
-				_id: doc.id,
-			};
-		});
-
-		setTodos(data);
-		setIsLoading(false);
-	}
-
-	// Get todos on component mount
-	useEffect(() => {
-		(() => {
-			getTodos();
-		})();
-	}, []);
 
 	return (
 		<>
