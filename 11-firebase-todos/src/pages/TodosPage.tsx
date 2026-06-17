@@ -1,19 +1,38 @@
+import { addDoc } from "firebase/firestore";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 import { Link } from "react-router";
+import { toast } from "react-toastify";
 import TodoCounter from "../components/TodoCounter";
 import TodoForm from "../components/TodoForm";
 import useGetTodos from "../hooks/useGetTodos";
+import { todosCol } from "../libs/firebase";
 import type { NewTodo } from "../types/Todo.types";
 
 const TodosPage = () => {
 	const { data: todos, getData, isLoading } = useGetTodos();
 
 	// Create a new todo
-	const addTodo = (todo: NewTodo) => {
-		// 👻
-		console.log("Would add a new todo:", todo);
+	const addTodo = async (todo: NewTodo) => {
+		// Create document with generated ID in todosCollection
+		const docRef = await addDoc(todosCol, todo);
+
+		/*
+		// Add a new document with a generated id
+		const docRef = doc(todosCol);
+
+		// Set the contents of the document
+		await setDoc(docRef, todo);
+		*/
+
+		console.log("Todo created with ID:", docRef.id);
+
+		// 🥂
+		toast.success("YAY! Even moar stuff to do 🤪");
+
+		// Trigger a refetch of todos
+		await getData();
 	};
 
 	return (
