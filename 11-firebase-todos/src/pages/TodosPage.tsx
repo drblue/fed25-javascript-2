@@ -2,8 +2,8 @@ import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 import { Link } from "react-router";
-import AddTodoForm from "../components/AddTodoForm";
 import TodoCounter from "../components/TodoCounter";
+import TodoForm from "../components/TodoForm";
 import useGetTodos from "../hooks/useGetTodos";
 import type { NewTodo } from "../types/Todo.types";
 
@@ -24,9 +24,11 @@ const TodosPage = () => {
 				<Button onClick={() => getData()}>Refresh</Button>
 			</div>
 
-			<AddTodoForm
+			<TodoForm
 				onAdd={addTodo}
 			/>
+
+			<hr />
 
 			{isLoading && <p>Loading todos...</p>}
 
