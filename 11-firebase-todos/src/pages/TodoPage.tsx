@@ -40,7 +40,7 @@ const TodoPage = () => {
 
 			// Transform document to match `Todo` type
 			const data = {
-				...snapshot.data() as Todo,
+				...snapshot.data(),
 				_id: snapshot.id,
 			}
 
