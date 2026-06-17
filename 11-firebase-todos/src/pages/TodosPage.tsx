@@ -8,7 +8,7 @@ import useGetTodos from "../hooks/useGetTodos";
 import type { NewTodo } from "../types/Todo.types";
 
 const TodosPage = () => {
-	const { getTodos, isLoading, todos } = useGetTodos();
+	const { data: todos, getData, isLoading } = useGetTodos();
 
 	// Create a new todo
 	const addTodo = (todo: NewTodo) => {
@@ -21,7 +21,7 @@ const TodosPage = () => {
 			<title>Todos</title>
 			<div className="d-flex justify-content-between align-items-start mb-3">
 				<h1>Todos</h1>
-				<Button onClick={() => getTodos()}>Refresh</Button>
+				<Button onClick={() => getData()}>Refresh</Button>
 			</div>
 
 			<AddTodoForm
