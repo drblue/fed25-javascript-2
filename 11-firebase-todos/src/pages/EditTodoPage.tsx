@@ -1,24 +1,43 @@
+import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import { useNavigate, useParams } from "react-router";
-import EditTodoForm from "../components/EditTodoForm";
-import type { NewTodo, Todo } from "../types/Todo.types";
-
-const todo: Todo = {
-	_id: "133713371337",
-	title: "Learn to fake better data 😅",
-	completed: true,
-};
+import useGetTodo from "../hooks/useGetTodo";
+import type { TodoFormData } from "../types/Todo.types";
+import TodoForm from "../components/TodoForm";
+import { doc, updateDoc } from "firebase/firestore";
+import { todosCol } from "../libs/firebase";
+import { toast } from "react-toastify";
 
 const EditTodoPage = () => {
 	const { id } = useParams();
 	const navigate = useNavigate();
+	const { data: todo, error, isLoading } = useGetTodo(id);
 
-	const handleOnSave = (data: Partial<NewTodo>) => {
+	if (!id) {
+		throw new Error("TodoPage can't work without id");
+	}
+
+	const updateTodo = async (data: Partial<TodoFormData>) => {
 		// Update the todo
-		console.log(`Would update todo id ${id} with:`, data);
+		const docRef = doc(todosCol, id);
+		await updateDoc(docRef, data);
+
+		// 🥂
+		toast.success("Todo updated! ✨");
 
 		// Redirect user to /todos/:id
-		// navigate("/todos/" + todoId);
+		navigate("/todos/" + id);
+	}
+
+	if (error) {
+		return <Alert variant="danger">
+			<Alert.Heading>Doh! Bad stuff happened. Try again later?</Alert.Heading>
+			<p><strong>Error:</strong> {error.message}</p>
+		</Alert>
+	}
+
+	if (isLoading) {
+		return <p>Loading todo... nom nom nom 🍪</p>
 	}
 
 	return todo && (
@@ -26,10 +45,11 @@ const EditTodoPage = () => {
 			<title>{`Edit: ${todo.title}`}</title>
 			<h1 title={"Todo #" + todo._id}>Edit: {todo.title}</h1>
 
-			<EditTodoForm
+			<TodoForm
+				className="mb-4"
+				initialValues={todo}
 				key={id}
-				onSave={handleOnSave}
-				todo={todo}
+				onSave={updateTodo}
 			/>
 
 			<Button

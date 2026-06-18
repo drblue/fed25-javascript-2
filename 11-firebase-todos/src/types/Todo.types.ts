@@ -4,4 +4,4 @@ export interface Todo {
 	completed: boolean;
 }
 
-export type NewTodo = Omit<Todo, "_id">;
+export type TodoFormData = Omit<Todo, "_id">;

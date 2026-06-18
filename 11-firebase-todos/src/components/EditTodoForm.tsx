@@ -1,11 +1,11 @@
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import type { NewTodo, Todo } from "../types/Todo.types";
+import type { TodoFormData, Todo } from "../types/Todo.types";
 
 interface EditTodoFormProps {
 	isSaving?: boolean;
-	onSave: (data: Partial<NewTodo>) => void;
+	onSave: (data: Partial<TodoFormData>) => void;
 	todo: Todo;
 }
 

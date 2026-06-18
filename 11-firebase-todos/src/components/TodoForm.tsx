@@ -1,26 +1,37 @@
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import type { NewTodo } from "../types/Todo.types";
+import type { TodoFormData } from "../types/Todo.types";
 
 interface TodoFormProps {
 	className?: string;
+	initialValues?: TodoFormData;
 	isCreating?: boolean;
-	onAdd: (data: NewTodo) => void;
+	onSave: (data: TodoFormData) => void;
 }
 
-const TodoForm: React.FC<TodoFormProps> = ({ className, isCreating = false, onAdd }) => {
-	const { handleSubmit, register, reset, formState: { errors } } = useForm<NewTodo>({
+const TodoForm: React.FC<TodoFormProps> = ({
+	className,
+	initialValues = { completed: false },
+	isCreating = false,
+	onSave,
+ }) => {
+	const { handleSubmit, register, reset, formState: { errors } } = useForm<TodoFormData>({
+		/*
 		defaultValues: {
-			completed: false,
+			completed: initialValues?.completed ?? false,
+			title: initialValues?.title,
 		},
+		*/
+		// defaultValues: initialValues ?? { completed: false },
+		defaultValues: initialValues,
 	});
 
-	const onFormSubmit: SubmitHandler<NewTodo> = async (formData) => {
+	const onFormSubmit: SubmitHandler<TodoFormData> = async (formData) => {
 		console.log("Yum, I got some validated data 😋:", formData);
 
-		// Tell parent to create a new todo with `inputTodoTitle` as the title
-		await onAdd(formData);
+		// Tell parent to save data
+		await onSave(formData);
 
 		// Clear input field
 		reset();

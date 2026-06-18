@@ -8,13 +8,13 @@ import TodoCounter from "../components/TodoCounter";
 import TodoForm from "../components/TodoForm";
 import useGetTodos from "../hooks/useGetTodos";
 import { todosCol } from "../libs/firebase";
-import type { NewTodo } from "../types/Todo.types";
+import type { TodoFormData } from "../types/Todo.types";
 
 const TodosPage = () => {
 	const { data: todos, getData, isLoading } = useGetTodos();
 
 	// Create a new todo
-	const addTodo = async (todo: NewTodo) => {
+	const addTodo = async (todo: TodoFormData) => {
 		// Create document with generated ID in todosCollection
 		const docRef = await addDoc(todosCol, todo);
 
@@ -44,7 +44,7 @@ const TodosPage = () => {
 			</div>
 
 			<TodoForm
-				onAdd={addTodo}
+				onSave={addTodo}
 			/>
 
 			<hr />
