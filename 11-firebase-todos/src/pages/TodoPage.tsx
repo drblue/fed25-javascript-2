@@ -1,9 +1,9 @@
-import { doc, updateDoc } from "firebase/firestore";
+import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
-import { Link, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import ConfirmationModal from "../components/ConfirmationModal";
 import useGetTodo from "../hooks/useGetTodo";
 import { todosCol } from "../libs/firebase";
@@ -13,15 +13,28 @@ import { toast } from "react-toastify";
 const TodoPage = () => {
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const { id } = useParams();
+	const navigate = useNavigate();
 	const { data: todo, error, getData, isLoading } = useGetTodo(id);
 
 	if (!id) {
 		throw new Error("TodoPage can't work without id");
 	}
 
-	const handleDelete = () => {
+	const handleDelete = async () => {
 		setShowDeleteModal(false);
-		console.log("Would delete todo with id:", id)
+
+		// Delete todo from Firebase
+		const docRef = doc(todosCol, id);
+		await deleteDoc(docRef);
+
+		// 🥂
+		toast.success("Todo deleted", { icon: () => "💣" });
+
+		// Redirect user to todos list
+		// and replace the current history entry
+		navigate("/todos", {
+			replace: true,
+		});
 	}
 
 	const handleToggle = async (todo: Todo) => {
