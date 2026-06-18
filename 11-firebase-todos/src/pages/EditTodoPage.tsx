@@ -25,12 +25,12 @@ const EditTodoPage = () => {
 		// Toast 🥂 + Promise 🤞🏻 = ❤️
 		await toast.promise(updateDoc(docRef, data), {
 			pending: "🤔 Saving todo",
-			success: "Todo saved 🏊🏻🛟😅!",
+			success: "🛟 Todo saved 🏊🏻",
 			error: "😬 Unable to save todo",
 		});
 
 		// 🥂
-		// toast.success("Todo updated! ✨");
+		// toast.success("Todo updated", { icon: () => "✨" });
 
 		// Redirect user to /todos/:id
 		navigate("/todos/" + id);

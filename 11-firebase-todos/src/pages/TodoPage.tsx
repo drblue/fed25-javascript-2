@@ -48,7 +48,7 @@ const TodoPage = () => {
 		await getData(id);
 
 		// 🥂
-		toast.success("Todo toggled 📋");
+		toast.success("Todo toggled", { icon: () => "📋" });
 	}
 
 	if (error) {

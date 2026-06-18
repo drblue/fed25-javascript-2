@@ -29,7 +29,7 @@ const TodosPage = () => {
 		console.log("Todo created with ID:", docRef.id);
 
 		// 🥂
-		toast.success("YAY! Even moar stuff to do 🤪");
+		toast.success("YAY! Even moar stuff to do", { icon: () => "🤪" });
 
 		// Trigger a refetch of todos
 		await getData();
