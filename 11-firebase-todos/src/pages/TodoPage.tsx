@@ -1,3 +1,4 @@
+import { doc, updateDoc } from "firebase/firestore";
 import { useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import Badge from "react-bootstrap/Badge";
@@ -5,15 +6,36 @@ import Button from "react-bootstrap/Button";
 import { Link, useParams } from "react-router";
 import ConfirmationModal from "../components/ConfirmationModal";
 import useGetTodo from "../hooks/useGetTodo";
+import { todosCol } from "../libs/firebase";
+import type { Todo } from "../types/Todo.types";
+import { toast } from "react-toastify";
 
 const TodoPage = () => {
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const { id } = useParams();
-	const { data: todo, error, isLoading } = useGetTodo(id);
+	const { data: todo, error, getData, isLoading } = useGetTodo(id);
+
+	if (!id) {
+		throw new Error("TodoPage can't work without id");
+	}
 
 	const handleDelete = () => {
 		setShowDeleteModal(false);
 		console.log("Would delete todo with id:", id)
+	}
+
+	const handleToggle = async (todo: Todo) => {
+		// Toggle todo in Firestore
+		const docRef = doc(todosCol, id);
+		await updateDoc(docRef, {
+			completed: !todo.completed,
+		});
+
+		// Get the updated todo
+		await getData(id);
+
+		// 🥂
+		toast.success("Todo toggled 📋");
 	}
 
 	if (error) {
@@ -39,7 +61,7 @@ const TodoPage = () => {
 
 			<div className="buttons mb-4">
 				{/* Toggle */}
-				<Button onClick={() => console.log("Would toggle todo")} variant="success">
+				<Button onClick={() => handleToggle(todo)} variant="success">
 					Toggle
 				</Button>
 
