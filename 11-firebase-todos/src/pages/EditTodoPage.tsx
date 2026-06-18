@@ -20,10 +20,17 @@ const EditTodoPage = () => {
 	const updateTodo = async (data: Partial<TodoFormData>) => {
 		// Update the todo
 		const docRef = doc(todosCol, id);
-		await updateDoc(docRef, data);
+
+		// Show toast(s) while updating
+		// Toast 🥂 + Promise 🤞🏻 = ❤️
+		await toast.promise(updateDoc(docRef, data), {
+			pending: "🤔 Saving todo",
+			success: "Todo saved 🏊🏻🛟😅!",
+			error: "😬 Unable to save todo",
+		});
 
 		// 🥂
-		toast.success("Todo updated! ✨");
+		// toast.success("Todo updated! ✨");
 
 		// Redirect user to /todos/:id
 		navigate("/todos/" + id);
