@@ -9,7 +9,7 @@ import useGetTodo from "../hooks/useGetTodo";
 const TodoPage = () => {
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const { id } = useParams();
-	const { error, isLoading, todo } = useGetTodo(id);
+	const { data: todo, error, isLoading } = useGetTodo(id);
 
 	const handleDelete = () => {
 		setShowDeleteModal(false);
