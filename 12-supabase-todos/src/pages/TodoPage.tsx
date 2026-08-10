@@ -1,47 +1,18 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
 import { Link, useParams } from "react-router";
 import ConfirmationModal from "../components/ConfirmationModal";
-import { supabase } from "../lib/supabase";
+import useGetTodo from "../hooks/useGetTodo";
 import type { Todo } from "../types/Todo.types";
 
 const TodoPage = () => {
-	const [error, setError] = useState<Error | false>(false);
-	const [isLoading, setIsLoading] = useState(true);
-	const [todo, setTodo] = useState<Todo | null>(null);
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const { id } = useParams();
 	const todoId = Number(id);
 	// const navigate = useNavigate();
-	// const { data: todo, error, getData, isLoading } = useGetTodo(id);
-
-	if (!todoId || isNaN(todoId)) {
-		throw new Error("TodoPage can't work without id");
-	}
-
-	const getTodo = async () => {
-		setError(false);
-		setIsLoading(true);
-		setTodo(null);
-
-		// Get single todo from Supabase
-		const { data, error } = await supabase
-			.from("todos")
-			.select()
-			.eq("id", todoId)
-			.single();
-		console.log({data});
-		setIsLoading(false);
-
-		if (error) {
-			setError(error);
-			return;
-		}
-
-		setTodo(data);
-	}
+	const { error, isLoading, todo } = useGetTodo(todoId);
 
 	const handleDelete = async () => {
 		setShowDeleteModal(false);
@@ -63,10 +34,6 @@ const TodoPage = () => {
 		// 🥂
 		// toast.success("Todo toggled", { icon: () => "📋" });
 	}
-
-	useEffect(() => {
-		getTodo();
-	}, []);
 
 	if (error) {
 		return <Alert variant="danger">
