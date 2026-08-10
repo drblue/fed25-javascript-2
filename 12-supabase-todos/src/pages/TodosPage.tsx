@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
@@ -5,38 +6,40 @@ import { Link } from "react-router";
 import TodoCounter from "../components/TodoCounter";
 import TodoForm from "../components/TodoForm";
 import type { Todo, TodoFormData } from "../types/Todo.types";
-
-const todos: Todo[] = [
-	{
-		id: 42,
-		title: "Learn React 😊",
-		completed: true,
-	},
-	{
-		id: 69,
-		title: "Learn Firebase 🔥",
-		completed: false,
-	},
-	{
-		id: 137,
-		title: "Profit 💰",
-		completed: false,
-	},
-	{
-		id: 420,
-		title: "Take over the world 😈",
-		completed: false,
-	},
-];
-const isLoading = false;
+import { supabase } from "../lib/supabase";
 
 const TodosPage = () => {
 	// const { data: todos, getData, isLoading } = useGetTodos();
+	const [error, setError] = useState<string | false>(false);
+	const [isLoading, setIsLoading] = useState(true);
+	const [todos, setTodos] = useState<Todo[] | null>(null);
 
 	const addTodo = async (todo: TodoFormData) => {
 		// Create the new todo
 		console.log("Would add a new todo:", todo);
 	};
+
+	const getTodos = async () => {
+		setError(false);
+		setIsLoading(true);
+		setTodos(null);
+
+		// Query `todos`-table
+		const { data, error } = await supabase.from("todos").select().order("title");
+		setIsLoading(false);
+
+		if (error) {
+			setError(error.message);
+			return;
+		}
+
+		setTodos(data);
+	}
+
+	useEffect(() => {
+		// Get todos on mount
+		getTodos();
+	}, []);
 
 	return (
 		<>
@@ -52,6 +55,7 @@ const TodosPage = () => {
 
 			<hr />
 
+			{error && <Alert variant="danger">{error}</Alert>}
 			{isLoading && <p>Loading todos...</p>}
 
 			{todos && (<>
