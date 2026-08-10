@@ -13,6 +13,7 @@
     "type-coverage": "type-coverage -p ./tsconfig.app.json --at-least 100"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.112.2",
     "react": "^19.2.8",
     "react-bootstrap": "^2.10.10",
     "react-dom": "^19.2.8",
