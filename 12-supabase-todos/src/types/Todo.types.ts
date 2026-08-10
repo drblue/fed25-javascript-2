@@ -1,7 +1,5 @@
-export interface Todo {
-	id: number;
-	title: string;
-	completed: boolean;
-}
+import type { Database } from "./database.types";
+
+export type Todo = Database["public"]["Tables"]["todos"]["Row"];
 
 export type TodoFormData = Omit<Todo, "id">;
