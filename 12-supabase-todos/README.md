@@ -10,10 +10,12 @@ A standard React TS-app created with Vite. The following packages are already in
 
 ## Installation
 
-Create a new Supabase project. Copy `.env.example` to `.env` and fill in the **Project URL** and the **Publishable key** from the _Project Overview_ of the Supabase projectapp.
+Create a new Supabase project. Copy `.env.example` to `.env.local` and fill in the **Project URL** and the **Publishable key** from the _Project Overview_ of the Supabase projectapp.
 
 ```zsh
 npm install
+cp .env.example .env.local
+code .env.local
 ```
 
 ## Run
