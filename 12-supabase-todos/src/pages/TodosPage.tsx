@@ -50,7 +50,7 @@ const TodosPage = () => {
 			<title>Todos</title>
 			<div className="d-flex justify-content-between align-items-start mb-3">
 				<h1>Todos</h1>
-				<Button onClick={() => false}>Refresh</Button>
+				<Button onClick={() => getTodos()}>Refresh</Button>
 			</div>
 
 			<TodoForm
