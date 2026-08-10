@@ -31,6 +31,28 @@ const useGetTodos = () => {
 	useEffect(() => {
 		// Get todos on mount
 		getTodos();
+
+		const channel = supabase
+			.channel("todos-changes")
+			.on(
+				"postgres_changes",
+				{
+					event: "*",
+					schema: "public",
+					table: "todos",
+				}, (payload) => {
+					// something changed!
+					console.log("Detected change in todos table:", payload);
+					getTodos();
+				})
+			.subscribe();
+		console.log("📮 Subscribed to changes in the todos table");
+
+		return () => {
+			// 🧹 Clean up by removing channel
+			supabase.removeChannel(channel);
+			console.log("🧹 Stopped listening for changes to the todos table");
+		}
 	}, []);
 
 	return {
