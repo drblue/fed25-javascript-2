@@ -25,7 +25,11 @@ const TodosPage = () => {
 		setTodos(null);
 
 		// Query `todos`-table
-		const { data, error } = await supabase.from("todos").select().order("title");
+		const { data, error } = await supabase
+			.from("todos")
+			.select()
+			.order("title");
+		console.log({data});
 		setIsLoading(false);
 
 		if (error) {
