@@ -10,7 +10,7 @@ import { supabase } from "../lib/supabase";
 
 const TodosPage = () => {
 	// const { data: todos, getData, isLoading } = useGetTodos();
-	const [error, setError] = useState<string | false>(false);
+	const [error, setError] = useState<Error | false>(false);
 	const [isLoading, setIsLoading] = useState(true);
 	const [todos, setTodos] = useState<Todo[] | null>(null);
 
@@ -33,7 +33,7 @@ const TodosPage = () => {
 		setIsLoading(false);
 
 		if (error) {
-			setError(error.message);
+			setError(error);
 			return;
 		}
 
@@ -59,7 +59,7 @@ const TodosPage = () => {
 
 			<hr />
 
-			{error && <Alert variant="danger">{error}</Alert>}
+			{error && <Alert variant="danger">{error.message}</Alert>}
 			{isLoading && <p>Loading todos...</p>}
 
 			{todos && (<>
