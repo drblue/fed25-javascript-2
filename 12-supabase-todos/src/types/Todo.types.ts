@@ -2,4 +2,4 @@ import type { Database } from "./database.types";
 
 export type Todo = Database["public"]["Tables"]["todos"]["Row"];
 
-export type TodoFormData = Omit<Todo, "id">;
+export type TodoFormData = Omit<Todo, "id" | "created_at">;

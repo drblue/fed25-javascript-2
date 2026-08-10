@@ -5,6 +5,7 @@ import { Link } from "react-router";
 import TodoCounter from "../components/TodoCounter";
 import TodoForm from "../components/TodoForm";
 import useGetTodos from "../hooks/useGetTodos";
+import { supabase } from "../lib/supabase";
 import type { TodoFormData } from "../types/Todo.types";
 
 const TodosPage = () => {
@@ -13,6 +14,16 @@ const TodosPage = () => {
 	const addTodo = async (todo: TodoFormData) => {
 		// Create the new todo
 		console.log("Would add a new todo:", todo);
+
+		const { error } = await supabase
+			.from("todos")
+			.insert(todo);
+
+		if (error) {
+			return error.message;
+		}
+
+		return null;
 	};
 
 	return (
