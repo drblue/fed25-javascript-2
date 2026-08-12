@@ -1,4 +1,3 @@
-import Container from "react-bootstrap/Container";
 import { Route, Routes } from "react-router";
 import { ToastContainer } from "react-toastify";
 import Navigation from "./pages/partials/Navigation";
@@ -14,7 +13,7 @@ function App() {
 		<div id="App">
 			<Navigation />
 
-			<Container className="py-2">
+			<>
 				<Routes>
 					<Route path="/" element={<HomePage />} />
 					<Route path="/todos" element={<TodosPage />} />
@@ -23,7 +22,7 @@ function App() {
 
 					<Route path="*" element={<NotFoundPage />} />
 				</Routes>
-			</Container>
+			</>
 
 			<ToastContainer
 				// position="bottom-right"

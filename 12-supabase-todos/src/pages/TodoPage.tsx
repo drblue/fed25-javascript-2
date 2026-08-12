@@ -2,6 +2,8 @@ import { useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import Spinner from "react-bootstrap/Spinner";
 import { Link, useNavigate, useParams } from "react-router";
 import { toast } from "react-toastify";
 import ConfirmationModal from "../components/ConfirmationModal";
@@ -70,18 +72,24 @@ const TodoPage = () => {
 	}
 
 	if (error) {
-		return <Alert variant="danger">
-			<Alert.Heading>Doh! Bad stuff happened. Try again later?</Alert.Heading>
-			<p><strong>Error:</strong> {error.message}</p>
-		</Alert>
+		return <Container className="py-4">
+			<Alert variant="danger">
+				<Alert.Heading>Doh! Bad stuff happened. Try again later?</Alert.Heading>
+				<p><strong>Error:</strong> {error.message}</p>
+			</Alert>
+		</Container>
 	}
 
 	if (isLoading) {
-		return <p>Loading todo... nom nom nom 🍪</p>
+		return (
+			<Container className="py-4">
+				<Spinner animation="border" size="sm" /> Loading todo... nom nom nom 🍪
+			</Container>
+		)
 	}
 
 	return todo && (
-		<>
+		<Container className="py-4">
 			<title>{todo.title}</title>
 			<h1 title={"#" + todo.id}>{todo.title}</h1>
 
@@ -122,7 +130,7 @@ const TodoPage = () => {
 			<Link to="/todos" className="btn btn-secondary" role="button">
 				&laquo; All todos
 			</Link>
-		</>
+		</Container>
 	)
 }
 

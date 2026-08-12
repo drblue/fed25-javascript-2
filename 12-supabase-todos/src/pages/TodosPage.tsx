@@ -1,6 +1,8 @@
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
 import ListGroup from "react-bootstrap/ListGroup";
+import Spinner from "react-bootstrap/Spinner";
 import { Link } from "react-router";
 import TodoCounter from "../components/TodoCounter";
 import TodoForm from "../components/TodoForm";
@@ -27,12 +29,14 @@ const TodosPage = () => {
 	};
 
 	return (
-		<>
+		<Container className="py-4">
 			<title>Todos</title>
 			<div className="d-flex justify-content-between align-items-start mb-3">
 				<h1>Todos</h1>
 				<Button onClick={() => getTodos()}>Refresh</Button>
 			</div>
+
+			{error && <Alert variant="danger">{error.message}</Alert>}
 
 			<TodoForm
 				onSave={addTodo}
@@ -40,8 +44,11 @@ const TodosPage = () => {
 
 			<hr />
 
-			{error && <Alert variant="danger">{error.message}</Alert>}
-			{isLoading && <p>Loading todos...</p>}
+			{isLoading && (
+				<div className="d-flex align-items-center gap-2">
+					<Spinner animation="border" size="sm" /> Loading todos...
+				</div>
+			)}
 
 			{todos && (<>
 				{todos.length > 0 ? (
@@ -71,7 +78,7 @@ const TodosPage = () => {
 					</Alert>
 				)}
 			</>)}
-		</>
+		</Container>
 	)
 }
 

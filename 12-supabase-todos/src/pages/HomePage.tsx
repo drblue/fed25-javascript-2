@@ -1,6 +1,8 @@
+import Container from "react-bootstrap/Container";
+
 const HomePage = () => {
 	return (
-		<>
+		<Container className="py-4">
 			<title>Welcome to Supabase Todos!</title>
 			<h1>👾 Welcome to Supabase Todos 🕹️</h1>
 
@@ -19,7 +21,7 @@ const HomePage = () => {
 					</footer>
 				</blockquote>
 			</div>
-		</>
+		</Container>
 	)
 }
 

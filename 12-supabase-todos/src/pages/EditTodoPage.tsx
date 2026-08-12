@@ -1,5 +1,7 @@
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import Spinner from "react-bootstrap/Spinner";
 import { useNavigate, useParams } from "react-router";
 import type { TodoFormData } from "../types/Todo.types";
 import TodoForm from "../components/TodoForm";
@@ -42,18 +44,26 @@ const EditTodoPage = () => {
 	}
 
 	if (error) {
-		return <Alert variant="danger">
-			<Alert.Heading>Doh! Bad stuff happened. Try again later?</Alert.Heading>
-			<p><strong>Error:</strong> {error.message}</p>
-		</Alert>
+		return (
+			<Container className="py-4">
+				<Alert variant="danger">
+					<Alert.Heading>Doh! Bad stuff happened. Try again later?</Alert.Heading>
+					<p><strong>Error:</strong> {error.message}</p>
+				</Alert>
+			</Container>
+		)
 	}
 
 	if (isLoading) {
-		return <p>Loading todo... nom nom nom 🍪</p>
+		return (
+			<Container className="py-4">
+				<Spinner animation="border" size="sm" /> Loading todo... nom nom nom 🍪
+			</Container>
+		)
 	}
 
 	return todo && (
-		<>
+		<Container className="py-4">
 			<title>{`Edit: ${todo.title}`}</title>
 			<h1 title={"Todo #" + todo.id}>Edit: {todo.title}</h1>
 
@@ -70,7 +80,7 @@ const EditTodoPage = () => {
 			>
 				&laquo; Go back
 			</Button>
-		</>
+		</Container>
 	)
 }
 
