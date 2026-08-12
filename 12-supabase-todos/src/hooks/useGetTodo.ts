@@ -35,6 +35,29 @@ const useGetTodo = (id: number) => {
 
 	useEffect(() => {
 		getTodo();
+
+		const channel = supabase
+			.channel("todos-changes")
+			.on(
+				"postgres_changes",
+				{
+					event: "*",
+					schema: "public",
+					table: "todos",
+					filter: `id=eq.${id}`,  // only subscribe to changes to this todo, not all todos
+				}, (payload) => {
+					// something changed!
+					console.log(`Detected change in todo with id ${id}:`, payload);
+					getTodo();
+				})
+			.subscribe();
+		console.log(`📮 Subscribed to changes in the todo with id ${id}`);
+
+		return () => {
+			// 🧹 Clean up by removing channel
+			supabase.removeChannel(channel);
+			console.log(`🧹 Stopped listening for changes to the todo with id ${id}`);
+		}
 	}, []);
 
 	return {
