@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router";
 import { ToastContainer } from "react-toastify";
+import SignupPage from "./pages/auth/SignupPage";
 import Navigation from "./pages/partials/Navigation";
 import EditTodoPage from "./pages/EditTodoPage";
 import HomePage from "./pages/HomePage";
@@ -16,11 +17,15 @@ function App() {
 			<>
 				<Routes>
 					<Route path="/" element={<HomePage />} />
+					<Route path="*" element={<NotFoundPage />} />
+
+					{/* Auth routes */}
+					<Route path="/signup" element={<SignupPage />} />
+
+					{/* Todo routes */}
 					<Route path="/todos" element={<TodosPage />} />
 					<Route path="/todos/:id" element={<TodoPage />} />
 					<Route path="/todos/:id/edit" element={<EditTodoPage />} />
-
-					<Route path="*" element={<NotFoundPage />} />
 				</Routes>
 			</>
 
