@@ -5,9 +5,17 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import { Link } from "react-router";
+import type { SignupFormData } from "../../types/Form.types";
 
 const SignupPage = () => {
+	const { handleSubmit, register, formState: { errors, isSubmitting } } = useForm<SignupFormData>();
+
+	const onSignup: SubmitHandler<SignupFormData> = (formData) => {
+		console.log("Will sign up user:", formData);
+	}
+
 	return (
 		<Container className="py-4 center-y">
 			<Row>
@@ -18,41 +26,67 @@ const SignupPage = () => {
 
 							{false && <Alert variant="danger">{false || "Unknown error"}</Alert>}
 
-							<Form className="mb-3">
+							<Form className="mb-3" onSubmit={handleSubmit(onSignup)}>
 								<Form.Group controlId="email" className="mb-3">
 									<Form.Label>Email</Form.Label>
 									<Form.Control
+										autoComplete="email"
+										isInvalid={!!errors.email}
 										placeholder="snelhest2000@horsemail.com"
 										type="email"
+										{...register("email", {
+											required: "You have to enter an email 🤦🏻",
+										})}
 									/>
-									{false && <p className="invalid">{"Invalid value"}</p>}
+									<Form.Control.Feedback type="invalid">
+										{errors.email?.message || "Invalid value"}
+									</Form.Control.Feedback>
 								</Form.Group>
 
 								<Form.Group controlId="password" className="mb-3">
 									<Form.Label>Password</Form.Label>
 									<Form.Control
+										isInvalid={!!errors.password}
 										type="password"
 										autoComplete="new-password"
+										{...register("password", {
+											required: "You're kidding, right? Enter a password, stupid",
+											minLength: {
+												message: "It said to ENTER AT LEAST 6 CHARACTERS, can't read, can we?",
+												value: 6,
+											},
+										})}
 									/>
-									{false && <p className="invalid">{"Invalid value"}</p>}
-									<Form.Text>At least 6 characters</Form.Text>
+									<Form.Control.Feedback type="invalid">
+										{errors.password?.message || "Invalid value"}
+									</Form.Control.Feedback>
 								</Form.Group>
 
 								<Form.Group controlId="confirmPassword" className="mb-3">
 									<Form.Label>Confirm Password</Form.Label>
 									<Form.Control
+										isInvalid={!!errors.confirmPassword}
 										type="password"
 										autoComplete="off"
+										{...register("confirmPassword", {
+											required: "You're kidding, right? Enter a password, stupid",
+											minLength: {
+												message: "It said to ENTER AT LEAST 6 CHARACTERS, can't read, can we?",
+												value: 6,
+											},
+										})}
 									/>
-									{false && <p className="invalid">{"Invalid value"}</p>}
+									<Form.Control.Feedback type="invalid">
+										{errors.confirmPassword?.message || "Invalid value"}
+									</Form.Control.Feedback>
 								</Form.Group>
 
 								<Button
-									disabled={false}
+									disabled={isSubmitting}
 									type="submit"
 									variant="primary"
 								>
-									{false
+									{isSubmitting
 										? "Creating account..."
 										: "Create Account"}
 								</Button>
