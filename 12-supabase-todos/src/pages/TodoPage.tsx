@@ -3,8 +3,10 @@ import Alert from "react-bootstrap/Alert";
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
 import { Link, useParams } from "react-router";
+import { toast } from "react-toastify";
 import ConfirmationModal from "../components/ConfirmationModal";
 import useGetTodo from "../hooks/useGetTodo";
+import { supabase } from "../lib/supabase";
 import type { Todo } from "../types/Todo.types";
 
 const TodoPage = () => {
@@ -31,8 +33,17 @@ const TodoPage = () => {
 	const handleToggle = async (todo: Todo) => {
 		console.log("Would toggle todo:", todo);
 
+		// Update todo in Supabase
+		const { data, error } = await supabase
+			.from("todos")
+			.update({ completed: !todo.completed })
+			.eq("id", todo.id)
+			.select()
+			.single();
+		console.log("Toggle todo result:", { data, error });
+
 		// 🥂
-		// toast.success("Todo toggled", { icon: () => "📋" });
+		toast.success("Todo toggled", { icon: () => "📋" });
 	}
 
 	if (error) {
