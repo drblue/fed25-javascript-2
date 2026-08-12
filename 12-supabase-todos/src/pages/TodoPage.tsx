@@ -29,6 +29,11 @@ const TodoPage = () => {
 			.single();
 		console.log("Delete todo result:", { data, error });
 
+		if (error) {
+			toast.error(`Error: ${error.message}`, { icon: () => "⚠️" });
+			return;
+		}
+
 		// 🥂
 		toast.success(`Todo "${data?.title}" deleted`, { icon: () => "💣" });
 
@@ -51,8 +56,17 @@ const TodoPage = () => {
 			.single();
 		console.log("Toggle todo result:", { data, error });
 
+		if (error) {
+			toast.error(`Error: ${error.message}`, { icon: () => "⚠️" });
+			return;
+		}
+
 		// 🥂
-		toast.success("Todo toggled", { icon: () => "📋" });
+		if (data.completed) {
+			toast.success("Todo marked as completed", { icon: () => "✅" });
+		} else {
+			toast.success("Todo marked as not completed", { icon: () => "😥" });
+		}
 	}
 
 	if (error) {
