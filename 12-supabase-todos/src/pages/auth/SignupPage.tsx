@@ -74,6 +74,17 @@ const SignupPage = () => {
 												message: "It said to ENTER AT LEAST 6 CHARACTERS, can't read, can we?",
 												value: 6,
 											},
+											validate: (value, formData) => {
+												// Is the current value the same as in the `password` form field?
+												/*
+												if (value === formData.password) {
+													return true;
+												}
+
+												return "The passwords do not match 🤦🏻";
+												*/
+												return value === formData.password || "The passwords do not match 🤦🏻";
+											},
 										})}
 									/>
 									<Form.Control.Feedback type="invalid">
