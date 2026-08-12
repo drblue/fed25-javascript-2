@@ -22,7 +22,7 @@ const useGetTodo = (id: number) => {
 			.select()
 			.eq("id", id)
 			.single();
-		console.log({data});
+		console.log("getTodo result:", data);
 		setIsLoading(false);
 
 		if (error) {
@@ -48,7 +48,10 @@ const useGetTodo = (id: number) => {
 				}, (payload) => {
 					// something changed!
 					console.log(`Detected change in todo with id ${id}:`, payload);
-					getTodo();
+
+					// instead of triggering a new request, use the updated data from the response
+					// getTodo();
+					setTodo(payload.new as Todo);
 				})
 			.subscribe();
 		console.log(`📮 Subscribed to changes in the todo with id ${id}`);
