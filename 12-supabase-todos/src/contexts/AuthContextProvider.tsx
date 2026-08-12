@@ -1,11 +1,21 @@
-import type { PropsWithChildren } from "react";
+import { useState, type PropsWithChildren } from "react";
+import type { User } from "@supabase/supabase-js";
 import { AuthContext } from "./AuthContext";
 
 const AuthContextProvider = ({ children }: PropsWithChildren) => {
-	// Add code for `currentUser`, `login`, `logout` and `signup` and provide them to the children
+	const [currentUser, setCurrentUser] = useState<User | null>(null);
+
+	const login = async (email: string, password: string) => {
+	}
+
+	const logout = () => {
+	}
+
+	const signup = (email: string, password: string) => {
+	}
 
 	return (
-		<AuthContext.Provider value={{ }}>
+		<AuthContext.Provider value={{ currentUser, login, logout, signup }}>
 			{children}
 		</AuthContext.Provider>
 	)
