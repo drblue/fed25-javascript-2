@@ -1,21 +1,17 @@
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import { useNavigate, useParams } from "react-router";
-import type { Todo, TodoFormData } from "../types/Todo.types";
+import type { TodoFormData } from "../types/Todo.types";
 import TodoForm from "../components/TodoForm";
-
-const todo: Todo = {
-	id: 1337,
-	title: "Learn to fake better data 😅",
-	completed: true,
-};
-const error: Error | false = false;
-const isLoading = false;
+import useGetTodo from "../hooks/useGetTodo";
+import { supabase } from "../lib/supabase";
+import { toast } from "react-toastify";
 
 const EditTodoPage = () => {
 	const { id } = useParams();
+	const todoId = Number(id);
 	const navigate = useNavigate();
-	// const { data: todo, error, isLoading } = useGetTodo(id);
+	const { error, isLoading, todo } = useGetTodo(todoId);
 
 	if (!id) {
 		throw new Error("TodoPage can't work without id");
@@ -25,17 +21,30 @@ const EditTodoPage = () => {
 		// Update the todo
 		console.log(`Would update todo id ${id} with:`, data);
 
+		// Update todo in Supabase
+		const { error } = await supabase
+			.from("todos")
+			.update(data)
+			.eq("id", todoId)
+		console.log("Toggle todo result:", { error });
+
+		if (error) {
+			return error.message;
+		}
+
 		// 🥂
-		// toast.success("Todo updated", { icon: () => "✨" });
+		toast.success("Todo updated", { icon: () => "✨" });
 
 		// Redirect user to /todos/:id
-		// navigate("/todos/" + id);
+		navigate("/todos/" + id);
+
+		return null;
 	}
 
 	if (error) {
 		return <Alert variant="danger">
 			<Alert.Heading>Doh! Bad stuff happened. Try again later?</Alert.Heading>
-			{/* <p><strong>Error:</strong> {error.message}</p> */}
+			<p><strong>Error:</strong> {error.message}</p>
 		</Alert>
 	}
 
