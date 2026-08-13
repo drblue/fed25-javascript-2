@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
 import type { Todo } from "../types/Todo.types";
 
-const useGetTodos = () => {
+const useGetTodos = (userId: string) => {
 	const [error, setError] = useState<Error | false>(false);
 	const [isLoading, setIsLoading] = useState(true);
 	const [todos, setTodos] = useState<Todo[] | null>(null);
@@ -16,7 +16,9 @@ const useGetTodos = () => {
 		const { data, error } = await supabase
 			.from("todos")
 			.select()
-			.order("title");
+			.eq("user_id", userId)
+			.order("title")
+			.order("completed");
 		console.log({data});
 		setIsLoading(false);
 

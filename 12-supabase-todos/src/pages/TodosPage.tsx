@@ -12,8 +12,8 @@ import type { TodoFormData } from "../types/Todo.types";
 import useAuth from "../hooks/useAuth";
 
 const TodosPage = () => {
-	const { error, getTodos, isLoading, todos } = useGetTodos();
 	const { currentUser } = useAuth();
+	const { error, getTodos, isLoading, todos } = useGetTodos(currentUser?.id ?? "");
 
 	const addTodo = async (todo: TodoFormData) => {
 		// Create the new todo
