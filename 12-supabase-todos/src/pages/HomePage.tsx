@@ -11,7 +11,7 @@ const HomePage = () => {
 			<h1>👾 Welcome to Supabase Todos 🕹️</h1>
 
 			{currentUser
-				? <p>🧔🏻‍♂️ You are logged in as: <pre>{currentUser.email}</pre></p>
+				? <p>🧔🏻‍♂️ You are logged in as: <strong>{currentUser.email}</strong></p>
 				: <p>✋🏻 You're not logged in.</p>
 			}
 
