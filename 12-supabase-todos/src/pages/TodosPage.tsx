@@ -9,17 +9,26 @@ import TodoForm from "../components/TodoForm";
 import useGetTodos from "../hooks/useGetTodos";
 import { supabase } from "../lib/supabase";
 import type { TodoFormData } from "../types/Todo.types";
+import useAuth from "../hooks/useAuth";
 
 const TodosPage = () => {
 	const { error, getTodos, isLoading, todos } = useGetTodos();
+	const { currentUser } = useAuth();
 
 	const addTodo = async (todo: TodoFormData) => {
 		// Create the new todo
-		console.log("Would add a new todo:", todo);
+		console.log("Will add todo:", todo);
+
+		if (!currentUser) {
+			return "You must be logged in to add a todo.";
+		}
 
 		const { error } = await supabase
 			.from("todos")
-			.insert(todo);
+			.insert({
+				...todo,
+				user_id: currentUser.id,
+			});
 
 		if (error) {
 			return error.message;

@@ -20,18 +20,21 @@ export type Database = {
           created_at: string
           id: number
           title: string
+          user_id: string
         }
         Insert: {
-          completed: boolean
+          completed?: boolean
           created_at?: string
-          id?: number
+          id?: never
           title: string
+          user_id: string
         }
         Update: {
           completed?: boolean
           created_at?: string
-          id?: number
+          id?: never
           title?: string
+          user_id?: string
         }
         Relationships: []
       }
