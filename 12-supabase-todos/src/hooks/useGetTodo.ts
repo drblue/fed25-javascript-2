@@ -22,7 +22,7 @@ const useGetTodo = (id: number) => {
 			.select()
 			.eq("id", id)
 			.single();
-		console.log("getTodo result:", data);
+		console.log("getTodo result:", data, error);
 		setIsLoading(false);
 
 		if (error) {

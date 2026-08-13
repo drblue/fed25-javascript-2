@@ -8,3 +8,8 @@ export type SignupFormData = {
 	password: string;
 	confirmPassword: string;
 }
+
+export type UpdateProfileFormData = {
+	display_name: string;
+	photo_url: string;
+}
