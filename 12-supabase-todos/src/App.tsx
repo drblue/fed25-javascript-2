@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router";
 import { ToastContainer } from "react-toastify";
 import LoginPage from "./pages/auth/LoginPage";
+import LogoutPage from "./pages/auth/LogoutPage";
 import SignupPage from "./pages/auth/SignupPage";
 import Navigation from "./pages/partials/Navigation";
 import EditTodoPage from "./pages/EditTodoPage";
@@ -22,6 +23,7 @@ function App() {
 
 					{/* Auth routes */}
 					<Route path="/login" element={<LoginPage />} />
+					<Route path="/logout" element={<LogoutPage />} />
 					<Route path="/signup" element={<SignupPage />} />
 
 					{/* Todo routes */}
