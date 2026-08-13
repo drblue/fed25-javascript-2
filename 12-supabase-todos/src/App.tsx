@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router";
 import { ToastContainer } from "react-toastify";
+import ProtectedRoutes from "./components/auth/ProtectedRoutes";
 import LoginPage from "./pages/auth/LoginPage";
 import LogoutPage from "./pages/auth/LogoutPage";
 import SignupPage from "./pages/auth/SignupPage";
@@ -26,10 +27,12 @@ function App() {
 					<Route path="/logout" element={<LogoutPage />} />
 					<Route path="/signup" element={<SignupPage />} />
 
-					{/* Todo routes */}
-					<Route path="/todos" element={<TodosPage />} />
-					<Route path="/todos/:id" element={<TodoPage />} />
-					<Route path="/todos/:id/edit" element={<EditTodoPage />} />
+					{/* Protected routes */}
+					<Route element={<ProtectedRoutes />}>
+						<Route path="/todos" element={<TodosPage />} />
+						<Route path="/todos/:id" element={<TodoPage />} />
+						<Route path="/todos/:id/edit" element={<EditTodoPage />} />
+					</Route>
 				</Routes>
 			</>
 
