@@ -1,6 +1,7 @@
 import { useState, type PropsWithChildren } from "react";
 import type { User } from "@supabase/supabase-js";
 import { AuthContext } from "./AuthContext";
+import { supabase } from "../lib/supabase";
 
 const AuthContextProvider = ({ children }: PropsWithChildren) => {
 	const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -12,6 +13,7 @@ const AuthContextProvider = ({ children }: PropsWithChildren) => {
 	}
 
 	const signup = (email: string, password: string) => {
+		return supabase.auth.signUp({ email, password });
 	}
 
 	return (

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
@@ -6,14 +7,34 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import useAuth from "../../hooks/useAuth";
 import type { SignupFormData } from "../../types/Form.types";
+import { toast } from "react-toastify";
 
 const SignupPage = () => {
+	const [errorMessage, setErrorMessage] = useState<string | null>(null);
 	const { handleSubmit, register, formState: { errors, isSubmitting } } = useForm<SignupFormData>();
+	const { signup } = useAuth();
+	const navigate = useNavigate();
 
-	const onSignup: SubmitHandler<SignupFormData> = (formData) => {
-		console.log("Will sign up user:", formData);
+	const onSignup: SubmitHandler<SignupFormData> = async ({ email, password }) => {
+		console.log("Will sign up user:", email, password);
+
+		// Pass email and password along to signup in AuthContext
+		const { data, error } = await signup(email, password);
+		console.log("Supabase signup response:", { data, error });
+
+		// If error, set error state and toast
+		if (error) {
+			setErrorMessage(error.message);
+			toast.error(error.message, { icon: () => "😢" });
+			return;
+		}
+
+		// If successful, toast 🥂 and redirect ➡️
+		toast.success("Yayyy, you gots an accounts!");
+		navigate("/");
 	}
 
 	return (
@@ -24,7 +45,7 @@ const SignupPage = () => {
 						<Card.Body>
 							<Card.Title className="mb-3">Sign up</Card.Title>
 
-							{false && <Alert variant="danger">{false || "Unknown error"}</Alert>}
+							{errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
 
 							<Form className="mb-3" onSubmit={handleSubmit(onSignup)}>
 								<Form.Group controlId="email" className="mb-3">

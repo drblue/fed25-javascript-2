@@ -1,10 +1,19 @@
 import Container from "react-bootstrap/Container";
+import useAuth from "../hooks/useAuth";
 
 const HomePage = () => {
+	const { currentUser } = useAuth();
+	console.log("currentUser:", currentUser);
+
 	return (
 		<Container className="py-4">
 			<title>Welcome to Supabase Todos!</title>
 			<h1>👾 Welcome to Supabase Todos 🕹️</h1>
+
+			{currentUser
+				? <p>🧔🏻‍♂️ You are logged in as: <pre>{currentUser.email}</pre></p>
+				: <p>✋🏻 You're not logged in.</p>
+			}
 
 			<div className="py-5">
 				<picture className="d-flex justify-content-center mb-3">
