@@ -80,7 +80,7 @@ const UpdateProfile = () => {
 	return (
 		<Container className="py-4 center-y">
 			<Row>
-				<Col md={{ span: 6, offset: 3 }}>
+				<Col md={{ span: 8, offset: 2 }}>
 					<Card className="mb-3">
 						<Card.Body>
 							<Card.Title className="mb-3">Update profile</Card.Title>
@@ -119,6 +119,7 @@ const UpdateProfile = () => {
 								<Form.Group controlId="photo_url" className="mb-3">
 									<Form.Label>Photo</Form.Label>
 									<Form.Control
+										accept="image/heic,image/jpeg,image/webp"
 										isInvalid={!!errors.photoFiles}
 										type="file"
 										{...register("photoFiles")}
