@@ -22,7 +22,7 @@ const UpdateProfile = () => {
 		throw new Error("You must be logged in to update your profile (duh...).");
 	}
 
-	const { handleSubmit, register, reset, watch, formState: { errors, isSubmitting } } = useForm<UpdateProfileFormData>({
+	const { handleSubmit, register, reset, resetField, watch, formState: { errors, isSubmitting } } = useForm<UpdateProfileFormData>({
 		defaultValues: profile,
 	});
 
@@ -135,6 +135,12 @@ const UpdateProfile = () => {
 											{photoFiles[0].name}
 											{" "}
 											({Math.round(photoFiles[0].size / 1024)} kB)
+											{" "}
+											<span
+												aria-description="Remove selected file"
+												onClick={() => resetField("photoFiles")}
+												role="button"
+											>❌</span>
 										</Form.Text>
 									)}
 									<Form.Control.Feedback type="invalid">
