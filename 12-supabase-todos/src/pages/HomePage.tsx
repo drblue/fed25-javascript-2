@@ -3,7 +3,6 @@ import useAuth from "../hooks/useAuth";
 
 const HomePage = () => {
 	const { currentUser } = useAuth();
-	console.log("currentUser:", currentUser);
 
 	return (
 		<Container className="py-4">
