@@ -22,9 +22,12 @@ const UpdateProfile = () => {
 		throw new Error("You must be logged in to update your profile (duh...).");
 	}
 
-	const { handleSubmit, register, reset, formState: { errors, isSubmitting } } = useForm<UpdateProfileFormData>({
+	const { handleSubmit, register, reset, watch, formState: { errors, isSubmitting } } = useForm<UpdateProfileFormData>({
 		defaultValues: profile,
 	});
+
+	// Watch the selected filelist
+	const photoFiles = watch("photoFiles");
 
 	const onUpdateProfile: SubmitHandler<UpdateProfileFormData> = async (data) => {
 		console.log("Will update user with:", data);
@@ -127,6 +130,13 @@ const UpdateProfile = () => {
 										type="file"
 										{...register("photoFiles")}
 									/>
+									{photoFiles && photoFiles.length > 0 && (
+										<Form.Text>
+											{photoFiles[0].name}
+											{" "}
+											({Math.round(photoFiles[0].size / 1024)} kB)
+										</Form.Text>
+									)}
 									<Form.Control.Feedback type="invalid">
 										{errors.photoFiles?.message || "Invalid value"}
 									</Form.Control.Feedback>
