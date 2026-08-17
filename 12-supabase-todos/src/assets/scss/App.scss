@@ -32,6 +32,18 @@ hr {
 	justify-content: center;
 }
 
+.img-cover-1v1 {
+	aspect-ratio: 1 / 1;
+	object-fit: cover;
+}
+
+.profile-photo-container {
+	display: flex;
+	justify-content: center;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
+
 .alert p:last-of-type {
 	margin-bottom: 0;
 }

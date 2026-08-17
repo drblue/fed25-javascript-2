@@ -5,6 +5,7 @@ import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
+import Image from "react-bootstrap/Image";
 import Row from "react-bootstrap/Row";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import type { UpdateProfileFormData } from "../types/Form.types";
@@ -51,6 +52,15 @@ const UpdateProfile = () => {
 							<Card.Title className="mb-3">Update profile</Card.Title>
 
 							{errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
+
+							<div className="profile-photo-container">
+								<Image
+									src={profile.photo_url || "https://dummyimage.com/500x500/222/fff&text=Y+U+NO+PHOTO+HAS?!"}
+									fluid
+									roundedCircle
+									className="img-cover-1v1 w-75"
+								/>
+							</div>
 
 							<Form className="mb-3" onSubmit={handleSubmit(onUpdateProfile)}>
 								<Form.Group controlId="name" className="mb-3">
