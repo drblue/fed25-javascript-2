@@ -28,9 +28,43 @@ const UpdateProfile = () => {
 
 	const onUpdateProfile: SubmitHandler<UpdateProfileFormData> = async (data) => {
 		console.log("Will update user with:", data);
+		let photo_url = profile.photo_url;
+
+		// Check if user has selected a photo
+		if (data.photoFiles.length > 0) {
+			const file = data.photoFiles[0];
+
+			// Construct file path
+			const supabaseUploadPath = currentUser.id + "/profile/" + file.name;
+
+			// Upload file to path
+			const { error: uploadError, data: uploadData } = await supabase
+				.storage
+				.from("supabase-basics")
+				.upload(supabaseUploadPath, file, {
+					contentType: file.type,
+					upsert: true,  // overwrite existing file (default behaviour is false)
+				});
+
+			if (uploadError) {
+				setErrorMessage(uploadError.message);
+				toast.error(`Error uploading photo: ${uploadError.message}`, { icon: () => "🙅‍♀️" });
+				return;
+			}
+
+			const { data: { publicUrl } } = await supabase.storage.from("supabase-basics").getPublicUrl(supabaseUploadPath);
+			photo_url = publicUrl;
+
+			console.log("File uploaded:", uploadData, publicUrl);
+		}
 
 		// Update user metadata in Supabase
-		const { error } = await supabase.auth.updateUser({ data });
+		const { error } = await supabase.auth.updateUser({
+			data: {
+				display_name: data.display_name,
+				photo_url,
+			},
+		});
 
 		// Handle any errors that may occur
 		if (error) {
@@ -83,16 +117,14 @@ const UpdateProfile = () => {
 								</Form.Group>
 
 								<Form.Group controlId="photo_url" className="mb-3">
-									<Form.Label>Photo URL</Form.Label>
+									<Form.Label>Photo</Form.Label>
 									<Form.Control
-										autoComplete="url"
-										isInvalid={!!errors.photo_url}
-										placeholder="https://randomuser.me/api/portraits/women/68.jpg"
-										type="url"
-										{...register("photo_url")}
+										isInvalid={!!errors.photoFiles}
+										type="file"
+										{...register("photoFiles")}
 									/>
 									<Form.Control.Feedback type="invalid">
-										{errors.photo_url?.message || "Invalid value"}
+										{errors.photoFiles?.message || "Invalid value"}
 									</Form.Control.Feedback>
 								</Form.Group>
 

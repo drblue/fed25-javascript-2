@@ -11,5 +11,5 @@ export type SignupFormData = {
 
 export type UpdateProfileFormData = {
 	display_name: string;
-	photo_url: string;
+	photoFiles: FileList;
 }

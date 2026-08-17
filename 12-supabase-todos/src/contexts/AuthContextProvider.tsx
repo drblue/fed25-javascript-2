@@ -22,7 +22,7 @@ const AuthContextProvider = ({ children }: PropsWithChildren) => {
 
 	useEffect(() => {
 		const { data } = supabase.auth.onAuthStateChange((event, session) => {
-			console.log("Auth state changed:", event, session);
+			console.log("Auth state changed", { event, id: session?.user.id, email: session?.user.email });
 
 			setCurrentUser(session?.user ?? null);
 			setIsLoading(false);
