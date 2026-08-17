@@ -34,7 +34,7 @@ const UpdateProfile = () => {
 		let photo_url = profile.photo_url;
 
 		// Check if user has selected a photo
-		if (data.photoFiles.length > 0) {
+		if (data.photoFiles && data.photoFiles.length > 0) {
 			const file = data.photoFiles[0];
 
 			// Construct file path
