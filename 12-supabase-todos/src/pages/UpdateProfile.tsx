@@ -22,7 +22,7 @@ const UpdateProfile = () => {
 		throw new Error("You must be logged in to update your profile (duh...).");
 	}
 
-	const { handleSubmit, register, formState: { errors, isSubmitting } } = useForm<UpdateProfileFormData>({
+	const { handleSubmit, register, reset, formState: { errors, isSubmitting } } = useForm<UpdateProfileFormData>({
 		defaultValues: profile,
 	});
 
@@ -72,6 +72,9 @@ const UpdateProfile = () => {
 			toast.error(`Error: ${error.message}`, { icon: () => "⚠️" });
 			return;
 		}
+
+		// Reset form back to its initial state
+		reset();
 
 		// If successful, show toast 🥂
 		toast.success("🛟 Great profile!");
