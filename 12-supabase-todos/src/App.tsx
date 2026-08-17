@@ -4,7 +4,7 @@ import ProtectedRoutes from "./components/auth/ProtectedRoutes";
 import LoginPage from "./pages/auth/LoginPage";
 import LogoutPage from "./pages/auth/LogoutPage";
 import SignupPage from "./pages/auth/SignupPage";
-import UpdateProfile from "./pages/auth/UpdateProfile";
+import UpdateProfile from "./pages/UpdateProfile";
 import Navigation from "./pages/partials/Navigation";
 import EditTodoPage from "./pages/EditTodoPage";
 import HomePage from "./pages/HomePage";

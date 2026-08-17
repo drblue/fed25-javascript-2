@@ -7,21 +7,39 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import type { UpdateProfileFormData } from "../../types/Form.types";
+import type { UpdateProfileFormData } from "../types/Form.types";
+import useAuth from "../hooks/useAuth";
+import { getProfileMetadata } from "../lib/profile";
+import { supabase } from "../lib/supabase";
+import { toast } from "react-toastify";
 
 const UpdateProfile = () => {
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
-	const { handleSubmit, register, formState: { errors, isSubmitting } } = useForm<UpdateProfileFormData>();
+	const { currentUser } = useAuth();
+	const profile = getProfileMetadata(currentUser);
+	if (!currentUser) {
+		throw new Error("You must be logged in to update your profile (duh...).");
+	}
+
+	const { handleSubmit, register, formState: { errors, isSubmitting } } = useForm<UpdateProfileFormData>({
+		defaultValues: profile,
+	});
 
 	const onUpdateProfile: SubmitHandler<UpdateProfileFormData> = async (data) => {
 		console.log("Will update user with:", data);
 
 		// Update user metadata in Supabase
+		const { error } = await supabase.auth.updateUser({ data });
 
 		// Handle any errors that may occur
+		if (error) {
+			setErrorMessage(error.message);
+			toast.error(`Error: ${error.message}`, { icon: () => "⚠️" });
+			return;
+		}
 
 		// If successful, show toast 🥂
-		// toast.success("🛟 Great profile!");
+		toast.success("🛟 Great profile!");
 	}
 
 	return (
