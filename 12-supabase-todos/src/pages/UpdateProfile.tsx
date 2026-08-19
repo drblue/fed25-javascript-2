@@ -116,6 +116,7 @@ const UpdateProfile = () => {
 		// Reset form back to its initial state
 		reset({
 			display_name: getProfileMetadata(updatedUser).display_name,
+			photoFiles: null,
 		});
 
 		// If successful, show toast 🥂
