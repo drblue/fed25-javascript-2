@@ -29,8 +29,43 @@ const UpdateProfile = () => {
 	// Watch the selected filelist
 	const photoFiles = watch("photoFiles");
 
+	const handleDeletePhoto = async () => {
+		// Delete image from Supabase Storage bucket
+		if (profile.photo_path) {
+			const { error: removePhotoError } = await supabase
+				.storage
+				.from("supabase-basics")
+				.remove([profile.photo_path]);
+
+			if (removePhotoError) {
+				setErrorMessage(removePhotoError.message);
+				toast.error(`Error: Could not delete photo from storage`, { icon: () => "⚠️" });
+				return;
+			}
+		}
+
+		// Update user metadata in Supabase
+		const { error } = await supabase.auth.updateUser({
+			data: {
+				photo_path: null,
+				photo_url: null,
+			},
+		});
+
+		// Handle any errors that may occur
+		if (error) {
+			setErrorMessage(error.message);
+			toast.error(`Error: ${error.message}`, { icon: () => "⚠️" });
+			return;
+		}
+
+		// If successful, show toast 🥂
+		toast.success("🗑️ Photo deleted");
+	}
+
 	const onUpdateProfile: SubmitHandler<UpdateProfileFormData> = async (data) => {
 		console.log("Will update user with:", data);
+		let photo_path = profile.photo_path;
 		let photo_url = profile.photo_url;
 
 		// Check if user has selected a photo
@@ -57,6 +92,7 @@ const UpdateProfile = () => {
 
 			const { data: { publicUrl } } = await supabase.storage.from("supabase-basics").getPublicUrl(supabaseUploadPath);
 			photo_url = publicUrl;
+			photo_path = supabaseUploadPath;
 
 			console.log("File uploaded:", uploadData, publicUrl);
 		}
@@ -65,6 +101,7 @@ const UpdateProfile = () => {
 		const { data: { user: updatedUser }, error } = await supabase.auth.updateUser({
 			data: {
 				display_name: data.display_name,
+				photo_path,
 				photo_url,
 			},
 		});
@@ -95,13 +132,22 @@ const UpdateProfile = () => {
 
 							{errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
 
-							<div className="profile-photo-container">
-								<Image
-									src={profile.photo_url || "https://dummyimage.com/500x500/222/fff&text=Y+U+NO+PHOTO+HAS?!"}
-									fluid
-									roundedCircle
-									className="img-cover-1v1 w-75"
-								/>
+							<div className="text-center mb-3">
+								<div className="profile-photo-container">
+									<Image
+										src={profile.photo_url || "https://dummyimage.com/500x500/222/fff&text=Y+U+NO+PHOTO+HAS?!"}
+										fluid
+										roundedCircle
+										className="img-cover-1v1 w-75"
+									/>
+								</div>
+								{profile.photo_url && (
+									<Button
+										onClick={handleDeletePhoto}
+										size="sm"
+										variant="danger"
+									>Delete photo</Button>
+								)}
 							</div>
 
 							<Form className="mb-3" onSubmit={handleSubmit(onUpdateProfile)}>
