@@ -11,7 +11,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import type { UpdateProfileFormData } from "../types/Form.types";
 import useAuth from "../hooks/useAuth";
 import { getProfileMetadata } from "../lib/profile";
-import { supabase } from "../lib/supabase";
+import { supabase, supabaseStorageBucket } from "../lib/supabase";
 import { toast } from "react-toastify";
 
 const UpdateProfile = () => {
@@ -32,9 +32,8 @@ const UpdateProfile = () => {
 	const handleDeletePhoto = async () => {
 		// Delete image from Supabase Storage bucket
 		if (profile.photo_path) {
-			const { error: removePhotoError } = await supabase
-				.storage
-				.from("supabase-basics")
+			const { error: removePhotoError } = await supabase.storage
+				.from(supabaseStorageBucket)
 				.remove([profile.photo_path]);
 
 			if (removePhotoError) {
@@ -76,9 +75,8 @@ const UpdateProfile = () => {
 			const supabaseUploadPath = currentUser.id + "/profile/" + file.name;
 
 			// Upload file to path
-			const { error: uploadError, data: uploadData } = await supabase
-				.storage
-				.from("supabase-basics")
+			const { error: uploadError, data: uploadData } = await supabase.storage
+				.from(supabaseStorageBucket)
 				.upload(supabaseUploadPath, file, {
 					contentType: file.type,
 					upsert: true,  // overwrite existing file (default behaviour is false)
@@ -90,16 +88,15 @@ const UpdateProfile = () => {
 				return;
 			}
 
-			const { data: { publicUrl } } = await supabase.storage.from("supabase-basics").getPublicUrl(supabaseUploadPath);
+			const { data: { publicUrl } } = await supabase.storage.from(supabaseStorageBucket).getPublicUrl(supabaseUploadPath);
 			photo_url = publicUrl;
 			photo_path = supabaseUploadPath;
 
 			// If the user already had a profile photo, delete the old photo from storage
 			// But only after we're sure the new file has been successfully uploaded
 			if (profile.photo_path) {
-				const { error: removePreviousPhotoError } = await supabase
-					.storage
-					.from("supabase-basics")
+				const { error: removePreviousPhotoError } = await supabase.storage
+					.from(supabaseStorageBucket)
 					.remove([profile.photo_path]);
 
 				if (removePreviousPhotoError) {
