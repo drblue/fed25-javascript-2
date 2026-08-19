@@ -11,8 +11,10 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import type { UpdateProfileFormData } from "../types/Form.types";
 import useAuth from "../hooks/useAuth";
 import { getProfileMetadata } from "../lib/profile";
-import { supabase, supabaseStorageBucket } from "../lib/supabase";
+import { supabase, supabaseStorageBucket, supabaseStorageMaxPhotoSizeMb } from "../lib/supabase";
 import { toast } from "react-toastify";
+
+const MAX_PHOTO_FILESIZE = Number(supabaseStorageMaxPhotoSizeMb) * 1024 * 1024;
 
 const UpdateProfile = () => {
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -187,7 +189,15 @@ const UpdateProfile = () => {
 										accept="image/heic,image/jpeg,image/webp"
 										isInvalid={!!errors.photoFiles}
 										type="file"
-										{...register("photoFiles")}
+										{...register("photoFiles", {
+											validate: (files) => {
+												if (!files?.length || files[0].size <= MAX_PHOTO_FILESIZE) {
+													return true;
+												}
+
+												return `Photo must be ${supabaseStorageMaxPhotoSizeMb} MB or smaller`;
+											},
+										})}
 									/>
 									{photoFiles && photoFiles.length > 0 && (
 										<Form.Text>
