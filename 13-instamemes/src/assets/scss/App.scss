@@ -1,0 +1,55 @@
+@import "bootstrap/scss/bootstrap";
+
+// Make react-toastify more bootstrap-y
+@import "toastify";
+
+h1, h2, h3, h4, h5, h6 {
+	margin-bottom: 0.75em;
+}
+
+hr {
+	margin-top: 1.5rem;
+	margin-bottom: 1.5rem;
+}
+
+#global-loading-spinner {
+	position: fixed;
+	top: 4.5rem;
+	right: 4.5rem;
+	z-index: 2;
+}
+
+#App {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+.center-y {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	justify-content: center;
+}
+
+.img-cover-1v1 {
+	aspect-ratio: 1 / 1;
+	object-fit: cover;
+}
+
+.profile-photo-container {
+	display: flex;
+	justify-content: center;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
+
+.alert p:last-of-type {
+	margin-bottom: 0;
+}
+
+.modal {
+	.modal-title {
+		margin-bottom: 0;
+	}
+}
