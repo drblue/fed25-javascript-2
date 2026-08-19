@@ -138,8 +138,12 @@ const UpdateProfile = () => {
 
 		// Handle any errors that may occur
 		if (error) {
-			setErrorMessage(error.message);
-			toast.error(`Error: ${error.message}`, { icon: () => "⚠️" });
+			const message = error.code === "reauthentication_needed"
+				? "You need to log in again before changing your password."
+				: error.message;
+
+			setErrorMessage(message);
+			toast.error(`Error: ${message}`, { icon: () => "⚠️" });
 			return;
 		}
 
