@@ -94,6 +94,19 @@ const UpdateProfile = () => {
 			photo_url = publicUrl;
 			photo_path = supabaseUploadPath;
 
+			// If the user already had a profile photo, delete the old photo from storage
+			// But only after we're sure the new file has been successfully uploaded
+			if (profile.photo_path) {
+				const { error: removePreviousPhotoError } = await supabase
+					.storage
+					.from("supabase-basics")
+					.remove([profile.photo_path]);
+
+				if (removePreviousPhotoError) {
+					toast.warning(`Could not delete previous photo from storage: ${removePreviousPhotoError.message}`, { icon: () => "😳" });
+				}
+			}
+
 			console.log("File uploaded:", uploadData, publicUrl);
 		}
 
