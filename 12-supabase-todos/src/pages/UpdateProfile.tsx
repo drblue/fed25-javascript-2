@@ -62,7 +62,7 @@ const UpdateProfile = () => {
 		}
 
 		// Update user metadata in Supabase
-		const { error } = await supabase.auth.updateUser({
+		const { data: { user: updatedUser }, error } = await supabase.auth.updateUser({
 			data: {
 				display_name: data.display_name,
 				photo_url,
@@ -77,7 +77,9 @@ const UpdateProfile = () => {
 		}
 
 		// Reset form back to its initial state
-		reset();
+		reset({
+			display_name: getProfileMetadata(updatedUser).display_name,
+		});
 
 		// If successful, show toast 🥂
 		toast.success("🛟 Great profile!");
