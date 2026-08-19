@@ -1,3 +1,4 @@
+import type { UserAttributes } from "@supabase/supabase-js";
 import { useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
@@ -8,11 +9,11 @@ import Form from "react-bootstrap/Form";
 import Image from "react-bootstrap/Image";
 import Row from "react-bootstrap/Row";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import type { UpdateProfileFormData } from "../types/Form.types";
+import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
+import type { UpdateProfileFormData } from "../types/Form.types";
 import { getProfileMetadata } from "../lib/profile";
 import { supabase, supabaseStorageBucket, supabaseStorageMaxPhotoSizeMb } from "../lib/supabase";
-import { toast } from "react-toastify";
 
 const MAX_PHOTO_FILESIZE = Number(supabaseStorageMaxPhotoSizeMb) * 1024 * 1024;
 
@@ -25,7 +26,10 @@ const UpdateProfile = () => {
 	}
 
 	const { handleSubmit, register, reset, resetField, watch, formState: { errors, isSubmitting } } = useForm<UpdateProfileFormData>({
-		defaultValues: profile,
+		defaultValues: {
+			display_name: profile.display_name,
+			email: currentUser.email,
+		},
 	});
 
 	// Watch the selected filelist
@@ -109,14 +113,28 @@ const UpdateProfile = () => {
 			console.log("File uploaded:", uploadData, publicUrl);
 		}
 
-		// Update user metadata in Supabase
-		const { data: { user: updatedUser }, error } = await supabase.auth.updateUser({
+		const userAttributes: UserAttributes = {
 			data: {
 				display_name: data.display_name,
 				photo_path,
 				photo_url,
 			},
-		});
+		}
+
+		// Has the user changed email?
+		if (data.email !== currentUser.email) {
+			userAttributes.email = data.email;
+		}
+
+		// Does the user want to change password?
+		if (data.newPassword) {
+			userAttributes.password = data.newPassword;
+		}
+
+		console.log("💾 Supabase user attributes to save:", userAttributes);
+
+		// Update user metadata in Supabase
+		const { data: { user: updatedUser }, error } = await supabase.auth.updateUser(userAttributes);
 
 		// Handle any errors that may occur
 		if (error) {
@@ -128,7 +146,10 @@ const UpdateProfile = () => {
 		// Reset form back to its initial state
 		reset({
 			display_name: getProfileMetadata(updatedUser).display_name,
+			email: currentUser.email,
 			photoFiles: null,
+			newPassword: "",
+			confirmNewPassword: "",
 		});
 
 		// If successful, show toast 🥂
@@ -183,6 +204,22 @@ const UpdateProfile = () => {
 									</Form.Control.Feedback>
 								</Form.Group>
 
+								<Form.Group controlId="email" className="mb-3">
+									<Form.Label>Email</Form.Label>
+									<Form.Control
+										autoComplete="email"
+										isInvalid={!!errors.email}
+										placeholder="snelhest2000@horsemail.com"
+										type="email"
+										{...register("email", {
+											required: "You have to enter an email 🤦🏻",
+										})}
+									/>
+									<Form.Control.Feedback type="invalid">
+										{errors.email?.message || "Invalid value"}
+									</Form.Control.Feedback>
+								</Form.Group>
+
 								<Form.Group controlId="photo_url" className="mb-3">
 									<Form.Label>Photo</Form.Label>
 									<Form.Control
@@ -214,6 +251,45 @@ const UpdateProfile = () => {
 									)}
 									<Form.Control.Feedback type="invalid">
 										{errors.photoFiles?.message || "Invalid value"}
+									</Form.Control.Feedback>
+								</Form.Group>
+
+								<Form.Group controlId="password" className="mb-3">
+									<Form.Label>New Password</Form.Label>
+									<Form.Control
+										isInvalid={!!errors.newPassword}
+										type="password"
+										autoComplete="new-password"
+										{...register("newPassword", {
+											minLength: {
+												message: "It said to ENTER AT LEAST 6 CHARACTERS, can't read, can we?",
+												value: 6,
+											},
+										})}
+									/>
+									<Form.Control.Feedback type="invalid">
+										{errors.newPassword?.message || "Invalid value"}
+									</Form.Control.Feedback>
+								</Form.Group>
+
+								<Form.Group controlId="confirmPassword" className="mb-3">
+									<Form.Label>Confirm New Password</Form.Label>
+									<Form.Control
+										isInvalid={!!errors.confirmNewPassword}
+										type="password"
+										autoComplete="off"
+										{...register("confirmNewPassword", {
+											minLength: {
+												message: "It said to ENTER AT LEAST 6 CHARACTERS, can't read, can we?",
+												value: 6,
+											},
+											validate: (value, formData) => {
+												return value === formData.newPassword || "The passwords do not match 🤦🏻";
+											},
+										})}
+									/>
+									<Form.Control.Feedback type="invalid">
+										{errors.confirmNewPassword?.message || "Invalid value"}
 									</Form.Control.Feedback>
 								</Form.Group>
 

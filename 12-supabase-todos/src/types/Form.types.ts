@@ -16,4 +16,7 @@ export type SignupFormData = {
 export type UpdateProfileFormData = {
 	display_name: string;
 	photoFiles: FileList | null;
+	email: string;
+	newPassword: string;
+	confirmNewPassword: string;
 }
