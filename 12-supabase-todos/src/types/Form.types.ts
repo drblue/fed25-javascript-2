@@ -1,3 +1,7 @@
+export type ForgotPasswordFormData = {
+	email: string;
+}
+
 export type LoginFormData = {
 	email: string;
 	password: string;

@@ -124,9 +124,9 @@ const SignupPage = () => {
 								</Button>
 							</Form>
 
-							{/* <div className="text-center">
-								<Link to="/forgot-password">Forgot Password?</Link>
-							</div> */}
+							<div className="text-center">
+								Already have an account but forgot your password? <Link to="/forgot-password">Click here!</Link>
+							</div>
 						</Card.Body>
 					</Card>
 

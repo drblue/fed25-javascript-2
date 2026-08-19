@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router";
 import { ToastContainer } from "react-toastify";
 import ProtectedRoutes from "./components/auth/ProtectedRoutes";
+import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
 import LoginPage from "./pages/auth/LoginPage";
 import LogoutPage from "./pages/auth/LogoutPage";
 import SignupPage from "./pages/auth/SignupPage";
@@ -24,6 +25,7 @@ function App() {
 					<Route path="*" element={<NotFoundPage />} />
 
 					{/* Auth routes */}
+					<Route path="/forgot-password" element={<ForgotPasswordPage />} />
 					<Route path="/login" element={<LoginPage />} />
 					<Route path="/logout" element={<LogoutPage />} />
 					<Route path="/signup" element={<SignupPage />} />
