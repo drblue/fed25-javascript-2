@@ -54,6 +54,8 @@ const UploadMeme = () => {
 		});
 
 		if (databaseError) {
+			// Delete uploaded image from Supabase Storage bucket
+			await supabase.storage.from(supabaseStorageBucket).remove([path]);
 			toast.error(`Uppladdningen misslyckades: ${databaseError.message}`);
 			return;
 		}
