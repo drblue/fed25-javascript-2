@@ -7,16 +7,16 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import type { SignupFormData } from "../../types/Form.types";
 import { toast } from "react-toastify";
 
 const SignupPage = () => {
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
+	const [emailSent, setEmailSent] = useState(false);
 	const { handleSubmit, register, formState: { errors, isSubmitting } } = useForm<SignupFormData>();
 	const { signup } = useAuth();
-	const navigate = useNavigate();
 
 	const onSignup: SubmitHandler<SignupFormData> = async ({ email, password }) => {
 		console.log("Will sign up user:", email, password);
@@ -33,8 +33,8 @@ const SignupPage = () => {
 		}
 
 		// If successful, toast 🥂 and redirect ➡️
-		toast.success("Yayyy, you gots an accounts!");
-		navigate("/");
+		setEmailSent(true);
+		toast.success("Account created, please check your email for the confirm-link.");
 	}
 
 	return (
@@ -46,6 +46,7 @@ const SignupPage = () => {
 							<Card.Title className="mb-3">Sign up</Card.Title>
 
 							{errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
+							{emailSent && <Alert variant="success">📬 You need to confirm your email address. Please check your email for the link.</Alert>}
 
 							<Form className="mb-3" onSubmit={handleSubmit(onSignup)}>
 								<Form.Group controlId="email" className="mb-3">
