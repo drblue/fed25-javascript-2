@@ -20,3 +20,8 @@ export type UpdateProfileFormData = {
 	newPassword: string;
 	confirmNewPassword: string;
 }
+
+export type UploadMemeFormData = {
+	title: string;
+	images: FileList | null;
+}

@@ -14,7 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      memes: {
+        Row: {
+          created_at: string
+          id: number
+          name: string
+          path: string
+          public_url: string
+          size: number
+          title: string | null
+          type: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          name: string
+          path: string
+          public_url: string
+          size: number
+          title?: string | null
+          type: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          name?: string
+          path?: string
+          public_url?: string
+          size?: number
+          title?: string | null
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
