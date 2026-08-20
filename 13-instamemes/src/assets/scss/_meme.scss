@@ -1,0 +1,18 @@
+.meme-image-button {
+	background: none;
+	border: 0;
+	padding: 0;
+}
+
+.lightbox-body {
+	max-height: 70vh;
+	overflow: auto;
+	padding: 0;
+	text-align: center;
+
+	img {
+		display: block;
+		height: auto;
+		margin: auto;
+	}
+}
