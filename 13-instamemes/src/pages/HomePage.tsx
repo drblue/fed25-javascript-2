@@ -12,19 +12,12 @@ const HomePage = () => {
 	const { currentUser } = useAuth();
 	const { error, getMemes, isLoading, memes } = useMemes();
 
-	const handleOnUploadSuccess = async () => {
-		console.log("Child says great success on upload of lol!");
-
-		// Refetch dem memes
-		await getMemes();
-	}
-
 	return (
 		<Container className="py-4">
 			<title>😄 InstaMemes</title>
 			<h1>Welcome to InstaMemes 😃!</h1>
 
-			{currentUser && <UploadMeme onUploadSuccess={handleOnUploadSuccess} />}
+			{currentUser && <UploadMeme />}
 
 			<hr />
 

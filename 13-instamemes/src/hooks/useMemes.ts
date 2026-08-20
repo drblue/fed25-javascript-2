@@ -30,6 +30,22 @@ const useMemes = () => {
 
 	useEffect(() => {
 		getMemes();
+
+		// Subscribe to Postgres changes in the `memes` table
+		const channel = supabase
+			.channel("memes")
+			.on(
+				"postgres_changes",
+				{ event: "*", schema: "public", table: "memes" },
+				getMemes
+			)
+			.subscribe();
+		console.log("🦻 Started listening for postgres-changes");
+
+		return () => {
+			supabase.removeChannel(channel);
+			console.log("🫷🏻 Stopped listening for postgres-changes");
+		}
 	}, []);
 
 	return {
