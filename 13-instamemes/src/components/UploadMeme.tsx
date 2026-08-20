@@ -8,7 +8,11 @@ import type { UploadMemeFormData } from "../types/Form.types";
 
 const MAX_PHOTO_FILESIZE = Number(supabaseStorageMaxPhotoSizeMb) * 1024 * 1024;
 
-const UploadMeme = () => {
+interface UploadMemeProps {
+	onUploadSuccess?: () => void;
+}
+
+const UploadMeme = ({ onUploadSuccess = () => {} }: UploadMemeProps) => {
 	const { handleSubmit, register, reset, resetField, watch, formState: { errors, isSubmitting, isValid } } = useForm<UploadMemeFormData>();
 	const { currentUser } = useAuth();
 
@@ -59,6 +63,9 @@ const UploadMeme = () => {
 			toast.error(`Uppladdningen misslyckades: ${databaseError.message}`);
 			return;
 		}
+
+		// Let parent know that the upload was successful
+		onUploadSuccess();
 
 		// Toast 🥂 + 🧹
 		toast.success("That was a good one!", { icon: () => "😂" });

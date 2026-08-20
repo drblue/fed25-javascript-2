@@ -1,4 +1,5 @@
 import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -9,16 +10,27 @@ import useMemes from "../hooks/useMemes";
 
 const HomePage = () => {
 	const { currentUser } = useAuth();
-	const { error, isLoading, memes } = useMemes();
+	const { error, getMemes, isLoading, memes } = useMemes();
+
+	const handleOnUploadSuccess = async () => {
+		console.log("Child says great success on upload of lol!");
+
+		// Refetch dem memes
+		await getMemes();
+	}
 
 	return (
 		<Container className="py-4">
 			<title>😄 InstaMemes</title>
 			<h1>Welcome to InstaMemes 😃!</h1>
 
-			{currentUser && <UploadMeme />}
+			{currentUser && <UploadMeme onUploadSuccess={handleOnUploadSuccess} />}
 
 			<hr />
+
+			<div className="d-flex justify-content-end mb-3">
+				<Button onClick={getMemes} size="sm">Refresh</Button>
+			</div>
 
 			{isLoading && <p>Loading memes...</p>}
 			{error && <Alert variant="danger">Could not fetch memes: {error.message}</Alert>}
