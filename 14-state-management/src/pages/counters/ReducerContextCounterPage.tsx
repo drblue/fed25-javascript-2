@@ -12,7 +12,7 @@ const ReducerContextCounterPage = () => {
 			</div>
 
 			<div className="mb-5">
-				<h2>Away</h2>
+				<h2>Also Home</h2>
 				<ReducerContextCounter />
 			</div>
 		</Container>
