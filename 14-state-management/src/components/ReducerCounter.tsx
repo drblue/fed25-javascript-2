@@ -5,6 +5,7 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 enum PointsActionType {
 	DECREMENT = "decrement",
 	INCREMENT = "increment",
+	RESET = "reset",
 }
 
 type PointsAction = {
@@ -18,7 +19,7 @@ type PointsState = {
 
 const initialState: PointsState = {
 	game: "Hackers vs n00bs",
-	points: 0,
+	points: 3,
 }
 
 /**
@@ -48,6 +49,13 @@ const pointsReducer = (state: PointsState, action: PointsAction) => {
 				points: state.points + 1,
 			}
 
+		case PointsActionType.RESET:
+			// Return a new version of the state with the inital value of points
+			return {
+				...state,
+				points: initialState.points,
+			}
+
 		default:
 			console.error("Unknown action:", action);
 			throw new Error("Unknown action", {
@@ -61,9 +69,14 @@ const decreasePoints = () => {
 	return { type: PointsActionType.DECREMENT }
 }
 
-// Action Creator for decreasing points
+// Action Creator for increasing points
 const increasePoints = () => {
 	return { type: PointsActionType.INCREMENT }
+}
+
+// Action Creator for resetting points to initial value
+const resetPoints = () => {
+	return { type: PointsActionType.RESET }
 }
 
 const ReducerCounter = () => {
@@ -108,7 +121,7 @@ const ReducerCounter = () => {
 
 			<Button
 				className="ms-3"
-				onClick={() => null}
+				onClick={() => dispatch( resetPoints() )}
 				variant="danger"
 			>
 				<span role="img" aria-description="broom">🧹</span>
