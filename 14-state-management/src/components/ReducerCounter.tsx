@@ -1,5 +1,6 @@
 import { useReducer } from "react";
 import Button from "react-bootstrap/Button";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
 
 enum PointsActionType {
 	DECREMENT = "decrement",
@@ -20,6 +21,13 @@ const initialState: PointsState = {
 	points: 0,
 }
 
+/**
+ * Reduce a new state based on the action and current state
+ *
+ * @param state Current state
+ * @param action Action to take on the state
+ * @returns New state
+ */
 const pointsReducer = (state: PointsState, action: PointsAction) => {
 	// state = current state
 	// action = { type: "increment" } | { type: "decrement" }
@@ -63,11 +71,48 @@ const ReducerCounter = () => {
 
 	return (
 		<div className="counter">
-			<Button variant="warning" onClick={() => dispatch( decreasePoints() )}>-</Button>
+			{/* Decrease points */}
+			<ButtonGroup>
+				<Button
+					onClick={() => null}
+					variant="warning"
+				>-10</Button>
+				<Button
+					onClick={() => null}
+					variant="warning"
+				>-5</Button>
+				<Button
+					onClick={() => dispatch( decreasePoints() )}
+					variant="warning"
+				>-</Button>
+			</ButtonGroup>
 
+			{/* Current points */}
 			<span className="points">{state.points}</span>
 
-			<Button variant="success" onClick={() => dispatch( increasePoints() )}>+</Button>
+			{/* Increase points */}
+			<ButtonGroup>
+				<Button
+					onClick={() => dispatch( increasePoints() )}
+					variant="success"
+				>+</Button>
+				<Button
+					onClick={() => null}
+					variant="success"
+				>+5</Button>
+				<Button
+					onClick={() => null}
+					variant="success"
+				>+10</Button>
+			</ButtonGroup>
+
+			<Button
+				className="ms-3"
+				onClick={() => null}
+				variant="danger"
+			>
+				<span role="img" aria-description="broom">🧹</span>
+			</Button>
 		</div>
 	);
 };
