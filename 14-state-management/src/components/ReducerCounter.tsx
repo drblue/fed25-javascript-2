@@ -1,9 +1,14 @@
 import { useReducer } from "react";
 import Button from "react-bootstrap/Button";
 
-type PointsAction =
-	{ type: "decrement" }
-	| { type: "increment" }
+enum PointsActionType {
+	DECREMENT = "decrement",
+	INCREMENT = "increment",
+}
+
+type PointsAction = {
+	type: PointsActionType
+}
 
 type PointsState = {
 	game: string;
@@ -21,14 +26,14 @@ const pointsReducer = (state: PointsState, action: PointsAction) => {
 	console.log("Received action:", action, state);
 
 	switch (action.type) {
-		case "decrement":
+		case PointsActionType.DECREMENT:
 			// Return a new version of the state where points have been decreased
 			return {
 				...state,
 				points: state.points - 1,
 			}
 
-		case "increment":
+		case PointsActionType.INCREMENT:
 			// Return a new version of the state where points have been increased
 			return {
 				...state,
@@ -48,11 +53,11 @@ const ReducerCounter = () => {
 
 	return (
 		<div className="counter">
-			<Button variant="warning" onClick={() => dispatch({ type: "decrement" })}>-</Button>
+			<Button variant="warning" onClick={() => dispatch({ type: PointsActionType.DECREMENT })}>-</Button>
 
 			<span className="points">{state.points}</span>
 
-			<Button variant="success" onClick={() => dispatch({ type: "increment" })}>+</Button>
+			<Button variant="success" onClick={() => dispatch({ type: PointsActionType.INCREMENT })}>+</Button>
 		</div>
 	);
 };
