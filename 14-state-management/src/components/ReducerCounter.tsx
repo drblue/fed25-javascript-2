@@ -48,16 +48,26 @@ const pointsReducer = (state: PointsState, action: PointsAction) => {
 	}
 }
 
+// Action Creator for decreasing points
+const decreasePoints = () => {
+	return { type: PointsActionType.DECREMENT }
+}
+
+// Action Creator for decreasing points
+const increasePoints = () => {
+	return { type: PointsActionType.INCREMENT }
+}
+
 const ReducerCounter = () => {
 	const [state, dispatch] = useReducer(pointsReducer, initialState);
 
 	return (
 		<div className="counter">
-			<Button variant="warning" onClick={() => dispatch({ type: PointsActionType.DECREMENT })}>-</Button>
+			<Button variant="warning" onClick={() => dispatch( decreasePoints() )}>-</Button>
 
 			<span className="points">{state.points}</span>
 
-			<Button variant="success" onClick={() => dispatch({ type: PointsActionType.INCREMENT })}>+</Button>
+			<Button variant="success" onClick={() => dispatch( increasePoints() )}>+</Button>
 		</div>
 	);
 };
