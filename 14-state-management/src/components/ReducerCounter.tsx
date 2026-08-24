@@ -8,9 +8,17 @@ enum PointsActionType {
 	RESET = "reset",
 }
 
+/*
 type PointsAction = {
-	type: PointsActionType
+	type: PointsActionType;
+	payload?: {
+		amount: number;
+	}
 }
+*/
+type PointsAction = { type: PointsActionType.INCREMENT, payload: { amount: number } }
+	| { type: PointsActionType.DECREMENT, payload: { amount: number } }
+	| { type: PointsActionType.RESET }
 
 type PointsState = {
 	game: string;
@@ -39,14 +47,14 @@ const pointsReducer = (state: PointsState, action: PointsAction) => {
 			// Return a new version of the state where points have been decreased
 			return {
 				...state,
-				points: state.points - 1,
+				points: state.points - action.payload.amount,
 			}
 
 		case PointsActionType.INCREMENT:
 			// Return a new version of the state where points have been increased
 			return {
 				...state,
-				points: state.points + 1,
+				points: state.points + action.payload.amount,
 			}
 
 		case PointsActionType.RESET:
@@ -65,17 +73,23 @@ const pointsReducer = (state: PointsState, action: PointsAction) => {
 }
 
 // Action Creator for decreasing points
-const decreasePoints = () => {
-	return { type: PointsActionType.DECREMENT }
+const decreasePoints = (amount = 1): PointsAction => {
+	return {
+		type: PointsActionType.DECREMENT,
+		payload: { amount },
+	}
 }
 
 // Action Creator for increasing points
-const increasePoints = () => {
-	return { type: PointsActionType.INCREMENT }
+const increasePoints = (amount = 1): PointsAction => {
+	return {
+		type: PointsActionType.INCREMENT,
+		payload: { amount }
+	}
 }
 
 // Action Creator for resetting points to initial value
-const resetPoints = () => {
+const resetPoints = (): PointsAction => {
 	return { type: PointsActionType.RESET }
 }
 
@@ -87,11 +101,11 @@ const ReducerCounter = () => {
 			{/* Decrease points */}
 			<ButtonGroup>
 				<Button
-					onClick={() => null}
+					onClick={() => dispatch( decreasePoints(10) )}
 					variant="warning"
 				>-10</Button>
 				<Button
-					onClick={() => null}
+					onClick={() => dispatch( decreasePoints(5) )}
 					variant="warning"
 				>-5</Button>
 				<Button
@@ -110,11 +124,11 @@ const ReducerCounter = () => {
 					variant="success"
 				>+</Button>
 				<Button
-					onClick={() => null}
+					onClick={() => dispatch( increasePoints(5) )}
 					variant="success"
 				>+5</Button>
 				<Button
-					onClick={() => null}
+					onClick={() => dispatch( increasePoints(10) )}
 					variant="success"
 				>+10</Button>
 			</ButtonGroup>
