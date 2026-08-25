@@ -1,0 +1,16 @@
+.visitor-counter {
+	display: flex;
+	gap: 4px;
+	justify-content: center;
+
+	code {
+		background-color: $black;
+		box-shadow: -2px -2px 2px inset,
+			2px 2px 2px inset;
+		color: $white;
+		font-size: calc(1.475rem + 2.7vw);
+		font-weight: 300;
+		line-height: 1.2;
+		padding: 0.4em;
+	}
+}
