@@ -9,6 +9,9 @@ export const todosSlice = createSlice({
 	initialState,
 	reducers: {
 		// 👩‍🍳
+		add: (state, action: PayloadAction<Todo>) => {
+			state.push(action.payload);
+		},
 
 		// ✅
 		toggle: (state, action: PayloadAction<Todo["id"]>) => {
@@ -26,7 +29,7 @@ export const todosSlice = createSlice({
 });
 
 // Action creators are generated for each reducer function
-export const { remove, toggle } = todosSlice.actions;
+export const { add, remove, toggle } = todosSlice.actions;
 
 // Export reducer for this slice
 export default todosSlice.reducer;
