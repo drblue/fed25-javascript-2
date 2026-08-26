@@ -3,11 +3,13 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Container from "react-bootstrap/Container";
 import ListGroup from "react-bootstrap/ListGroup";
 import { toast } from "react-toastify";
-import { dummyTodos as todos } from "./dummyTodos";
+import { useAppSelector } from "../../app/hooks";
 import type { TodoFormData } from "./Todo.types";
 import TodoForm from "./TodoForm";
 
 const TodosPage = () => {
+	const todos = useAppSelector(state => state.todos);
+
 	const handleAddTodo = async (data: TodoFormData) => {
 		console.log("handleAddTodo", data)
 
