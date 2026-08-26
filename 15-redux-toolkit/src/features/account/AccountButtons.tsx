@@ -1,14 +1,18 @@
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
+import { useAppDispatch } from "../../app/hooks";
+import { deposit, withdraw } from "./accountSlice";
 
 const AccountButtons = () => {
+	const dispatch = useAppDispatch();
+
 	return (
 		<ButtonGroup>
-			<Button variant="success" onClick={() => null}>
-				Deposit
-			</Button>
-			<Button variant="warning" onClick={() => null}>
+			<Button variant="danger" onClick={() => dispatch( withdraw() )}>
 				Withdraw
+			</Button>
+			<Button variant="success" onClick={() => dispatch( deposit() )}>
+				Deposit
 			</Button>
 		</ButtonGroup>
 	)
