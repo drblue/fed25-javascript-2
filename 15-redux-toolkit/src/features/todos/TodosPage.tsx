@@ -3,12 +3,14 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Container from "react-bootstrap/Container";
 import ListGroup from "react-bootstrap/ListGroup";
 import { toast } from "react-toastify";
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import type { TodoFormData } from "./Todo.types";
 import TodoForm from "./TodoForm";
+import { toggle } from "./todosSlice";
 
 const TodosPage = () => {
 	const todos = useAppSelector(state => state.todos);
+	const dispatch = useAppDispatch();
 
 	const handleAddTodo = async (data: TodoFormData) => {
 		console.log("handleAddTodo", data)
@@ -18,10 +20,10 @@ const TodosPage = () => {
 	}
 
 	const handleToggle = async (id: string) => {
-		console.log("handleToggle", id)
+		dispatch(toggle(id));
 
 		// 🥂
-		toast.success("Yay, you did something... 😁")
+		toast.success("Yay, you did something (or not)... 😁")
 	}
 
 	const handleDelete = async (id: string) => {
