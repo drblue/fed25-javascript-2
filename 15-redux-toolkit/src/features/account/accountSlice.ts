@@ -14,7 +14,17 @@ export const accountSlice = createSlice({
 		},
 
 		withdraw: (state, action: PayloadAction<number>) => {
+			if (state.balance - action.payload < 0) {
+				return;
+			}
+
 			state.balance -= action.payload;
+
+			/*
+			if (state.balance - action.payload >= 0) {
+				state.balance -= action.payload;
+			}
+			*/
 		},
 	},
 });
