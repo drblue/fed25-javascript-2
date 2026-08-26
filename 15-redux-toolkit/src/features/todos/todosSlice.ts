@@ -1,5 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { dummyTodos } from "./dummyTodos";
+import type { Todo } from "./Todo.types";
 
 const initialState = dummyTodos;
 
@@ -10,7 +11,7 @@ export const todosSlice = createSlice({
 		// 👩‍🍳
 
 		// ✅
-		toggle: (state, action: PayloadAction<string>) => {
+		toggle: (state, action: PayloadAction<Todo["id"]>) => {
 			const todo = state.find(todo => todo.id === action.payload);
 			if (todo) {
 				todo.completed = !todo.completed;
