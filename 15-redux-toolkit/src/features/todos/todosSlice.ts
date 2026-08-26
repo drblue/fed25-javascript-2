@@ -1,6 +1,7 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { v4 as uuid } from "uuid";
 import { dummyTodos } from "./dummyTodos";
-import type { Todo } from "./Todo.types";
+import type { Todo, TodoFormData } from "./Todo.types";
 
 const initialState = dummyTodos;
 
@@ -9,8 +10,11 @@ export const todosSlice = createSlice({
 	initialState,
 	reducers: {
 		// 👩‍🍳
-		add: (state, action: PayloadAction<Todo>) => {
-			state.push(action.payload);
+		add: (state, action: PayloadAction<TodoFormData>) => {
+			state.push({
+				...action.payload,
+				id: uuid(),
+			});
 		},
 
 		// ✅
