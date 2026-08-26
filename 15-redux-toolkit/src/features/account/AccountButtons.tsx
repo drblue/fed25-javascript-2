@@ -8,10 +8,10 @@ const AccountButtons = () => {
 
 	return (
 		<ButtonGroup>
-			<Button variant="danger" onClick={() => dispatch( withdraw() )}>
+			<Button variant="danger" onClick={() => dispatch( withdraw(1) )}>
 				Withdraw
 			</Button>
-			<Button variant="success" onClick={() => dispatch( deposit() )}>
+			<Button variant="success" onClick={() => dispatch( deposit(1) )}>
 				Deposit
 			</Button>
 		</ButtonGroup>

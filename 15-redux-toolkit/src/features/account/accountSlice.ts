@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { Account } from "./Account.types";
 
 const initialState: Account = {
@@ -9,12 +9,12 @@ export const accountSlice = createSlice({
 	name: "account",
 	initialState,
 	reducers: {
-		deposit: (state) => {
-			state.balance += 1;
+		deposit: (state, action: PayloadAction<number>) => {
+			state.balance += action.payload;
 		},
 
-		withdraw: (state) => {
-			state.balance -= 1;
+		withdraw: (state, action: PayloadAction<number>) => {
+			state.balance -= action.payload;
 		},
 	},
 });
