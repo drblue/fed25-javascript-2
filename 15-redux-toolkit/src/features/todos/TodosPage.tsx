@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import type { TodoFormData } from "./Todo.types";
 import TodoForm from "./TodoForm";
-import { toggle } from "./todosSlice";
+import { remove, toggle } from "./todosSlice";
 
 const TodosPage = () => {
 	const todos = useAppSelector(state => state.todos);
@@ -27,7 +27,7 @@ const TodosPage = () => {
 	}
 
 	const handleDelete = async (id: string) => {
-		console.log("handleDelete", id)
+		dispatch(remove(id));
 
 		// 🥂
 		toast.success("Deleting stuff instead of doing them still counts... 🏆")

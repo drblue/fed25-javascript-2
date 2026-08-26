@@ -17,11 +17,16 @@ export const todosSlice = createSlice({
 				todo.completed = !todo.completed;
 			}
 		},
+
+		// 🧹
+		remove: (state, action: PayloadAction<Todo["id"]>) => {
+			return state.filter(todo => todo.id !== action.payload);
+		},
 	},
 });
 
 // Action creators are generated for each reducer function
-export const { toggle } = todosSlice.actions;
+export const { remove, toggle } = todosSlice.actions;
 
 // Export reducer for this slice
 export default todosSlice.reducer;
