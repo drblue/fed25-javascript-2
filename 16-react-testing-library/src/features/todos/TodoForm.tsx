@@ -50,6 +50,9 @@ const TodoForm = ({ onSave, initialValues }: TodoFormProps) => {
 				<Button variant="primary" type="submit" id="button-save">
 					Save
 				</Button>
+				<Button variant="secondary" type="reset" id="button-reset">
+					Reset
+				</Button>
 			</InputGroup>
 			{errors.title && <p className="invalid">{errors.title.message ?? "Invalid value"}</p>}
 		</Form>
