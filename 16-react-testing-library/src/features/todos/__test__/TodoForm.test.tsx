@@ -2,7 +2,6 @@ import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import TodoForm from "../TodoForm";
 import { renderWithUserInteraction } from "../../../tests/render-utils";
-import { act } from "react";
 
 const mockOnSave = async () => {}
 const todoTitle = "This is my todo title";
@@ -71,5 +70,60 @@ describe("Todo Form", () => {
 
 		// Assert
 		expect(inputElement).toHaveValue("");
+	});
+});
+
+describe("Todo Form validation", () => {
+	it("Shows validation error if input is empty", async () => {
+		// Render (with user interaction)
+		const { user } = renderWithUserInteraction(<TodoForm onSave={mockOnSave} />);
+
+		// Find
+		const inputElement = screen.getByRole("textbox");
+
+		// Interact
+		await user.type(inputElement, "{Enter}");
+
+		// Find (again)
+		const validationErrorElement = screen.getByRole("paragraph");
+
+		// Assert
+		expect(validationErrorElement).toHaveTextContent(/you have to write something/i);
+	});
+
+	it("Shows validation error if input is too short", async () => {
+		// Render (with user interaction)
+		const { user } = renderWithUserInteraction(<TodoForm onSave={mockOnSave} />);
+
+		// Find
+		const inputElement = screen.getByRole("textbox");
+
+		// Interact
+		await user.type(inputElement, "LOL");
+		await user.type(inputElement, "{Enter}");
+
+		// Find (again)
+		const validationErrorElement = screen.getByRole("paragraph");
+
+		// Assert
+		expect(validationErrorElement).toHaveTextContent(/too short/i);
+	});
+
+	it("Does not show validation error if input is valid", async () => {
+		// Render (with user interaction)
+		const { user } = renderWithUserInteraction(<TodoForm onSave={mockOnSave} />);
+
+		// Find
+		const inputElement = screen.getByRole("textbox");
+
+		// Interact
+		await user.type(inputElement, todoTitle);
+		await user.type(inputElement, "{Enter}");
+
+		// Find (again)
+		const validationErrorElement = screen.queryByRole("paragraph");
+
+		// Assert
+		expect(validationErrorElement).not.toBeInTheDocument();
 	});
 });
