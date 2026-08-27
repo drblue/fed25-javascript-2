@@ -57,4 +57,19 @@ describe("Todo Form", () => {
 		// Assert
 		expect(inputElement).toHaveValue("");
 	});
+
+	it("Empties input field after clicking pressing <Enter>", async () => {
+		// Render/arrange (with interaction)
+		const { user } = renderWithUserInteraction(<TodoForm onSave={mockOnSave} />);
+
+		// Find/act
+		const inputElement = screen.getByRole("textbox");
+
+		// (Interact)
+		await user.type(inputElement, todoTitle);
+		await user.type(inputElement, "{Enter}");
+
+		// Assert
+		expect(inputElement).toHaveValue("");
+	});
 });
