@@ -21,10 +21,10 @@ const updateMousePosition = (e: MouseEvent) => {
 	align-items: center;
 	background-color: #ccc;
 	border: 4px solid #888;
-	cursor: pointer;
+	cursor: url(../assets/images/mouse-cursor.png) 1 4, pointer;
 	display: flex;
-	height: 200px;
+	height: 300px;
 	justify-content: center;
-	width: 200px;
+	width: 300px;
 }
 </style>
