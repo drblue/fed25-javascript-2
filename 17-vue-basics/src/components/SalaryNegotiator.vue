@@ -25,7 +25,7 @@ const increaseSalary = (amount: number) => {
 		<img
 			class="img-fluid my-3"
 			src="https://media0.giphy.com/media/8nM6YNtvjuezzD7DNh/200w.gif?cid=6c09b952mrtnhuf5614d1uty65gey2to6nn721w72fndvu83&ep=v1_gifs_search&rid=200w.gif&ct=g"
-			v-show="salary < 0"
+			v-if="salary < 0"
 		/>
 
 		<div>
