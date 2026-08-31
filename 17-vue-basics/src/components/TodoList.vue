@@ -28,6 +28,7 @@ const todos = ref<Todo[]>([
 				:key="todo.id"
 				v-for="todo in todos"
 			>
+				<input type="checkbox" v-model="todo.completed" class="me-2" />
 				<span :class="{ done: todo.completed }">{{ todo.title }}</span>
 			</li>
 		</ul>
