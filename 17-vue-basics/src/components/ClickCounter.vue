@@ -1,3 +1,10 @@
+<!--
+Shorthand for directive `v-on:` is `@`
+
+Example:
+v-on:click="incrementCounter"
+@click="incrementCounter"
+-->
 <script setup lang="ts">
 import { ref } from "vue"
 
@@ -15,7 +22,7 @@ const incrementCounter = () => {
 		<h2>Counter: {{ counter }}</h2>
 		<button
 			class="btn btn-primary"
-			v-on:click="incrementCounter"
+			@click="incrementCounter"
 		>
 			Click meeeeee!! <span class="smol-text">You know you want to 🤩</span>
 		</button>
