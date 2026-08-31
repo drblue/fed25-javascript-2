@@ -17,12 +17,18 @@ const increaseSalary = (amount: number) => {
 		<h2>Salary: {{ salary }}</h2>
 
 		<!-- 🤩 -->
-		<button class="btn btn-success" @click="increaseSalary(1)">
+		<button class="btn btn-success"
+			@click.exact="increaseSalary(1)"
+			@click.shift="increaseSalary(25)"
+		>
 			Increase by 1
 		</button>
 
 		<!-- 🤩🤩🤩🤩🤩 -->
-		<button class="btn btn-success" @click="increaseSalary(5)">
+		<button class="btn btn-success"
+			@click.exact="increaseSalary(5)"
+			@click.alt="increaseSalary(100)"
+		>
 			Increase by 5
 		</button>
 
