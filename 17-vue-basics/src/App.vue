@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ClickCounter from "@/components/ClickCounter.vue";
+import ParrotParrot from "./components/ParrotParrot.vue";
 </script>
 
 <template>
@@ -10,6 +11,10 @@ import ClickCounter from "@/components/ClickCounter.vue";
 		<hr class="my-4" />
 
 		<ClickCounter />
+
+		<hr class="my-4" />
+
+		<ParrotParrot />
 	</div>
 </template>
 
